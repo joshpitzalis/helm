@@ -2,35 +2,61 @@
 # yarn lockfile v1
 
 
-"@firebase/app@0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@firebase/app/-/app-0.1.4.tgz#595b85390b1dc5846a88933d65d4fae7208f835d"
-  dependencies:
-    "@firebase/util" "0.1.4"
+"@firebase/app-types@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@firebase/app-types/-/app-types-0.1.0.tgz#27069ba4f8d74990eae7c88ec8f3d282e5215786"
 
-"@firebase/auth@0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@firebase/auth/-/auth-0.3.0.tgz#971c22d894205454e14850848012235c44459086"
-
-"@firebase/database@0.1.5":
+"@firebase/app@0.1.5":
   version "0.1.5"
-  resolved "https://registry.yarnpkg.com/@firebase/database/-/database-0.1.5.tgz#6e5b0da6f0be15cba30c694e2ff24c6a5f03c182"
+  resolved "https://registry.yarnpkg.com/@firebase/app/-/app-0.1.5.tgz#3e7610a69ba6dbebc649a1b785eb898619c8a067"
   dependencies:
-    "@firebase/util" "0.1.4"
+    "@firebase/app-types" "0.1.0"
+    "@firebase/util" "0.1.5"
+
+"@firebase/auth-types@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@firebase/auth-types/-/auth-types-0.1.0.tgz#2dd03f99d70bd3dda791bfeb97bd3025076d6c22"
+
+"@firebase/auth@0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@firebase/auth/-/auth-0.3.1.tgz#b9813ec4fbd1d1d165a165ee10e82be681f4a44f"
+  dependencies:
+    "@firebase/auth-types" "0.1.0"
+
+"@firebase/database-types@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@firebase/database-types/-/database-types-0.1.0.tgz#dbc9e096cf1061ac422f17e8957baac6d3c018a7"
+
+"@firebase/database@0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@firebase/database/-/database-0.1.6.tgz#52d92224398544dbd62e813729365d1b81b22df4"
+  dependencies:
+    "@firebase/database-types" "0.1.0"
+    "@firebase/util" "0.1.5"
     faye-websocket "0.11.1"
 
-"@firebase/firestore@0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@firebase/firestore/-/firestore-0.2.1.tgz#b60dbaa59626d6f84d4316fcdc5aa0c0eaa59e38"
+"@firebase/firestore-types@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@firebase/firestore-types/-/firestore-types-0.1.0.tgz#4a125891d7537be0e7260cef5bf162dd96fa0809"
+
+"@firebase/firestore@0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@firebase/firestore/-/firestore-0.2.2.tgz#c6a3a6d838f3681f256c25baf9d1b15fb6953788"
   dependencies:
+    "@firebase/firestore-types" "0.1.0"
     "@firebase/webchannel-wrapper" "0.2.5"
     grpc "^1.7.1"
 
-"@firebase/messaging@0.1.5":
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/@firebase/messaging/-/messaging-0.1.5.tgz#11ca0e9215ea54839cc80947eeec548cd21ac251"
+"@firebase/messaging-types@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@firebase/messaging-types/-/messaging-types-0.1.0.tgz#5f8b33745f914c19b977521c39fc199326fdeac3"
+
+"@firebase/messaging@0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@firebase/messaging/-/messaging-0.1.6.tgz#db68362a82934722ecbd79769402ba56612e1c92"
   dependencies:
-    "@firebase/util" "0.1.4"
+    "@firebase/messaging-types" "0.1.0"
+    "@firebase/util" "0.1.5"
 
 "@firebase/polyfill@0.1.3":
   version "0.1.3"
@@ -38,13 +64,19 @@
   dependencies:
     promise-polyfill "^6.0.2"
 
-"@firebase/storage@0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@firebase/storage/-/storage-0.1.4.tgz#3aca74b6dcb4e87569ecc07153ea0f4ecb883ca0"
+"@firebase/storage-types@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@firebase/storage-types/-/storage-types-0.1.0.tgz#4716c91c62e37b23d87c78371fe2048c2370f8d0"
 
-"@firebase/util@0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@firebase/util/-/util-0.1.4.tgz#80d7f6039ff6cb94215ddd44d3cb09f6d32902ea"
+"@firebase/storage@0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@firebase/storage/-/storage-0.1.5.tgz#23ca6b85eaf90c06960dae79e9e882f425e1a3a6"
+  dependencies:
+    "@firebase/storage-types" "0.1.0"
+
+"@firebase/util@0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@firebase/util/-/util-0.1.5.tgz#b8daf57cedda1c035fddf5ca9c56b86a1f95b38b"
 
 "@firebase/webchannel-wrapper@0.2.5":
   version "0.2.5"
@@ -2693,17 +2725,17 @@ find-up@^2.0.0, find-up@^2.1.0:
   dependencies:
     locate-path "^2.0.0"
 
-firebase@^4.7.0:
-  version "4.8.0"
-  resolved "https://registry.yarnpkg.com/firebase/-/firebase-4.8.0.tgz#c0b5bad5c1241222f3a6f06065ea121ebbc14fd3"
+firebase@^4.8.1:
+  version "4.8.1"
+  resolved "https://registry.yarnpkg.com/firebase/-/firebase-4.8.1.tgz#ae1b0c9f94525abcd35447e22fa2da49eb920c2c"
   dependencies:
-    "@firebase/app" "0.1.4"
-    "@firebase/auth" "0.3.0"
-    "@firebase/database" "0.1.5"
-    "@firebase/firestore" "0.2.1"
-    "@firebase/messaging" "0.1.5"
+    "@firebase/app" "0.1.5"
+    "@firebase/auth" "0.3.1"
+    "@firebase/database" "0.1.6"
+    "@firebase/firestore" "0.2.2"
+    "@firebase/messaging" "0.1.6"
     "@firebase/polyfill" "0.1.3"
-    "@firebase/storage" "0.1.4"
+    "@firebase/storage" "0.1.5"
     dom-storage "^2.0.2"
     xmlhttprequest "^1.8.0"
 
@@ -3085,6 +3117,16 @@ he@1.1.x:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/he/-/he-1.1.1.tgz#93410fd21b009735151f8868c2f271f3427e23fd"
 
+history@^4.7.2:
+  version "4.7.2"
+  resolved "https://registry.yarnpkg.com/history/-/history-4.7.2.tgz#22b5c7f31633c5b8021c7f4a8a954ac139ee8d5b"
+  dependencies:
+    invariant "^2.2.1"
+    loose-envify "^1.2.0"
+    resolve-pathname "^2.2.0"
+    value-equal "^0.4.0"
+    warning "^3.0.0"
+
 hmac-drbg@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/hmac-drbg/-/hmac-drbg-1.0.1.tgz#d2745701025a6c775a6c545793ed502fc0c649a1"
@@ -3100,6 +3142,10 @@ hoek@2.x.x:
 hoek@4.x.x:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/hoek/-/hoek-4.2.0.tgz#72d9d0754f7fe25ca2d01ad8f8f9a9449a89526d"
+
+hoist-non-react-statics@^2.3.0:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.3.1.tgz#343db84c6018c650778898240135a1420ee22ce0"
 
 home-or-tmp@^2.0.0:
   version "2.0.0"
@@ -3322,7 +3368,7 @@ interpret@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.1.0.tgz#7ed1b1410c6a0e0f78cf95d3b8440c63f78b8614"
 
-invariant@^2.2.2:
+invariant@^2.2.1, invariant@^2.2.2:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.2.tgz#9e1f56ac0acdb6bf303306f338be3b204ae60360"
   dependencies:
@@ -4124,7 +4170,7 @@ longest@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/longest/-/longest-1.0.1.tgz#30a0b2da38f73770e8294a0d22e6625ed77d0097"
 
-loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.3.1:
+loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.2.0, loose-envify@^1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/loose-envify/-/loose-envify-1.3.1.tgz#d1a8ad33fa9ce0e713d65fdd0ac8b748d478c848"
   dependencies:
@@ -4727,7 +4773,7 @@ path-to-regexp@0.1.7:
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-0.1.7.tgz#df604178005f522f15eb4490e7247a1bfaa67f8c"
 
-path-to-regexp@^1.0.1:
+path-to-regexp@^1.0.1, path-to-regexp@^1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-1.7.0.tgz#59fde0f435badacba103a84e9d3bc64e96b9937d"
   dependencies:
@@ -5153,7 +5199,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.10, prop-types@^15.6.0:
+prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.6.0:
   version "15.6.0"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.0.tgz#ceaf083022fc46b4a35f69e13ef75aed0d639856"
   dependencies:
@@ -5325,6 +5371,29 @@ react-dom@^16.2.0:
 react-error-overlay@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-3.0.0.tgz#c2bc8f4d91f1375b3dad6d75265d51cd5eeaf655"
+
+react-router-dom@^4.2.2:
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-4.2.2.tgz#c8a81df3adc58bba8a76782e946cbd4eae649b8d"
+  dependencies:
+    history "^4.7.2"
+    invariant "^2.2.2"
+    loose-envify "^1.3.1"
+    prop-types "^15.5.4"
+    react-router "^4.2.0"
+    warning "^3.0.0"
+
+react-router@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/react-router/-/react-router-4.2.0.tgz#61f7b3e3770daeb24062dae3eedef1b054155986"
+  dependencies:
+    history "^4.7.2"
+    hoist-non-react-statics "^2.3.0"
+    invariant "^2.2.2"
+    loose-envify "^1.3.1"
+    path-to-regexp "^1.7.0"
+    prop-types "^15.5.4"
+    warning "^3.0.0"
 
 react-scripts@1.0.17:
   version "1.0.17"
@@ -5675,6 +5744,10 @@ resolve-from@^1.0.0:
 resolve-from@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/resolve-from/-/resolve-from-3.0.0.tgz#b22c7af7d9d6881bc8b6e653335eebcb0a188748"
+
+resolve-pathname@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/resolve-pathname/-/resolve-pathname-2.2.0.tgz#7e9ae21ed815fd63ab189adeee64dc831eefa879"
 
 resolve@1.1.7:
   version "1.1.7"
@@ -6495,6 +6568,10 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "~1.0.0"
     spdx-expression-parse "~1.0.0"
 
+value-equal@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/value-equal/-/value-equal-0.4.0.tgz#c5bdd2f54ee093c04839d71ce2e4758a6890abc7"
+
 vary@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
@@ -6522,6 +6599,12 @@ walker@~1.0.5:
   resolved "https://registry.yarnpkg.com/walker/-/walker-1.0.7.tgz#2f7f9b8fd10d677262b18a884e28d19618e028fb"
   dependencies:
     makeerror "1.0.x"
+
+warning@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/warning/-/warning-3.0.0.tgz#32e5377cb572de4ab04753bdf8821c01ed605b7c"
+  dependencies:
+    loose-envify "^1.0.0"
 
 watch@~0.10.0:
   version "0.10.0"

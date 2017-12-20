@@ -9,6 +9,7 @@ import LandingPage from './components/Landing'
 import HomePage from './components/Home'
 import AccountPage from './components/Account'
 import Create from './components/Create'
+import Questions from './components/Questions'
 import * as routes from './constants/routes'
 import axios from 'axios'
 
@@ -49,6 +50,7 @@ export default class Routes extends Component {
             component={() => <AccountPage />}
           />
           <Route exact path={routes.CREATE} component={Create} />
+          <Route exact path={routes.QUESTIONS} component={Questions} />
         </Fragment>
       </BrowserRouter>
     )

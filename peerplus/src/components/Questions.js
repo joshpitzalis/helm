@@ -5,45 +5,43 @@ import PropTypes from 'prop-types'
 
 class Questions extends Component {
   state = {
-    user: null,
-    friends: [],
-    title: null,
-    context: null,
-    multipleChoice: null,
-    text: null,
-    duration: null,
-    private: null
+    numberOfOptions: 1
+  }
+
+  addOption = e => {
+    e.preventDefault()
+    this.setState({ numberOfOptions: this.state.numberOfOptions + 1 })
   }
 
   componentDidMount() {
     auth.onAuthStateChanged(user => this.setState({ user: user }))
   }
 
-  handleSubmit = e => {
-    e.preventDefault()
-    db.collection('polls').add({
-      title: this.title.value,
-      context: this.context.value,
-      multipleChoice: this.multipleChoice.checked,
-      text: this.text.checked,
-      duration: this.duration.value,
-      private: this.private.checked,
-      createdBy: this.state.user.uid,
-      createdAt: new Date()
-    })
-  }
-
   render() {
     return (
       <Fragment>
         <h1>Questions</h1>
-        <form onSubmit={e => this.handleSubmit(e)}>
-          <TextSingle />
-          <TextMultiple />
-          <ImageSingle />
-          <ImageMultiple />
+        <form>
+          <div className="dib">
+            <TextSingle
+              addOption={this.addOption}
+              numberOfOptions={this.state.numberOfOptions}
+            />
+            <TextMultiple addOption={this.addOption} />
+          </div>
+          <div className="dib pl5">
+            <ImageSingle addOption={this.addOption} />
+            <ImageMultiple addOption={this.addOption} />
+          </div>
+          <br />
+          <br />
           <div>
-            <input type="submit" defaultChecked value="Create Questions" />
+            <input
+              type="submit"
+              defaultChecked
+              value="Create Questions"
+              disabled
+            />
           </div>
         </form>
       </Fragment>
@@ -52,23 +50,54 @@ class Questions extends Component {
 }
 
 class TextSingle extends Component {
-  static propTypes = {}
+  static propTypes = { addOption: PropTypes.func.isRequired }
+  state = {
+    questions: ['hello']
+  }
 
-  state = {}
+  handleText = i => e => {
+    let questions = [...this.state.questions]
+    questions[i] = e.target.value
+    this.setState({
+      questions
+    })
+  }
+
+  handleDelete = i => e => {
+    e.preventDefault()
+    let questions = [
+      ...this.state.questions.slice(0, i),
+      ...this.state.questions.slice(i + 1)
+    ]
+    this.setState({
+      questions
+    })
+  }
+
+  addQuestion = e => {
+    e.preventDefault()
+    let questions = this.state.questions.concat([''])
+    this.setState({
+      questions
+    })
+  }
 
   render() {
     return (
       <Fragment>
-        <div>
-          <input
-            type="text"
-            placeholder="name"
-            ref={input => {
-              this.title = input
-            }}
-          />
-          <button>Add New Question</button>
-        </div>
+        {this.state.questions.map((question, index) => (
+          <span>
+            <input
+              type="text"
+              key={index}
+              placeholder="text single choice"
+              onChange={this.handleText(index)}
+              value={question}
+            />
+            <button onClick={this.handleDelete(index)}>X</button>
+          </span>
+        ))}
+        <button onClick={this.addQuestion}>Add New Question</button>
       </Fragment>
     )
   }
@@ -90,7 +119,7 @@ class TextMultiple extends Component {
               this.title = input
             }}
           />
-          <button>Add New Question</button>
+          <button onClick={this.props.addOption}>Add New Question</button>
         </div>
       </Fragment>
     )
@@ -107,13 +136,13 @@ class ImageSingle extends Component {
       <Fragment>
         <div>
           <input
-            type="text"
+            type="file"
             placeholder="name"
             ref={input => {
               this.title = input
             }}
           />
-          <button>Add New Question</button>
+          <button onClick={this.props.addOption}>Add New Question</button>
         </div>
       </Fragment>
     )
@@ -130,13 +159,13 @@ class ImageMultiple extends Component {
       <Fragment>
         <div>
           <input
-            type="text"
+            type="file"
             placeholder="name"
             ref={input => {
               this.title = input
             }}
           />
-          <button>Add New Question</button>
+          <button onClick={this.props.addOption}>Add New Question</button>
         </div>
       </Fragment>
     )

@@ -41,7 +41,7 @@ class Create extends Component {
     }
     return (
       <Fragment>
-        <h1>Create</h1>
+        <h1>Create a poll</h1>
         <form onSubmit={e => this.handleSubmit(e)}>
           <div>
             <input

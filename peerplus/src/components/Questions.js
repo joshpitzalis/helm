@@ -2,55 +2,47 @@ import React, { Component, Fragment } from 'react'
 import { auth, facebookAuthProvider, db } from '../constants/firebase'
 import axios from 'axios'
 import PropTypes from 'prop-types'
+import { Redirect } from 'react-router-dom'
 
 class Questions extends Component {
   state = {
-    numberOfOptions: 1
+    redirectTo: null
   }
-
-  addOption = e => {
-    e.preventDefault()
-    this.setState({ numberOfOptions: this.state.numberOfOptions + 1 })
-  }
-
   componentDidMount() {
     auth.onAuthStateChanged(user => this.setState({ user: user }))
   }
 
+  handleSubmit = e => {
+    e.preventDefault()
+    this.setState({ redirectTo: '/send' })
+  }
+
   render() {
+    if (this.state.redirectTo) {
+      return <Redirect to={this.state.redirectTo} />
+    }
     return (
       <Fragment>
         <h1>Questions</h1>
-        <form>
-          <div className="dib">
-            <TextSingle
-              addOption={this.addOption}
-              numberOfOptions={this.state.numberOfOptions}
-            />
-            <TextMultiple addOption={this.addOption} />
-          </div>
-          <div className="dib pl5">
-            <ImageSingle addOption={this.addOption} />
-            <ImageMultiple addOption={this.addOption} />
-          </div>
-          <br />
-          <br />
-          <div>
-            <input
-              type="submit"
-              defaultChecked
-              value="Create Questions"
-              disabled
-            />
-          </div>
-        </form>
+        <div className="dib">
+          <TextSingle />
+          <TextMultiple />
+        </div>
+        <div className="dib pl5">
+          <ImageSingle />
+          <ImageMultiple />
+        </div>
+        <br />
+        <br />
+        <div>
+          <button onClick={this.handleSubmit}>Create Questions</button>
+        </div>
       </Fragment>
     )
   }
 }
 
 class TextSingle extends Component {
-  static propTypes = { addOption: PropTypes.func.isRequired }
   state = {
     questions: ['hello']
   }
@@ -86,10 +78,9 @@ class TextSingle extends Component {
     return (
       <Fragment>
         {this.state.questions.map((question, index) => (
-          <span>
+          <span key={index}>
             <input
               type="text"
-              key={index}
               placeholder="text single choice"
               onChange={this.handleText(index)}
               value={question}

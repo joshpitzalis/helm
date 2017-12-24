@@ -10,6 +10,8 @@ import HomePage from './components/Home'
 import AccountPage from './components/Account'
 import Create from './components/Create'
 import Questions from './components/Questions'
+import Send from './components/Send'
+import Poll from './components/Poll'
 import * as routes from './constants/routes'
 import axios from 'axios'
 
@@ -51,6 +53,8 @@ export default class Routes extends Component {
           />
           <Route exact path={routes.CREATE} component={Create} />
           <Route exact path={routes.QUESTIONS} component={Questions} />
+          <Route exact path={routes.SEND} component={Send} />
+          <Route exact path={`${routes.POLL}/:pollId`} component={Poll} />
         </Fragment>
       </BrowserRouter>
     )

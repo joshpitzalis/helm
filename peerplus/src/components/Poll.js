@@ -16,15 +16,8 @@ class App extends Component {
     return (
       <div>
         <header>
-          <h1>v 0.0.23</h1>
+          <h1>{`Poll Number ${this.props.match.params.pollId}`}</h1>
         </header>
-        {this.state.user ? (
-          <Link to={routes.CREATE}>Create a Poll</Link>
-        ) : (
-          <button onClick={() => auth.signInWithRedirect(facebookAuthProvider)}>
-            Login with Facebook
-          </button>
-        )}
       </div>
     )
   }

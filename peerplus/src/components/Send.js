@@ -42,14 +42,15 @@ class Send extends Component {
     // create the poll
     const newPoll = await db.collection('polls').doc()
 
-    // update with data
-    newPoll.set({
+    db.doc(`polls/${this.props.match.params.pollId}`).update({
       sentTo: this.state.sendTo,
-      id: newPoll.id
+      id: this.props.match.params.pollId
     })
 
     //  get the id from firebase then redirect to it
-    this.setState({ redirectTo: `/poll/${newPoll.id}` })
+    this.setState({
+      redirectTo: `/congratulations/${this.props.match.params.pollId}`
+    })
   }
 
   render() {

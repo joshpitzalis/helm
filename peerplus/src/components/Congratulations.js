@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { auth, facebookAuthProvider } from '../constants/firebase'
 import * as routes from '../constants/routes'
 
-class App extends Component {
+class Congratulations extends Component {
   state = {
     user: null
   }
@@ -15,13 +15,12 @@ class App extends Component {
   render() {
     return (
       <div>
-        <header>
-          <h1>v 0.0.23</h1>
-        </header>
-        {this.state.user && <Link to={routes.CREATE}>Create a Poll</Link>}
+        <Link to={`/poll/${this.props.match.params.pollId}`}>
+          <h1>{`Poll is available at ${this.props.match.params.pollId}`}</h1>
+        </Link>
       </div>
     )
   }
 }
 
-export default App
+export default Congratulations

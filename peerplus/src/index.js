@@ -12,6 +12,7 @@ import Create from './components/Create'
 import Questions from './components/Questions'
 import Send from './components/Send'
 import Poll from './components/Poll'
+import Congratulations from './components/Congratulations'
 import * as routes from './constants/routes'
 import axios from 'axios'
 
@@ -52,9 +53,18 @@ export default class Routes extends Component {
             component={() => <AccountPage />}
           />
           <Route exact path={routes.CREATE} component={Create} />
-          <Route exact path={routes.QUESTIONS} component={Questions} />
-          <Route exact path={routes.SEND} component={Send} />
+          <Route
+            exact
+            path={`${routes.QUESTIONS}/:pollId`}
+            component={Questions}
+          />
+          <Route exact path={`${routes.SEND}/:pollId`} component={Send} />
           <Route exact path={`${routes.POLL}/:pollId`} component={Poll} />
+          <Route
+            exact
+            path={`${routes.CONTRATULATIONS}/:pollId`}
+            component={Congratulations}
+          />
         </Fragment>
       </BrowserRouter>
     )

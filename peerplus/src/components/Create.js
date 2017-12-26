@@ -20,9 +20,12 @@ class Create extends Component {
     auth.onAuthStateChanged(user => this.setState({ user: user }))
   }
 
-  handleSubmit = e => {
+  handleSubmit = async e => {
     e.preventDefault()
-    db.collection('polls').add({
+
+    const newPoll = await db.collection('polls').doc()
+
+    newPoll.set({
       title: this.title.value,
       context: this.context.value,
       multipleChoice: this.multipleChoice.checked,
@@ -32,7 +35,8 @@ class Create extends Component {
       createdBy: this.state.user.uid,
       createdAt: new Date()
     })
-    this.setState({ redirectTo: '/questions' })
+
+    this.setState({ redirectTo: `/questions/${newPoll.id}` })
   }
 
   render() {

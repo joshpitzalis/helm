@@ -30,8 +30,8 @@ class Create extends Component {
       context: this.context.value,
       multipleChoice: this.multipleChoice.checked,
       text: this.text.checked,
-      duration: this.duration.value,
-      private: this.private.checked,
+      // duration: this.duration.value,
+      // private: this.private.checked,
       createdBy: this.state.user.uid,
       createdAt: new Date()
     })
@@ -40,6 +40,7 @@ class Create extends Component {
   }
 
   render() {
+    console.log(this.text && this.text.checked)
     if (this.state.redirectTo) {
       return <Redirect to={this.state.redirectTo} />
     }
@@ -98,7 +99,7 @@ class Create extends Component {
                 ref={input => {
                   this.text = input
                 }}
-              />Text
+              />Image
             </div>
             <div>
               <input
@@ -108,30 +109,30 @@ class Create extends Component {
                 ref={input => {
                   this.text = input
                 }}
-              />Image
+              />Text
             </div>
           </div>
           <hr />
-          <div>
+          {/* <div>
             <input
               type="range"
               min="24"
               max="72"
               ref={input => {
-                this.duration = input
+            this.duration = input
               }}
             />Duration
-          </div>
-          <hr />
-          <div>
+            </div>
+            <hr />
+            <div>
             <input
               type="checkbox"
               defaultChecked
               ref={input => {
-                this.private = input
+            this.private = input
               }}
             />Keep Private
-          </div>
+          </div> */}
           <br />
           <input type="submit" defaultChecked value="Create Poll" />
         </form>

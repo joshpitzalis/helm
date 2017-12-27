@@ -8,7 +8,6 @@ class Questions extends Component {
   state = {
     user: null,
     redirectTo: null,
-
     multipleChoice: null,
     text: null,
     questions: []
@@ -73,7 +72,9 @@ class Questions extends Component {
     db
       .doc(`polls/${this.props.match.params.pollId}`)
       .update({ questions: this.state.questions })
-    this.setState({ redirectTo: `/send/${this.props.match.params.pollId}` })
+    this.setState({
+      redirectTo: `/congratulations/${this.props.match.params.pollId}`
+    })
   }
 
   render() {

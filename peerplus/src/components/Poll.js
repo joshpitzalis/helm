@@ -1,17 +1,16 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { auth, facebookAuthProvider, db } from '../constants/firebase'
 import * as routes from '../constants/routes'
 
 class Poll extends Component {
   state = {
-    user: null,
-    poll: {}
+    poll: {},
+    responses: {},
+    redirectTo: null
   }
   componentDidMount() {
-    auth.onAuthStateChanged(user => this.setState({ user: user }))
-
     db
       .doc(`polls/${this.props.match.params.pollId}`)
       .get()
@@ -24,24 +23,68 @@ class Poll extends Component {
       )
   }
 
+  handleChange = (e, question) => {
+    const count = e.target.checked ? 1 : 0
+    const responses = this.state.responses
+    responses[question] = count
+    this.setState({
+      responses
+    })
+  }
+
+  handleSubmit = e => {
+    e.preventDefault()
+
+    const existing = this.state.poll.responses || {}
+    const responses = this.state.responses
+
+    for (const response in responses) {
+      if (existing.hasOwnProperty(response)) {
+        existing[response] = existing[response] + responses[response]
+      } else {
+        existing[response] = responses[response]
+      }
+    }
+
+    console.log(existing)
+
+    db
+      .doc(`polls/${this.props.match.params.pollId}`)
+      .update({ responses: existing })
+
+    this.setState({
+      redirectTo: `/done/${this.props.match.params.pollId}`
+    })
+  }
+
   render() {
+    const { poll, redirectTo } = this.state
+    if (redirectTo) {
+      return <Redirect to={redirectTo} />
+    }
     return (
       <div>
         <header>
-          <h1>{this.state.poll.title}</h1>
-          <h2>{this.state.poll.context}</h2>
+          <h1>{poll.title}</h1>
+          <h2>{poll.context}</h2>
         </header>
-        {this.state.poll.text ? (
-          <ul>
-            {this.state.poll.questions &&
-              this.state.poll.questions.map((question, index) => (
-                <li key={index}>{question}</li>
-              ))}
-          </ul>
-        ) : (
-          this.state.poll.questions &&
-          this.state.poll.questions.map(picture => <img src={picture} />)
-        )}
+        <form action="">
+          {poll && poll.text
+            ? poll.questions.map((question, index) => (
+                <label key={index}>
+                  <input
+                    type="checkbox"
+                    name="responses"
+                    value={question}
+                    onChange={e => this.handleChange(e, question)}
+                  />
+                  {question}
+                </label>
+              ))
+            : poll.questions &&
+              poll.questions.map(picture => <img src={picture} />)}
+          <input type="submit" value="Submit" onClick={this.handleSubmit} />
+        </form>
       </div>
     )
   }

@@ -13,6 +13,7 @@ import Questions from './components/Questions'
 import Send from './components/Send'
 import Poll from './components/Poll'
 import Congratulations from './components/Congratulations'
+import Done from './components/Done'
 import * as routes from './constants/routes'
 import axios from 'axios'
 
@@ -65,6 +66,7 @@ export default class Routes extends Component {
             path={`${routes.CONTRATULATIONS}/:pollId`}
             component={Congratulations}
           />
+          <Route exact path={`${routes.DONE}/:pollId`} component={Done} />
         </Fragment>
       </BrowserRouter>
     )

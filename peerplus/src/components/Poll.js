@@ -68,21 +68,19 @@ class Poll extends Component {
           <h1>{poll.title}</h1>
           <h2>{poll.context}</h2>
         </header>
-        <form action="">
-          {poll && poll.text
-            ? poll.questions.map((question, index) => (
-                <label key={index}>
-                  <input
-                    type="checkbox"
-                    name="responses"
-                    value={question}
-                    onChange={e => this.handleChange(e, question)}
-                  />
-                  {question}
-                </label>
-              ))
-            : poll.questions &&
-              poll.questions.map(picture => <img src={picture} />)}
+        <form>
+          {poll.questions &&
+            poll.questions.map((question, index) => (
+              <label key={index}>
+                <input
+                  type={this.state.poll.multipleChoice ? 'checkbox' : 'radio'}
+                  name="responses"
+                  value={question}
+                  onChange={e => this.handleChange(e, question)}
+                />
+                {poll.text ? question : <img src={question} />}
+              </label>
+            ))}
           <input type="submit" value="Submit" onClick={this.handleSubmit} />
         </form>
       </div>

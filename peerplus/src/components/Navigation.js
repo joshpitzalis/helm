@@ -25,9 +25,9 @@ export default class Navigation extends Component {
           <li>
             <Link to={routes.HOME}>Dashboard</Link>
           </li>
-          <li>
+          {/* <li>
             <Link to={routes.ACCOUNT}>Account</Link>
-          </li>
+          </li> */}
         </ul>
         {this.state.user ? (
           <button onClick={() => auth.signInWithRedirect(facebookAuthProvider)}>

@@ -3,7 +3,7 @@
   --black: black;
   --primary: #4c5674;
   --success: #ffaf39;
-  --danger: #f10000;
+  --danger: #f37966;
 }
 
 main {
@@ -41,6 +41,10 @@ button {
 
 [data-colour='red'] {
   background-color: var(--danger);
+}
+
+[data-error] {
+  color: var(--danger);
 }
 
 progress {

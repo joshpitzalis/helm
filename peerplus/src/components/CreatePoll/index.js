@@ -23,7 +23,8 @@ export default class Polls extends Component {
     private: null,
     redirectTo: null,
     questions: [''],
-    pollId: null
+    pollId: null,
+    disabled: true
   }
 
   componentDidMount() {
@@ -113,6 +114,11 @@ export default class Polls extends Component {
     this.setState({ step: this.state.step + 1 })
   }
 
+  handleProceed = x => {
+    console.log(x)
+    // this.setState({ disabled: true })
+  }
+
   render() {
     return (
       <div>
@@ -126,6 +132,7 @@ export default class Polls extends Component {
                   context={this.state.context}
                   choice={this.state.choice}
                   type={this.state.type}
+                  handleProceed={this.handleProceed}
                 />
               )}
               {this.state.step === 2 && (

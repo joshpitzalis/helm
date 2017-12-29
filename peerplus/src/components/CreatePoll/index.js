@@ -106,6 +106,7 @@ export default class Polls extends Component {
       type: this.state.type,
       // duration: this.duration.value,
       // private: this.private.checked,
+      questions: this.state.questions,
       createdBy: this.state.user.uid,
       createdAt: new Date()
     })
@@ -156,6 +157,7 @@ export default class Polls extends Component {
                     onClick={this.handleSubmitForm}
                     type="submit"
                     data-colour="green"
+                    data-test="submitPoll"
                   >
                     Submit
                   </button>
@@ -166,6 +168,7 @@ export default class Polls extends Component {
                     }
                     type="submit"
                     data-colour="green"
+                    data-test="submit"
                   >
                     Next
                   </button>

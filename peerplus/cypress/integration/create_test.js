@@ -19,12 +19,12 @@ describe('Signup', () => {
         win.localStorage.setItem(user1.key, user1.token)
       }
     })
-    cy.contains(`[data-test='create']`)
+    cy.contains('Create a Poll')
   })
 })
 
 describe('Single choice text Poll', () => {
-  it('creates a poll', () => {
+  it.only('creates a poll', () => {
     cy.visit('/home', {
       onBeforeLoad: win => {
         win.localStorage.setItem(user1.key, user1.token)
@@ -35,16 +35,13 @@ describe('Single choice text Poll', () => {
     cy.get(`[data-test='title']`).type('test question')
     cy.get(`[data-test='context']`).type('some context')
     cy.get(`[data-test='single']`).check()
-    cy.get(`[data-test='image']`).check()
+    cy.get(`[data-test='text']`).check()
     cy.get(`[data-test='submit']`).click()
-    cy.url().should('contain', 'questions')
-    cy.get(`[data-test='add']`).click()
-    cy.wait(5000)
     cy.get(`[data-test='question0']`).type('option 1')
     cy.get(`[data-test='add']`).click()
     cy.get(`[data-test='question1']`).type('option 2')
-    cy.get(`[data-test='submit']`).click()
-    cy.url().should('contain', 'congratulations')
+    cy.get(`[data-test='submitPoll']`).click()
+    cy.wait(5000)
     cy.get(`[data-test='poll']`).click()
     cy.url().should('contain', 'poll')
     cy.contains('option 1')

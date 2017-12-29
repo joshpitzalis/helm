@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { auth, facebookAuthProvider, db } from '../constants/firebase'
+import { auth, facebookAuthProvider, db } from '../../constants/firebase'
 import axios from 'axios'
 import { Link, Redirect } from 'react-router-dom'
-import * as routes from '../constants/routes'
+import * as routes from '../../constants/routes'
 
 class Send extends Component {
   state = {

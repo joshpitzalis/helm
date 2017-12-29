@@ -1,0 +1,78 @@
+:root {
+  --white: whiteSmoke;
+  --black: black;
+  --primary: #4c5674;
+  --success: #ffaf39;
+  --danger: #f10000;
+}
+
+main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  min-height: 100vh;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+article {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+article * + * {
+  margin-top: 1rem;
+}
+
+button {
+  background-color: var(--primary);
+  border-radius: 5px;
+  padding: 10px;
+  color: var(--white);
+  font-weight: bold;
+}
+
+[data-colour='green'] {
+  background-color: var(--success);
+}
+
+[data-colour='red'] {
+  background-color: var(--danger);
+}
+
+progress {
+  margin: 0;
+  padding: 0;
+  height: 0.25rem;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 2px;
+  -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25) inset;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25) inset;
+}
+
+progress[value]::-webkit-progress-bar {
+  background-color: #eee;
+  border-radius: 2px;
+  -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+}
+
+progress[value]::-webkit-progress-value {
+  background-image: -webkit-linear-gradient(
+      -45deg,
+      transparent 33%,
+      rgba(0, 0, 0, 0.1) 33%,
+      rgba(0, 0, 0, 0.1) 66%,
+      transparent 66%
+    ),
+    -webkit-linear-gradient(top, rgba(255, 255, 255, 0.25), rgba(0, 0, 0, 0.25)),
+    -webkit-linear-gradient(left, var(--primary), var(--primary));
+
+  border-radius: 2px;
+  background-size: 35px 20px, 100% 100%, 100% 100%;
+}

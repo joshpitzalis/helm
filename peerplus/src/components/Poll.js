@@ -5,11 +5,15 @@ import { auth, facebookAuthProvider, db } from '../constants/firebase'
 import * as routes from '../constants/routes'
 
 class Poll extends Component {
-  state = {
-    poll: {},
-    responses: {},
-    redirectTo: null
+  constructor(props) {
+    super(props)
+    this.state = {
+      poll: {},
+      responses: {},
+      redirectTo: null
+    }
   }
+
   componentDidMount() {
     db
       .doc(`polls/${this.props.match.params.pollId}`)
@@ -46,8 +50,6 @@ class Poll extends Component {
       }
     }
 
-    console.log(existing)
-
     db
       .doc(`polls/${this.props.match.params.pollId}`)
       .update({ responses: existing })
@@ -73,15 +75,21 @@ class Poll extends Component {
             poll.questions.map((question, index) => (
               <label key={index}>
                 <input
-                  type={this.state.poll.multipleChoice ? 'checkbox' : 'radio'}
+                  data-test={`response${index}`}
+                  type={poll.choice === 'multi' ? 'checkbox' : 'radio'}
                   name="responses"
                   value={question}
                   onChange={e => this.handleChange(e, question)}
                 />
-                {poll.text ? question : <img src={question} />}
+                {poll.type === 'text' ? question : <img src={question} />}
               </label>
             ))}
-          <input type="submit" value="Submit" onClick={this.handleSubmit} />
+          <input
+            data-test="submit"
+            type="submit"
+            value="Submit"
+            onClick={this.handleSubmit}
+          />
         </form>
       </div>
     )

@@ -1,12 +1,9 @@
 import { Link } from 'react-router-dom'
 import { auth, facebookAuthProvider } from '../constants/firebase'
 import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
 import * as routes from '../constants/routes'
 
 export default class Navigation extends Component {
-  static propTypes = {}
-
   state = {
     user: null
   }
@@ -30,11 +27,17 @@ export default class Navigation extends Component {
           </li> */}
         </ul>
         {this.state.user ? (
-          <button onClick={() => auth.signInWithRedirect(facebookAuthProvider)}>
+          <button
+            data-test="logout"
+            onClick={() => auth.signInWithRedirect(facebookAuthProvider)}
+          >
             Logout
           </button>
         ) : (
-          <button onClick={() => auth.signInWithRedirect(facebookAuthProvider)}>
+          <button
+            data-test="login"
+            onClick={() => auth.signInWithRedirect(facebookAuthProvider)}
+          >
             Login with Facebook
           </button>
         )}

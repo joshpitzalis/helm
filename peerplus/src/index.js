@@ -8,18 +8,15 @@ import Navigation from './components/Navigation'
 import LandingPage from './components/Landing'
 import HomePage from './components/Home'
 import AccountPage from './components/Account'
-import Create from './components/Create'
-import Questions from './components/Questions'
-import Send from './components/Send'
 import Poll from './components/Poll'
-import Congratulations from './components/Congratulations'
+import CreatePoll from './components/CreatePoll'
 import Done from './components/Done'
 import * as routes from './constants/routes'
 import axios from 'axios'
+import 'normalize.css'
+import './style.css'
 
 export default class Routes extends Component {
-  static propTypes = {}
-
   state = { auth: null, friends: null }
 
   componentDidMount() {
@@ -53,19 +50,8 @@ export default class Routes extends Component {
             path={routes.ACCOUNT}
             component={() => <AccountPage />}
           />
-          <Route exact path={routes.CREATE} component={Create} />
-          <Route
-            exact
-            path={`${routes.QUESTIONS}/:pollId`}
-            component={Questions}
-          />
-          <Route exact path={`${routes.SEND}/:pollId`} component={Send} />
+          <Route exact path={routes.CREATE} component={CreatePoll} />
           <Route exact path={`${routes.POLL}/:pollId`} component={Poll} />
-          <Route
-            exact
-            path={`${routes.CONTRATULATIONS}/:pollId`}
-            component={Congratulations}
-          />
           <Route exact path={`${routes.DONE}/:pollId`} component={Done} />
         </Fragment>
       </BrowserRouter>

@@ -18,7 +18,15 @@ class App extends Component {
         <header>
           <h1>v 0.0.23</h1>
         </header>
-        {this.state.user && <Link to={routes.CREATE}>Create a Poll</Link>}
+        {this.state.user ? (
+          <Link to={routes.CREATE}>
+            <button data-test="create" autoFocus tabIndex="0">
+              Create a Poll
+            </button>
+          </Link>
+        ) : (
+          <p>You are not logged in</p>
+        )}
       </div>
     )
   }

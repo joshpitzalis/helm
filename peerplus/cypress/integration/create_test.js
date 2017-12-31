@@ -47,6 +47,16 @@ describe('Single choice text Poll', () => {
     cy.url().should('contain', 'response')
     cy.get(`[data-test='count0']`).contains(1)
   })
+
+  it('deletes the poll', () => {
+    cy.url().should('contain', 'home')
+    cy.get(`[data-test='response0']`).click()
+    cy.wait(5000)
+
+    cy.get(`[data-test='delete']`).click()
+    cy.url().should('contain', 'home')
+    cy.contains('No Polls available.')
+  })
 })
 
 describe('Multiple choice text Poll', () => {
@@ -80,7 +90,7 @@ describe('Multiple choice text Poll', () => {
 
   it('completes the poll', () => {
     cy.url().should('contain', 'home')
-    cy.get(`[data-test='poll1']`).click()
+    cy.get(`[data-test='poll0']`).click()
     cy.url().should('contain', 'poll')
     cy.contains('option 1')
     cy.get(`[data-test='response0']`).check()
@@ -93,10 +103,20 @@ describe('Multiple choice text Poll', () => {
 
   it('checks the response', () => {
     cy.url().should('contain', 'home')
-    cy.get(`[data-test='response1']`).click()
+    cy.get(`[data-test='response0']`).click()
     cy.wait(5000)
     cy.url().should('contain', 'response')
     cy.get(`[data-test='count0']`).contains(1)
     cy.get(`[data-test='count1']`).contains(1)
+  })
+
+  it('deletes the poll', () => {
+    cy.url().should('contain', 'home')
+    cy.get(`[data-test='response0']`).click()
+    cy.wait(5000)
+
+    cy.get(`[data-test='delete']`).click()
+    cy.url().should('contain', 'home')
+    cy.contains('No Polls available.')
   })
 })

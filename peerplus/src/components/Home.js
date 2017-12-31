@@ -1,23 +1,23 @@
-import React, { Component, Fragment } from 'react'
-import axios from 'axios'
-import { Link } from 'react-router-dom'
-import { auth, facebookAuthProvider, db } from '../constants/firebase'
-import * as routes from '../constants/routes'
+import React, { Component, Fragment } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { auth, facebookAuthProvider, db } from '../constants/firebase';
+import * as routes from '../constants/routes';
 
 class Home extends Component {
   state = {
     user: null,
     polls: []
-  }
+  };
   componentDidMount() {
-    auth.onAuthStateChanged(user => this.setState({ user: user }))
+    auth.onAuthStateChanged(user => this.setState({ user: user }));
     db
       .collection(`polls`)
       .get()
       .then(coll => {
-        const polls = coll.docs.map(doc => doc.data())
-        this.setState({ polls })
-      })
+        const polls = coll.docs.map(doc => doc.data());
+        this.setState({ polls });
+      });
   }
 
   render() {
@@ -35,27 +35,30 @@ class Home extends Component {
 
         {this.state.user && (
           <ul>
-            {this.state.polls.map((poll, index) => (
-              <li key={index}>
-                <Link to={`/poll/${poll.id}`} data-test={`poll${index}`}>
-                  {poll.title}
-                </Link>
-
-                {poll.createdBy === this.state.user.uid && (
-                  <Link
-                    to={`/responses/${poll.id}`}
-                    data-test={`response${index}`}
-                  >
-                    (Responses)
+            {this.state.polls.length !== 0 ? (
+              this.state.polls.map((poll, index) => (
+                <li key={index}>
+                  <Link to={`/poll/${poll.id}`} data-test={`poll${index}`}>
+                    {poll.title}
                   </Link>
-                )}
-              </li>
-            ))}
+
+                  {poll.createdBy === this.state.user.uid && (
+                    <Link
+                      to={`/responses/${poll.id}`}
+                      data-test={`response${index}`}>
+                      (Responses)
+                    </Link>
+                  )}
+                </li>
+              ))
+            ) : (
+              <p>No Polls available.</p>
+            )}
           </ul>
         )}
       </Fragment>
-    )
+    );
   }
 }
 
-export default Home
+export default Home;

@@ -23,6 +23,13 @@ class Responses extends Component {
       );
   }
 
+  handleDelete = () => {
+    db.doc(`polls/${this.props.match.params.pollId}`).delete();
+    this.setState({
+      redirectTo: `/home`
+    });
+  };
+
   render() {
     const { poll, redirectTo } = this.state;
     if (redirectTo) {
@@ -46,6 +53,9 @@ class Responses extends Component {
             <p>No responses yet</p>
           )}
         </ul>
+        <button data-test="delete" onClick={this.handleDelete}>
+          Delete This Poll
+        </button>
       </div>
     );
   }

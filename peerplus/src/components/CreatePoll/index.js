@@ -98,9 +98,11 @@ export default class Polls extends Component {
     })
   }
 
-  handleSubmitForm = async e => {
+  handleSubmitForm = e => {
     e.preventDefault()
-    await db.doc(`polls/${this.state.pollId}`).set({
+    // await
+    db.doc(`polls/${this.state.pollId}`).set({
+      id: this.state.pollId,
       title: this.state.title,
       context: this.state.context,
       choice: this.state.choice,

@@ -9,8 +9,9 @@ import LandingPage from './components/Landing'
 import HomePage from './components/Home'
 import AccountPage from './components/Account'
 import Poll from './components/Poll'
+import Responses from './components/Poll/Responses'
 import CreatePoll from './components/CreatePoll'
-import Done from './components/Done'
+import Done from './components/Poll/Done'
 import * as routes from './constants/routes'
 import axios from 'axios'
 import 'normalize.css'
@@ -52,6 +53,11 @@ export default class Routes extends Component {
           />
           <Route exact path={routes.CREATE} component={CreatePoll} />
           <Route exact path={`${routes.POLL}/:pollId`} component={Poll} />
+          <Route
+            exact
+            path={`${routes.RESPONSES}/:pollId`}
+            component={Responses}
+          />
           <Route exact path={`${routes.DONE}/:pollId`} component={Done} />
         </Fragment>
       </BrowserRouter>

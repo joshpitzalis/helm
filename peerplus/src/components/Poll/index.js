@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import { Link, Redirect } from 'react-router-dom'
-import { auth, facebookAuthProvider, db } from '../constants/firebase'
-import * as routes from '../constants/routes'
+import { auth, facebookAuthProvider, db } from '../../constants/firebase'
+import * as routes from '../../constants/routes'
 
 class Poll extends Component {
   constructor(props) {

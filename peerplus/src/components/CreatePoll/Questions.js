@@ -14,7 +14,7 @@ class Questions extends Component {
               type={type === 'text' ? 'text' : 'file'}
               placeholder="text single choice"
               onChange={this.props.handleInput(index)}
-              value={type ? question : undefined}
+              value={type === 'text' ? question : undefined}
             />
             <button onClick={this.props.handleDelete(index)}>X</button>
           </span>

@@ -44,17 +44,20 @@ export default class Polls extends Component {
       });
     } else {
       let questions = [...this.state.questions];
-
-      storage
+      const file = e[0];
+      const uploadTask = storage
         .ref(`polls/${this.state.pollId}`)
-        .child(e.target.files[0].name)
-        .put(e.target.files[0])
+        .child(file.name)
+        .put(file, { contentType: file.type });
+
+      uploadTask
         .then(res => {
           (questions[i] = res.downloadURL),
             this.setState({
               questions
             });
-        });
+        })
+        .catch(error => console.error(error));
     }
   };
 

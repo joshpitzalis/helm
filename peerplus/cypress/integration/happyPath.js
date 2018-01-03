@@ -132,17 +132,39 @@ describe('Single choice image poll', () => {
       return false
     })
   })
-  it('creates the poll', () => {
+  it.only('creates the poll', () => {
     cy.get(`[data-test='create']`).click()
     cy.url().should('contain', 'create')
     cy.get(`[data-test='title']`).type('test question')
     cy.get(`[data-test='context']`).type('some context')
     cy.get(`[data-test='single']`).check()
-    cy.get(`[data-test='text']`).check()
+    cy.get(`[data-test='image']`).check()
     cy.get(`[data-test='submit']`).click()
-    cy.get(`[data-test='question0']`).type('option 1')
-    cy.get(`[data-test='add']`).click()
-    cy.get(`[data-test='question1']`).type('option 2')
+
+    // cy.fixture('duck.jpg').then(picture => {
+    //   cy.get(`[data-test='question0']`).then(el =>
+    //     Cypress.Blob.base64StringToBlob(picture, 'image/jpg').then(blob => {
+    //       el.files = [blob]
+    //       console.log('el', el)
+    //       el[0].dispatchEvent(new Event('change', { bubbles: true }))
+    //     })
+    //   )
+    // })
+    cy.fixture('duck.jpg').then(file => {
+      cy.get(`[data-test='question0']`).then(([element]) => {
+        const reactDebugKey = Object.keys(element).find(key =>
+          key.startsWith('__reactInternalInstance')
+        )
+        element[reactDebugKey]._debugOwner.stateNode.props.model.file = {
+          name: 'xyz.jpg',
+          image: file
+        }
+      })
+    })
+    cy.wait(5000)
+    // cy.get(`[data-test='add']`).click()
+    // cy.get(`[data-test='question1']`).type('option 2')
+
     cy.get(`[data-test='submitPoll']`).click()
     cy.wait(5000)
     cy.get(`[data-test='poll']`).click()

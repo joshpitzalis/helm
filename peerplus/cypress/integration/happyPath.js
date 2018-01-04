@@ -121,7 +121,7 @@ describe('Multiple choice text poll', () => {
   })
 })
 
-describe('Single choice image poll', () => {
+describe.skip('Single choice image poll', () => {
   beforeEach('login', () => {
     cy.visit('/home', {
       onBeforeLoad: win => {
@@ -132,7 +132,7 @@ describe('Single choice image poll', () => {
       return false
     })
   })
-  it.only('creates the poll', () => {
+  it('creates the poll', () => {
     cy.get(`[data-test='create']`).click()
     cy.url().should('contain', 'create')
     cy.get(`[data-test='title']`).type('test question')
@@ -141,26 +141,24 @@ describe('Single choice image poll', () => {
     cy.get(`[data-test='image']`).check()
     cy.get(`[data-test='submit']`).click()
 
-    // cy.fixture('duck.jpg').then(picture => {
-    //   cy.get(`[data-test='question0']`).then(el =>
-    //     Cypress.Blob.base64StringToBlob(picture, 'image/jpg').then(blob => {
-    //       el.files = [blob]
-    //       console.log('el', el)
-    //       el[0].dispatchEvent(new Event('change', { bubbles: true }))
-    //     })
-    //   )
-    // })
-    cy.fixture('duck.jpg').then(file => {
-      cy.get(`[data-test='question0']`).then(([element]) => {
-        const reactDebugKey = Object.keys(element).find(key =>
-          key.startsWith('__reactInternalInstance')
-        )
-        element[reactDebugKey]._debugOwner.stateNode.props.model.file = {
-          name: 'xyz.jpg',
-          image: file
-        }
-      })
+    // const dropEvent = {
+    //   dataTransfer: {
+    //     files: []
+    //   }
+    // }
+
+    cy.fixture('duck').then(picture => {
+      return Cypress.Blob.base64StringToBlob(picture, 'image/jpeg').then(
+        blob => cy.get(`[data-test='dropzone']`).trigger('drop', [blob])
+        // {
+        //   dropEvent.dataTransfer.files.push(blob)
+        // }
+      )
     })
+    // cy.wait(5000)
+    // console.log('dropEvent', dropEvent)
+    // cy.get(`[data-test='dropzone']`).trigger('drop', dropEvent)
+
     cy.wait(5000)
     // cy.get(`[data-test='add']`).click()
     // cy.get(`[data-test='question1']`).type('option 2')

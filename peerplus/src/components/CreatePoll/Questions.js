@@ -19,7 +19,9 @@ class Questions extends Component {
                 value={question}
               />
             ) : (
-              <Dropzone onDrop={this.props.handleInput(index)}>
+              <Dropzone
+                data-test="dropzone"
+                onDrop={this.props.handleInput(index)}>
                 {question ? (
                   <img src={question} />
                 ) : (

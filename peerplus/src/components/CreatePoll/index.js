@@ -47,8 +47,8 @@ export default class Polls extends Component {
       const file = e[0];
       const uploadTask = storage
         .ref(`polls/${this.state.pollId}`)
-        .child(file.name)
-        .put(file, { contentType: file.type });
+        .child('file.name')
+        .put(file);
 
       uploadTask
         .then(res => {

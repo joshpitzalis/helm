@@ -1,17 +1,17 @@
-import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
+import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
 
 class Create extends Component {
   static propTypes = {
     handleChange: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired
-  }
+  };
 
   state = {
     touched: {
       title: false
     }
-  }
+  };
 
   validate = inputs => {
     return {
@@ -25,25 +25,25 @@ class Create extends Component {
         this.props.type !== null && this.props.choice !== null
           ? null
           : 'You must select a type and choice of poll.'
-    }
-  }
+    };
+  };
 
   required = value => {
-    return value && value.length > 0
-  }
+    return value && value.length > 0;
+  };
   longerThan = (min, value) => {
-    return value.length > min
-  }
+    return value.length > min;
+  };
 
   isValidEmail = value => {
-    return value.indexOf('@') !== -1
-  }
+    return value.indexOf('@') !== -1;
+  };
 
   handleBlur = field => evt => {
     this.setState({
       touched: { ...this.state.touched, [field]: true }
-    })
-  }
+    });
+  };
 
   render() {
     const errors = this.validate({
@@ -51,7 +51,7 @@ class Create extends Component {
       context: this.props.context,
       type: this.props.type,
       choice: this.props.choice
-    })
+    });
 
     return (
       <Fragment>
@@ -60,7 +60,7 @@ class Create extends Component {
           <input
             data-test="title"
             type="text"
-            placeholder="name"
+            placeholder="Title"
             onChange={this.props.handleChange('title')}
             value={this.props.title}
             onBlur={this.handleBlur('title')}
@@ -74,7 +74,7 @@ class Create extends Component {
           <input
             data-test="context"
             type="text"
-            placeholder="context"
+            placeholder="Explanation"
             onChange={this.props.handleChange('context')}
             value={this.props.context}
             onBlur={this.handleBlur('context')}
@@ -84,8 +84,9 @@ class Create extends Component {
           ) : null}
         </div>
         <hr />
-        <div>
-          <div>
+        <div className="dib">
+          <label className="container">
+            Single Choice
             <input
               data-test="single"
               type="radio"
@@ -93,9 +94,11 @@ class Create extends Component {
               onChange={this.props.handleChange('choice')}
               checked={this.props.choice === 'single'}
               value="single"
-            />Single Choice
-          </div>
-          <div>
+            />
+            <span className="checkmark" />
+          </label>
+
+          <label className="container">
             <input
               data-test="multi"
               type="radio"
@@ -104,11 +107,12 @@ class Create extends Component {
               checked={this.props.choice === 'multi'}
               value="multi"
             />Multiple Choice
-          </div>
+            <span className="checkmark" />
+          </label>
         </div>
         <hr />
-        <div>
-          <div>
+        <div className="dib">
+          <label className="container flex align-center">
             <input
               data-test="text"
               type="radio"
@@ -116,9 +120,11 @@ class Create extends Component {
               checked={this.props.type === 'text'}
               onChange={this.props.handleChange('type')}
               value="text"
-            />Text
-          </div>
-          <div>
+            />Text Based
+            <span className="checkmark" />
+          </label>
+
+          <label className="container">
             <input
               data-test="image"
               type="radio"
@@ -126,8 +132,9 @@ class Create extends Component {
               value="image"
               onChange={this.props.handleChange('type')}
               checked={this.props.type === 'image'}
-            />Image
-          </div>
+            />Image Based
+            <span className="checkmark" />
+          </label>
         </div>
 
         {/* <div>
@@ -152,8 +159,8 @@ class Create extends Component {
         </div> */}
         {errors.base ? <p data-error>{errors.base}</p> : null}
       </Fragment>
-    )
+    );
   }
 }
 
-export default Create
+export default Create;

@@ -8,12 +8,21 @@ import {
   db,
   storage
 } from '../../constants/firebase';
-import { log } from 'core-js/library/web/timers';
+import {
+  compose,
+  branch,
+  renderComponent,
+  renderNothing,
+  setDisplayName,
+  setPropTypes
+} from 'recompose';
+import ProceedButtons from './ProceedButtons';
+import { withUserData } from '../../hocs/withUserData';
+import PropTypes from 'prop-types';
 
-export default class Polls extends Component {
+class Polls extends Component {
   state = {
     step: 1,
-    user: null,
     friends: [],
     title: '',
     context: '',
@@ -26,10 +35,6 @@ export default class Polls extends Component {
     pollId: null,
     disabled: true
   };
-
-  componentDidMount() {
-    auth.onAuthStateChanged(user => this.setState({ user: user }));
-  }
 
   handleChange = el => e => {
     this.setState({ [el]: e.target.value });
@@ -115,90 +120,62 @@ export default class Polls extends Component {
       // duration: this.duration.value,
       // private: this.private.checked,
       questions: this.state.questions,
-      createdBy: this.state.user.uid,
+      createdBy: this.props.user.uid,
       createdAt: new Date()
     });
     this.setState({ step: this.state.step + 1 });
   };
 
-  handleProceed = x => {
-    console.log(x);
-    // this.setState({ disabled: true })
-  };
-
   render() {
     return (
-      <div>
-        <article>
-          <form>
-            <section className="w-75-ns center">
-              {this.state.step === 1 && (
-                <Create
-                  handleChange={this.handleChange}
-                  title={this.state.title}
-                  context={this.state.context}
-                  choice={this.state.choice}
-                  type={this.state.type}
-                  handleProceed={this.handleProceed}
-                />
-              )}
-              {this.state.step === 2 && (
-                <Questions
-                  questions={this.state.questions}
-                  type={this.state.type}
-                  pollId={this.state.pollId}
-                  handleInput={this.handleInput}
-                  handleDelete={this.handleDelete}
-                  addQuestion={this.addQuestion}
-                />
-              )}
-              {this.state.step === 3 && (
-                <Congratulations pollId={this.state.pollId} />
-              )}
-              <div className="tc tr-ns w-100">
-                {this.state.step === 2 && (
-                  <button
-                    onClick={this.goToPrev}
-                    type="submit"
-                    data-colour="green">
-                    Back
-                  </button>
-                )}
-
-                {this.state.step === 2 ? (
-                  <button
-                    onClick={this.handleSubmitForm}
-                    type="submit"
-                    data-colour="green"
-                    data-test="submitPoll">
-                    Submit
-                  </button>
-                ) : this.state.step === 3 ? null : (
-                  <button
-                    onClick={
-                      this.state.pollId ? this.goToNext : this.handleCreateForm
-                    }
-                    type="submit"
-                    data-colour="green"
-                    data-test="submit">
-                    Next
-                  </button>
-                )}
-              </div>
-              <progress
-                className="w-100"
-                value={
-                  this.state.step === 1
-                    ? '33'
-                    : this.state.step === 2 ? '66' : '100'
-                }
-                max="100"
-              />
-            </section>
-            {/* <button type="submit">Cancel</button> */}
-          </form>
-        </article>
-      </div>
+      <article className="pv5">
+        <form className="mw6-ns w-100 center tc">
+          {this.state.step === 1 ? (
+            <Create
+              handleChange={this.handleChange}
+              title={this.state.title}
+              context={this.state.context}
+              choice={this.state.choice}
+              type={this.state.type}
+              handleProceed={this.handleProceed}
+            />
+          ) : this.state.step === 2 ? (
+            <Questions
+              questions={this.state.questions}
+              type={this.state.type}
+              pollId={this.state.pollId}
+              handleInput={this.handleInput}
+              handleDelete={this.handleDelete}
+              addQuestion={this.addQuestion}
+            />
+          ) : (
+            <Congratulations pollId={this.state.pollId} />
+          )}
+          <ProceedButtons
+            step={this.state.step}
+            pollId={this.state.pollId}
+            goToPrev={this.goToPrev}
+            goToNext={this.goToNext}
+            handleSubmitForm={this.handleSubmitForm}
+            handleCreateForm={this.handleCreateForm}
+          />
+          <Progress step={this.state.step} />
+        </form>
+      </article>
     );
   }
 }
+
+const Progress = ({ step }) => (
+  <progress
+    className="w-100"
+    value={step === 1 ? '33' : step === 2 ? '66' : '100'}
+    max="100"
+  />
+);
+
+export default compose(
+  setDisplayName('CreatePollForm'),
+  setPropTypes({ user: PropTypes.object }),
+  withUserData
+)(Polls);

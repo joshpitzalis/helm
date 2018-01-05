@@ -4,7 +4,7 @@ import registerServiceWorker from './registerServiceWorker';
 import PropTypes from 'prop-types';
 import { auth, facebookAuthProvider } from './constants/firebase';
 import { BrowserRouter, Route } from 'react-router-dom';
-import Navigation from './components/Navigation';
+import Navigation from './components/Navigation/index.js';
 import LandingPage from './components/Landing';
 import HomePage from './components/Home';
 import AccountPage from './components/Account';

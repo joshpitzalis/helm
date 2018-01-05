@@ -1,34 +1,14 @@
-import React, { Component, Fragment } from 'react'
-import axios from 'axios'
+import React from 'react'
+import {
+  compose,
+  branch,
+  renderComponent,
+  renderNothing,
+  setDisplayName,
+  setPropTypes
+} from 'recompose'
 import { Link } from 'react-router-dom'
-import * as routes from '../constants/routes'
-import { withPollData } from '../hocs/withPollData'
-import { withUserData } from '../hocs/withUserData'
-import { compose, branch, renderComponent, renderNothing } from 'recompose'
-
-const Home = ({ user, polls }) => (
-  <article className="pv5">
-    <section className="mw6-ns w-100 center tc">
-      <CreatePollButton user={user} />
-      <Polls user={user} polls={polls} />
-    </section>
-  </article>
-)
-
-const NotLoggedIn = () => <p>You are not logged in.</p>
-
-const hideIfNotLoggedIn = branch(
-  ({ user }) => !user,
-  renderComponent(NotLoggedIn)
-)
-
-const CreatePollButton = hideIfNotLoggedIn(({ user }) => (
-  <Link to={routes.CREATE}>
-    <button data-test="create" className="grow" tabIndex="0">
-      Create a Poll
-    </button>
-  </Link>
-))
+import PropTypes from 'prop-types'
 
 const NoPollsAvailable = () => <p>No Polls available.</p>
 const Loading = () => <div className="loader center ma4" />
@@ -66,10 +46,13 @@ const ListOfPolls = ({ user, polls }) => (
   </ul>
 )
 
-const Polls = compose(
+export default compose(
+  setDisplayName('Polls'),
+  setPropTypes({
+    user: PropTypes.object,
+    polls: PropTypes.array
+  }),
   onlyShowIfAuthenticated,
   onlyShowIfPollsAvailable,
   showSpinnerWhileLoading
 )(ListOfPolls)
-
-export default compose(withPollData, withUserData)(Home)

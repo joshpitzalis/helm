@@ -21,7 +21,7 @@ export default class Navigation extends Component {
             alt="Peer Plus"
             height="50"
             width="50"
-            className="pointer dib mv2"
+            className="grow dib mv2"
           />
         </Link>
 

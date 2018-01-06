@@ -73,7 +73,7 @@ class Poll extends Component {
           <form>
             {poll.questions &&
               poll.questions.map((question, index) => (
-                <label key={index}>
+                <label key={index} className="container">
                   <input
                     data-test={`response${index}`}
                     type={poll.choice === 'multi' ? 'checkbox' : 'radio'}
@@ -82,6 +82,11 @@ class Poll extends Component {
                     onChange={e => this.handleChange(e, question)}
                   />
                   {poll.type === 'text' ? question : <img src={question} />}
+                  <span
+                    className={
+                      poll.choice === 'multi' ? 'checkmark' : 'radiomark'
+                    }
+                  />
                 </label>
               ))}
             <input

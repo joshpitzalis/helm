@@ -37,7 +37,8 @@ article * + * {
   margin-top: 1rem;
 }
 
-button:not(.seethrough), input[type="submit"] {
+button:not(.seethrough),
+input[type='submit'] {
   background-color: var(--primary);
   color: #f4f2e8;
   cursor: pointer;
@@ -119,7 +120,8 @@ h1 {
   font-weight: 500;
   line-height: 26.4px;
 }
-h2, h3 {
+h2,
+h3 {
   font-family: Futura, 'Trebuchet MS', Arial, sans-serif;
   font-size: 14px;
   font-style: normal;
@@ -154,10 +156,9 @@ pre {
   line-height: 18.5714px;
 }
 
-
 .loader {
   -webkit-animation: spin 1s linear infinite;
-          animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
   border: 3px solid var(--white);
   border-top: 3px solid var(--success);
   border-radius: 50%;
@@ -169,7 +170,7 @@ pre {
   to {
     border-top-color: var(--danger);
     -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
@@ -177,11 +178,11 @@ pre {
   to {
     border-top-color: var(--danger);
     -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
-input[type="text"] {
+input[type='text'] {
   padding: var(--spacing-medium);
   width: 100%;
   border: none;
@@ -190,15 +191,15 @@ input[type="text"] {
 .container {
   display: block;
   position: relative;
-  padding-left: 35px;
-
+  /* padding-left: 35px; */
+  padding: var(--spacing-medium);
   cursor: pointer;
   font-size: 22px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  width: 50%;
+  /* width: 50%; */
 }
 
 /* Hide the browser's default radio button */
@@ -208,14 +209,26 @@ input[type="text"] {
 }
 
 /* Create a custom radio button */
-.checkmark {
+ .checkmark {
+  margin: var(--spacing-medium);
   position: absolute;
   top: 0;
   left: 0;
   height: var(--spacing-large);
   width: var(--spacing-large);
   background-color: white;
-  border-radius: 50%
+  border-radius: 10%;
+}
+
+.radiomark {
+ margin: var(--spacing-medium);
+ position: absolute;
+ top: 0;
+ left: 0;
+ height: var(--spacing-large);
+ width: var(--spacing-large);
+ background-color: white;
+ border-radius: 50%;
 }
 
 /* On mouse-over, add a grey background color */
@@ -223,14 +236,31 @@ input[type="text"] {
   background-color: var(--success);
 }
 
-/* When the radio button is checked, add a blue background */
+
 .container input:checked ~ .checkmark {
   background-color: var(--primary);
 }
 
+.container:hover input ~ .radiomark {
+  background-color: var(--success);
+}
+
+
+.container input:checked ~ .radiomark {
+  background-color: var(--primary);
+}
+
+
+
 /* Create the indicator (the dot/circle - hidden when not checked) */
 .checkmark:after {
-  content: "";
+  content: '';
+  position: absolute;
+  display: none;
+}
+
+.radiomark:after {
+  content: '';
   position: absolute;
   display: none;
 }
@@ -240,8 +270,21 @@ input[type="text"] {
   display: block;
 }
 
+.container input:checked ~ .radiomark:after {
+  display: block;
+}
+
 /* Style the indicator (dot/circle) */
 .container .checkmark:after {
+  top: 9px;
+  left: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 10%;
+  background: var(--primary);
+}
+
+.container .radiomark:after {
   top: 9px;
   left: 9px;
   width: 8px;
@@ -250,6 +293,7 @@ input[type="text"] {
   background: var(--primary);
 }
 
-hr{
+
+hr {
   border-color: var(--white);
 }

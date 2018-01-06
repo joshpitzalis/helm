@@ -83,59 +83,57 @@ class Create extends Component {
             <p data-error>{errors.context}</p>
           ) : null}
         </div>
-        <hr />
-        <div className="dib">
-          <label className="container">
-            Single Choice
-            <input
-              data-test="single"
-              type="radio"
-              name="choice"
-              onChange={this.props.handleChange('choice')}
-              checked={this.props.choice === 'single'}
-              value="single"
-            />
-            <span className="checkmark" />
-          </label>
+        
+        <label className="container">
+          Single Choice
+          <input
+            data-test="single"
+            type="radio"
+            name="choice"
+            onChange={this.props.handleChange('choice')}
+            checked={this.props.choice === 'single'}
+            value="single"
+          />
+          <span className="checkmark" />
+        </label>
 
-          <label className="container">
-            <input
-              data-test="multi"
-              type="radio"
-              name="choice"
-              onChange={this.props.handleChange('choice')}
-              checked={this.props.choice === 'multi'}
-              value="multi"
-            />Multiple Choice
-            <span className="checkmark" />
-          </label>
-        </div>
-        <hr />
-        <div className="dib">
-          <label className="container flex align-center">
-            <input
-              data-test="text"
-              type="radio"
-              name="type"
-              checked={this.props.type === 'text'}
-              onChange={this.props.handleChange('type')}
-              value="text"
-            />Text Based
-            <span className="checkmark" />
-          </label>
+        <label className="container">
+          <input
+            data-test="multi"
+            type="radio"
+            name="choice"
+            onChange={this.props.handleChange('choice')}
+            checked={this.props.choice === 'multi'}
+            value="multi"
+          />Multiple Choice
+          <span className="checkmark" />
+        </label>
 
-          <label className="container">
-            <input
-              data-test="image"
-              type="radio"
-              name="type"
-              value="image"
-              onChange={this.props.handleChange('type')}
-              checked={this.props.type === 'image'}
-            />Image Based
-            <span className="checkmark" />
-          </label>
-        </div>
+        <hr />
+
+        <label className="container flex align-center">
+          <input
+            data-test="text"
+            type="radio"
+            name="type"
+            checked={this.props.type === 'text'}
+            onChange={this.props.handleChange('type')}
+            value="text"
+          />Text Based
+          <span className="checkmark" />
+        </label>
+
+        <label className="container">
+          <input
+            data-test="image"
+            type="radio"
+            name="type"
+            value="image"
+            onChange={this.props.handleChange('type')}
+            checked={this.props.type === 'image'}
+          />Image Based
+          <span className="checkmark" />
+        </label>
 
         {/* <div>
             <input

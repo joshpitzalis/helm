@@ -1,0 +1,299 @@
+:root {
+  --white: whiteSmoke;
+  --black: #595c5e;
+  --primary: #ffaf39;
+  --success: #dce8bd;
+  --danger: #f37966;
+
+  --spacing-none: 0;
+  --spacing-extra-small: 0.25rem;
+  --spacing-small: 0.5rem;
+  --spacing-medium: 1rem;
+  --spacing-large: 2rem;
+  --spacing-extra-large: 4rem;
+  --spacing-extra-extra-large: 8rem;
+  --spacing-extra-extra-extra-large: 16rem;
+}
+
+main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  min-height: 100vh;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+article {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  background-color: #f4f2e8;
+}
+
+article * + * {
+  margin-top: 1rem;
+}
+
+button:not(.seethrough),
+input[type='submit'] {
+  background-color: var(--primary);
+  color: #f4f2e8;
+  cursor: pointer;
+  display: inline-block;
+  border: none;
+  border-radius: 9999px;
+  text-decoration: none;
+  padding-left: var(--spacing-large);
+  padding-right: var(--spacing-large);
+  padding-top: var(--spacing-medium);
+  padding-bottom: var(--spacing-medium);
+  margin-bottom: var(--spacing-small);
+}
+
+button {
+  font-family: Futura, 'Trebuchet MS', Arial, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  line-height: 15.4px;
+  text-transform: uppercase;
+  text-decoration: underline;
+  border: none;
+  background-color: transparent;
+}
+
+[data-colour='green'] {
+  background-color: var(--success);
+}
+
+[data-colour='red'] {
+  background-color: var(--danger);
+}
+
+[data-error] {
+  color: var(--danger);
+}
+
+progress {
+  margin: 0;
+  padding: 0;
+  height: 0.25rem;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 2px;
+  -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25) inset;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25) inset;
+}
+
+progress[value]::-webkit-progress-bar {
+  background-color: #eee;
+  border-radius: 2px;
+  -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+}
+
+progress[value]::-webkit-progress-value {
+  background-image: -webkit-linear-gradient(
+      -45deg,
+      transparent 33%,
+      rgba(0, 0, 0, 0.1) 33%,
+      rgba(0, 0, 0, 0.1) 66%,
+      transparent 66%
+    ),
+    -webkit-linear-gradient(top, rgba(255, 255, 255, 0.25), rgba(0, 0, 0, 0.25)),
+    -webkit-linear-gradient(left, var(--primary), var(--primary));
+
+  border-radius: 2px;
+  background-size: 35px 20px, 100% 100%, 100% 100%;
+}
+
+h1 {
+  font-family: Futura, 'Trebuchet MS', Arial, sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 500;
+  line-height: 26.4px;
+}
+h2,
+h3 {
+  font-family: Futura, 'Trebuchet MS', Arial, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 500;
+  line-height: 15.4px;
+}
+p,
+a {
+  font-family: Futura, 'Trebuchet MS', Arial, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--black);
+}
+blockquote {
+  font-family: Futura, 'Trebuchet MS', Arial, sans-serif;
+  font-size: 21px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  line-height: 30px;
+}
+pre {
+  font-family: Futura, 'Trebuchet MS', Arial, sans-serif;
+  font-size: 13px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  line-height: 18.5714px;
+}
+
+.loader {
+  -webkit-animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
+  border: 3px solid var(--white);
+  border-top: 3px solid var(--success);
+  border-radius: 50%;
+  height: 75px;
+  width: 75px;
+}
+
+@-webkit-keyframes spin {
+  to {
+    border-top-color: var(--danger);
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  to {
+    border-top-color: var(--danger);
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+input[type='text'] {
+  padding: var(--spacing-medium);
+  width: 100%;
+  border: none;
+}
+
+.container {
+  display: block;
+  position: relative;
+  /* padding-left: 35px; */
+  padding: var(--spacing-medium);
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /* width: 50%; */
+}
+
+/* Hide the browser's default radio button */
+.container input {
+  position: absolute;
+  opacity: 0;
+}
+
+/* Create a custom radio button */
+ .checkmark {
+  margin: var(--spacing-medium);
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: var(--spacing-large);
+  width: var(--spacing-large);
+  background-color: white;
+  border-radius: 10%;
+}
+
+.radiomark {
+ margin: var(--spacing-medium);
+ position: absolute;
+ top: 0;
+ left: 0;
+ height: var(--spacing-large);
+ width: var(--spacing-large);
+ background-color: white;
+ border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: var(--success);
+}
+
+
+.container input:checked ~ .checkmark {
+  background-color: var(--primary);
+}
+
+.container:hover input ~ .radiomark {
+  background-color: var(--success);
+}
+
+
+.container input:checked ~ .radiomark {
+  background-color: var(--primary);
+}
+
+
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: '';
+  position: absolute;
+  display: none;
+}
+
+.radiomark:after {
+  content: '';
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.container input:checked ~ .radiomark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.container .checkmark:after {
+  top: 9px;
+  left: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 10%;
+  background: var(--primary);
+}
+
+.container .radiomark:after {
+  top: 9px;
+  left: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--primary);
+}
+
+
+hr {
+  border-color: var(--white);
+}

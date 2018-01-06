@@ -13,6 +13,7 @@ const config = {
 firebase.initializeApp(config)
 
 export const db = firebase.firestore()
+export const storage = firebase.storage()
 export const auth = firebase.auth()
 export const facebookAuthProvider = new firebase.auth.FacebookAuthProvider()
 facebookAuthProvider.addScope('user_friends')

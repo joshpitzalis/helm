@@ -22,7 +22,8 @@ class Questions extends Component {
               <Dropzone
                 data-test="dropzone"
                 className=""
-                onDrop={this.props.handleInput(index)}>
+                onDrop={this.props.handleInput(index)}
+              >
                 {question ? (
                   <img src={question} />
                 ) : (
@@ -40,7 +41,8 @@ class Questions extends Component {
             )}
             <button
               className="seethrough"
-              onClick={this.props.handleDelete(index)}>
+              onClick={this.props.handleDelete(index)}
+            >
               X
             </button>
           </span>
@@ -49,10 +51,39 @@ class Questions extends Component {
           <button
             data-test="add"
             className="seethrough"
-            onClick={this.props.addQuestion}>
+            onClick={this.props.addQuestion}
+          >
             Add Another
           </button>
         </div>
+        <button
+          onClick={this.props.goToPrev}
+          type="submit"
+          className="seethrough"
+        >
+          Back
+        </button>
+        {this.props.privacy === 'public' ? (
+          <button
+            onClick={this.props.handleSubmit}
+            type="submit"
+            data-colour="green"
+            data-test="submit"
+            className=" grow"
+          >
+            Submit
+          </button>
+        ) : (
+          <button
+            onClick={this.props.goToNext}
+            type="submit"
+            data-colour="green"
+            data-test="submit"
+            className=" grow"
+          >
+            Next
+          </button>
+        )}
       </Fragment>
     )
   }

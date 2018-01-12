@@ -76,7 +76,7 @@ class Send extends Component {
         </button>
         <p>Last synced ...</p>
 
-        <button onClick={this.handleSubmit}>Send Poll</button>
+        {/* <button onClick={this.handleSubmit}>Send Poll</button> */}
 
         <ul>
           {this.state.friends.map(friend => (
@@ -102,6 +102,23 @@ class Send extends Component {
             </li>
           ))}
         </ul>
+        <button
+          onClick={this.props.goToPrev}
+          type="submit"
+          className="seethrough"
+        >
+          Back
+        </button>
+
+        <button
+          onClick={this.props.goToNext}
+          type="submit"
+          data-colour="green"
+          data-test="submit"
+          className=" grow"
+        >
+          Submit
+        </button>
       </div>
     )
   }

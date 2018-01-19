@@ -14,25 +14,40 @@ export const withPollData = lifecycle({
   },
 });
 
-export const withMyPollData = lifecycle({
-  componentDidMount() {
+export class WithPrivatePollData extends Component {
+  state = {
+    polls: [],
+  };
+  async componentDidMount() {
+    const myFacebookId =
+      auth.currentUser &&
+      (await db
+        .collection('users')
+        .where('uid', '==', auth.currentUser.uid)
+        .limit(1)
+        .get()
+        .then(doc => doc.docs.map(doc => doc.data()))
+        .then(data => data[0].id));
+
     db
       .collection('polls')
+      .where(`participants.${myFacebookId}`, '==', true)
       .get()
       .then(coll => {
         const polls = coll.docs.map(doc => doc.data());
         this.setState({ polls });
       });
-  },
-});
+  }
+  render() {
+    return <Fragment> {this.props.children(this.state.polls)}</Fragment>;
+  }
+}
 
 export class WithMyPollData extends Component {
   state = {
     polls: [],
   };
   componentDidMount() {
-    console.log('this.props.uid', this.props.uid);
-
     db
       .collection('polls')
       .where('createdBy', '==', this.props.uid)

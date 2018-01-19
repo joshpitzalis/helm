@@ -24,7 +24,7 @@ class Questions extends Component {
   };
 
   render() {
-    const { questions, type, handleSubmit, handleInput } = this.props;
+    const { questions, type, handleInput } = this.props;
 
     return (
       <Fragment>

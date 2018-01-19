@@ -3,7 +3,7 @@ import Create from './Create';
 import Questions from './Questions';
 import Friends from './Friends';
 import Congratulations from './Congratulations';
-import { auth, facebookAuthProvider, db, storage } from '../../constants/firebase';
+import { db, storage } from '../../constants/firebase';
 import { compose, setDisplayName, setPropTypes } from 'recompose';
 import { withUserData } from '../../hocs/withUserData';
 import PropTypes from 'prop-types';
@@ -23,6 +23,7 @@ class Polls extends Component {
     disabled: true,
     privacy: null,
     sendTo: [],
+    participants: {},
   };
 
   handleChange = el => e => {
@@ -104,18 +105,23 @@ class Polls extends Component {
       createdBy: this.props.user.uid,
       createdAt: new Date(),
       sendTo: this.state.sendTo,
+      participants: this.state.participants,
     });
     this.setState({ step: 4 });
   };
 
   handleAddFriend = (id, name, photo) => {
     let sendTo = this.state.sendTo.concat([{ name, photo, id }]);
-    this.setState({ sendTo });
+    let newParticipant = { [id]: true };
+    let participants = { ...this.state.participants, ...newParticipant };
+    this.setState({ sendTo, participants });
   };
 
   handleRemoveFriend = id => {
     let sendTo = this.state.sendTo.filter(friend => friend.id !== id);
-    this.setState({ sendTo });
+    let participants = { ...this.state.participants };
+    delete participants[id];
+    this.setState({ sendTo, participants });
   };
 
   render() {
@@ -157,8 +163,6 @@ class Polls extends Component {
                   sendTo={this.state.sendTo}
                   handleRemoveFriend={this.handleRemoveFriend}
                   handleAddFriend={this.handleAddFriend}
-                  goToPrev={this.goToPrev}
-                  sendTo={this.state.sendTo}
                 />
               ),
               4: <Congratulations pollId={this.state.pollId} />,

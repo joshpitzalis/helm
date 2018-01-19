@@ -11,25 +11,29 @@ import Responses from './components/Poll/Responses';
 import CreatePoll from './components/CreatePoll';
 import Done from './components/Poll/Done';
 import * as routes from './constants/routes';
-import axios from 'axios';
 import 'normalize.css';
 import './style.css';
 import { auth, db } from './constants/firebase';
 
 export default class Routes extends Component {
-  componentDidMount = () => {
-    auth.getRedirectResult().then(result => {
+  componentDidMount() {
+    auth.getRedirectResult().then((result) => {
       if (result.credential) {
         const token = result.credential.accessToken;
         const uid = auth.currentUser.uid;
-        db.doc(`users/${uid}`).set({
+        const { name, id } = result.additionalUserInfo.profile;
+        const photo = result.additionalUserInfo.profile.picture.data.url;
+        db.doc(`users/${id}`).set({
           uid,
           token,
           lastUpdate: +new Date(),
+          id,
+          name,
+          photo,
         });
       }
     });
-  };
+  }
 
   render() {
     return (

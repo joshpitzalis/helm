@@ -1,25 +1,24 @@
-import React, { Component } from 'react'
-import { auth, facebookAuthProvider } from '../constants/firebase'
-import axios from 'axios'
+import React, {Component} from "react";
+import {auth} from "../constants/firebase";
+import axios from "axios";
 
 class App extends Component {
   state = {
     friends: []
-  }
+  };
 
   componentDidMount() {
     auth.getRedirectResult().then(result => {
       if (result.credential) {
-        var token = result.credential.accessToken
-
+        var token = result.credential.accessToken;
         axios
           .get(
             `https://graph.facebook.com/me/friends?access_token=${token}&fields=name,id,picture`
           )
-          .then(result => this.setState({ friends: result.data.data }))
-          .catch(error => console.log(error))
+          .then(result => this.setState({friends: result.data.data}))
+          .catch(error => console.log(error));
       }
-    })
+    });
   }
 
   render() {
@@ -28,7 +27,6 @@ class App extends Component {
         <header>
           <h1>account</h1>
         </header>
-
         <ul>
           {this.state.friends &&
             this.state.friends.map(friend => (
@@ -37,7 +35,7 @@ class App extends Component {
                   <img
                     src={friend.picture.data.url}
                     className="db"
-                    alt={`photo of ${friend.name}`}
+                    alt={`${friend.name}`}
                   />
                   <div className="pa2 bt b--black-20">
                     <a className="f6 db link dark-blue hover-blue">
@@ -55,8 +53,8 @@ class App extends Component {
             ))}
         </ul>
       </div>
-    )
+    );
   }
 }
 
-export default App
+export default App;

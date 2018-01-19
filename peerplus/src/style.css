@@ -51,6 +51,7 @@ input[type='submit'] {
   padding-top: var(--spacing-medium);
   padding-bottom: var(--spacing-medium);
   margin-bottom: var(--spacing-small);
+  cursor: pointer;
 }
 
 button {

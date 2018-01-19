@@ -1,18 +1,16 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import React, { Component, Fragment } from 'react';
+import { Link } from 'react-router-dom';
 
 class Congratulations extends Component {
-  render () {
+  render() {
     return (
-      <div>
+      <Fragment>
         <Link to={`/poll/${this.props.pollId}`}>
-          <h1 data-test="poll">{`Poll is available at ${
-            this.props.pollId
-          }`}</h1>
+          <h1 data-test="poll" congratulations>{`Poll is available at ${this.props.pollId}`}</h1>
         </Link>
-      </div>
-    )
+      </Fragment>
+    );
   }
 }
 
-export default Congratulations
+export default Congratulations;

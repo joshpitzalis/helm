@@ -12,16 +12,16 @@ export const TextInput = ({
 }) => (
   <div>
     <input
-      data-test={value}
+      data-test={element}
       type="text"
       placeholder={placeholder}
       onChange={handleChange(element)}
       value={value}
       onBlur={handleBlur(element)}
     />
-    {errors[element] && touched[element] ? (
-      <p data-error>{errors[element]}</p>
-    ) : null}
+    <p data-error className="h1">
+      {errors[element] && touched[element] ? errors[element] : null}
+    </p>
   </div>
 )
 
@@ -56,7 +56,9 @@ export const RadioChoice = ({
       value={value}
     />
     <span className="checkmark" />
-    {errors[group] && showErrors ? <p data-error>{errors[group]}</p> : null}
+    <p data-error className="h1">
+      {errors[group] && showErrors ? errors[group] : null}
+    </p>
   </label>
 )
 
@@ -68,4 +70,22 @@ RadioChoice.propTypes = {
   choice: PropTypes.string,
   group: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired
+}
+
+
+
+export const required = value => {
+  return value && value.length > 0
+}
+export const longerThan = (min, value) => {
+  return value.length > min
+}
+
+// const isValidEmail = value => {
+//   return value.indexOf('@') !== -1
+// }
+
+export const isValidText = value => {
+  const regExp = /^[A-Za-z0-9 .,!"']+$/
+  return value.match(regExp)
 }

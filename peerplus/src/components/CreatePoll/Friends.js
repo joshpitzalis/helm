@@ -1,117 +1,75 @@
-import React, { Component } from 'react'
-import { auth, facebookAuthProvider, db } from '../../constants/firebase'
-import axios from 'axios'
-import { Link, Redirect } from 'react-router-dom'
-import * as routes from '../../constants/routes'
+import React, { Component, Fragment } from 'react';
+// import WithFriends from '../../hocs/withFriendsData';
+import { Loading } from '../Loading';
+import axios from 'axios';
+import { auth, db } from '../../constants/firebase';
 
-class Send extends Component {
+export default class Friends extends Component {
   state = {
-    user: null,
+    currentState: 'loading',
     friends: [],
-    sendTo: [],
-    redirectTo: null
+  };
+
+  async componentDidMount() {
+    const token = await db
+      .doc(`users/${auth.currentUser.uid}`)
+      .get()
+      .then(result => result.data().token);
+
+    axios
+      .get(`https://graph.facebook.com/me/friends?access_token=${token}&fields=name,id,picture`)
+      .then(result => {
+        this.setState({ friends: result.data.data });
+        this.transition('ideal');
+      })
+      .catch(error => console.log(error));
   }
 
-  componentDidMount() {
-    auth.getRedirectResult().then(result => {
-      if (result.credential) {
-        var token = result.credential.accessToken
-
-        axios
-          .get(
-            `https://graph.facebook.com/me/friends?access_token=${token}&fields=name,id,picture`
-          )
-          .then(result => this.setState({ friends: result.data.data }))
-          .catch(error => console.log(error))
-      }
-    })
-  }
-
-  addFriend = (id, name, photo) => {
-    let sendTo = this.state.sendTo.concat([{ name, photo, id }])
-    this.setState({ sendTo })
-  }
-
-  removeFriend = id => {
-    let sendTo = this.state.sendTo.filter(friend => friend.id !== id)
-    this.setState({ sendTo })
-  }
-
-  handleSubmit = async e => {
-    e.preventDefault()
-    // create the poll
-    const newPoll = await db.collection('polls').doc()
-
-    db.doc(`polls/${this.props.match.params.pollId}`).update({
-      sentTo: this.state.sendTo,
-      id: this.props.match.params.pollId
-    })
-
-    //  get the id from firebase then redirect to it
-    this.setState({
-      redirectTo: `/congratulations/${this.props.match.params.pollId}`
-    })
+  transition(to) {
+    this.setState({ currentState: to });
   }
 
   render() {
-    if (this.state.redirectTo) {
-      return <Redirect to={this.state.redirectTo} />
-    }
+    const { sendTo, handleAddFriend, handleRemoveFriend, handleSubmit, goToPrev } = this.props;
     return (
-      <div>
+      <Fragment>
         <header>
           <h1>Send to</h1>
         </header>
         <ul>
-          {this.state.sendTo.map(friend => (
-            <li key={friend.id}>
-              <img src={friend.photo} alt={`photo of ${friend.name}`} />
-              {friend.name}
-              <button onClick={() => this.removeFriend(friend.id)}>X</button>
-            </li>
-          ))}
+          {sendTo &&
+            sendTo.map((friend, index) => (
+              <li key={index}>
+                <img src={friend.photo} alt={`${friend.name}`} />
+                {friend.name}
+                <button
+                  onClick={e => {
+                    e.preventDefault();
+                    handleRemoveFriend(friend.id);
+                  }}
+                >
+                  X
+                </button>
+              </li>
+            ))}
         </ul>
-        <button onClick={() => auth.signInWithRedirect(facebookAuthProvider)}>
-          Sync friends
-        </button>
-        <p>Last synced ...</p>
-
-        {/* <button onClick={this.handleSubmit}>Send Poll</button> */}
-
+        {/* <button onClick={() => auth.signInWithRedirect(facebookAuthProvider)}>
+            Sync friends
+          </button> */}
+        {/* <p>Last synced ...</p> */}
         <ul>
-          {this.state.friends.map(friend => (
-            <li key={friend.id}>
-              <img
-                src={friend.picture.data.url}
-                alt={`photo of ${friend.name}`}
-              />
-
-              {friend.name}
-
-              <button
-                onClick={() =>
-                  this.addFriend(
-                    friend.id,
-                    friend.name,
-                    friend.picture.data.url
-                  )
-                }
-              >
-                Add Friend
-              </button>
-            </li>
-          ))}
+          {
+            {
+              ideal: <FriendList friends={this.state.friends} handleAddFriend={handleAddFriend} />,
+              loading: <Loading />,
+            }[this.state.currentState]
+          }
         </ul>
-        <button
-          onClick={this.props.goToPrev}
-          type="submit"
-          className="seethrough"
-        >
+        <button onClick={goToPrev} type="submit" className="seethrough ">
           Back
         </button>
-
         <button
-          onClick={this.props.goToNext}
+          onClick={handleSubmit}
           type="submit"
           data-colour="green"
           data-test="submit"
@@ -119,9 +77,27 @@ class Send extends Component {
         >
           Submit
         </button>
-      </div>
-    )
+      </Fragment>
+    );
   }
 }
 
-export default Send
+const FriendList = ({ friends, handleAddFriend }) => (
+  <Fragment>
+    {friends.map(friend => (
+      <li key={friend.id} data-friend>
+        <img src={friend.picture.data.url} alt={`${friend.name}`} />
+        {friend.name}
+        <button
+          data-addfriend
+          onClick={e => {
+            e.preventDefault();
+            handleAddFriend(friend.id, friend.name, friend.picture.data.url);
+          }}
+        >
+          Add Friend
+        </button>
+      </li>
+    ))}
+  </Fragment>
+);

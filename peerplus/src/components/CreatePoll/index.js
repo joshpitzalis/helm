@@ -3,27 +3,14 @@ import Create from './Create';
 import Questions from './Questions';
 import Friends from './Friends';
 import Congratulations from './Congratulations';
-import {
-  auth,
-  facebookAuthProvider,
-  db,
-  storage
-} from '../../constants/firebase';
-import {
-  compose,
-  branch,
-  renderComponent,
-  renderNothing,
-  setDisplayName,
-  setPropTypes
-} from 'recompose';
+import { auth, facebookAuthProvider, db, storage } from '../../constants/firebase';
+import { compose, setDisplayName, setPropTypes } from 'recompose';
 import { withUserData } from '../../hocs/withUserData';
 import PropTypes from 'prop-types';
 
 class Polls extends Component {
   state = {
     step: 1,
-    friends: [],
     title: '',
     context: '',
     choice: null,
@@ -34,7 +21,8 @@ class Polls extends Component {
     questions: [''],
     pollId: null,
     disabled: true,
-    privacy: null
+    privacy: null,
+    sendTo: [],
   };
 
   handleChange = el => e => {
@@ -46,7 +34,7 @@ class Polls extends Component {
       let questions = [...this.state.questions];
       questions[i] = e.target.value;
       this.setState({
-        questions
+        questions,
       });
     } else {
       let questions = [...this.state.questions];
@@ -58,10 +46,10 @@ class Polls extends Component {
 
       uploadTask
         .then(res => {
-          (questions[i] = res.downloadURL),
-            this.setState({
-              questions
-            });
+          questions[i] = res.downloadURL;
+          this.setState({
+            questions,
+          });
         })
         .catch(error => console.error(error));
     }
@@ -69,12 +57,9 @@ class Polls extends Component {
 
   handleDelete = i => e => {
     e.preventDefault();
-    let questions = [
-      ...this.state.questions.slice(0, i),
-      ...this.state.questions.slice(i + 1)
-    ];
+    let questions = [...this.state.questions.slice(0, i), ...this.state.questions.slice(i + 1)];
     this.setState({
-      questions
+      questions,
     });
   };
 
@@ -82,36 +67,31 @@ class Polls extends Component {
     e.preventDefault();
     let questions = this.state.questions.concat(['']);
     this.setState({
-      questions
+      questions,
     });
   };
 
-  goToNext = e => {
-    e.preventDefault();
+  goToNext = () => {
     if (this.state.step !== 4) {
       this.setState({ step: this.state.step + 1 });
     }
   };
 
-  goToPrev = e => {
-    e.preventDefault();
+  goToPrev = () => {
     if (this.state.step !== 1) {
       this.setState({ step: this.state.step - 1 });
     }
   };
 
   handleCreateForm = async e => {
-    e.preventDefault();
     const newPoll = await db.collection('polls').doc();
     this.setState({
       pollId: newPoll.id,
-      step: this.state.step + 1
+      step: this.state.step + 1,
     });
   };
 
-  handleSubmitForm = e => {
-    e.preventDefault();
-    // await
+  handleSubmitForm = () => {
     db.doc(`polls/${this.state.pollId}`).set({
       id: this.state.pollId,
       title: this.state.title,
@@ -122,9 +102,20 @@ class Polls extends Component {
       privacy: this.state.privacy,
       questions: this.state.questions,
       createdBy: this.props.user.uid,
-      createdAt: new Date()
+      createdAt: new Date(),
+      sendTo: this.state.sendTo,
     });
     this.setState({ step: 4 });
+  };
+
+  handleAddFriend = (id, name, photo) => {
+    let sendTo = this.state.sendTo.concat([{ name, photo, id }]);
+    this.setState({ sendTo });
+  };
+
+  handleRemoveFriend = id => {
+    let sendTo = this.state.sendTo.filter(friend => friend.id !== id);
+    this.setState({ sendTo });
   };
 
   render() {
@@ -162,10 +153,15 @@ class Polls extends Component {
                 <Friends
                   pollId={this.state.pollId}
                   goToPrev={this.goToPrev}
-                  goToNext={this.handleSubmitForm}
+                  handleSubmit={this.handleSubmitForm}
+                  sendTo={this.state.sendTo}
+                  handleRemoveFriend={this.handleRemoveFriend}
+                  handleAddFriend={this.handleAddFriend}
+                  goToPrev={this.goToPrev}
+                  sendTo={this.state.sendTo}
                 />
               ),
-              4: <Congratulations pollId={this.state.pollId} />
+              4: <Congratulations pollId={this.state.pollId} />,
             }[this.state.step]
           }
           <Progress step={this.state.step} />
@@ -176,15 +172,11 @@ class Polls extends Component {
 }
 
 const Progress = ({ step }) => (
-  <progress
-    className="w-100"
-    value={step === 1 ? '33' : step === 2 ? '66' : '100'}
-    max="100"
-  />
+  <progress className="w-100" value={step === 1 ? '33' : step === 2 ? '66' : '100'} max="100" />
 );
 
 export default compose(
   setDisplayName('CreatePollForm'),
   setPropTypes({ user: PropTypes.object }),
-  withUserData
+  withUserData,
 )(Polls);

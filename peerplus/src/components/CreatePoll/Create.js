@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { TextInput, RadioChoice } from './FormFields';
+import { TextInput, RadioChoice, required, longerThan, isValidText } from './FormFields';
 
 class Create extends Component {
   static propTypes = {
@@ -16,46 +16,30 @@ class Create extends Component {
     showErrors: false
   };
 
-  validate = inputs => {
-    return {
-      title: !this.required(inputs.title)
-        ? 'Title is required'
-        : !this.longerThan(3, inputs.title)
-          ? 'Title should be longer than 3 characters'
-          : null,
-      context: this.isValidText(inputs.context)
-        ? null
-        : 'Only letters and numbers, no funny business.',
-      choice:
-        this.props.choice !== null
-          ? null
-          : 'You must select a type and choice of poll.',
-      type:
-        this.props.type !== null
-          ? null
-          : 'You must select a type and choice of poll.',
-      privacy:
-        this.props.privacy !== null
-          ? null
-          : 'You must make your poll public or private.'
-    };
-  };
-
-  required = value => {
-    return value && value.length > 0;
-  };
-  longerThan = (min, value) => {
-    return value.length > min;
-  };
-
-  isValidEmail = value => {
-    return value.indexOf('@') !== -1;
-  };
-
-  isValidText = value => {
-    const regExp = /^[A-Za-z0-9.,!"']+$/;
-    return value.match(regExp);
-  };
+   validate = inputs => {
+return {
+  title: !required(inputs.title)
+    ? 'Title is required'
+    : !longerThan(3, inputs.title)
+      ? 'Title should be longer than 3 characters'
+      : null,
+  context: isValidText(inputs.context)
+    ? null
+    : 'Only letters and numbers, no funny business.',
+  choice:
+    inputs.choice !== null
+      ? null
+      : 'You must select a type and choice of poll.',
+  type:
+    inputs.type !== null
+      ? null
+      : 'You must select a type and choice of poll.',
+  privacy:
+    inputs.privacy !== null
+      ? null
+      : 'You must make your poll public or private.'
+}
+}
 
   handleBlur = field => evt => {
     this.setState({
@@ -65,6 +49,7 @@ class Create extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    // validate form data for errors
     const errors = this.validate({
       title: this.props.title,
       context: this.props.context,
@@ -72,19 +57,25 @@ class Create extends Component {
       choice: this.props.choice,
       privacy: this.props.privacy
     });
+    // check if any errors
     const anyError = Object.keys(errors).some(x => errors[x]);
+    // if any errors block submit button from working
     if (anyError) {
+      // set touched to true on both text inputs to show error on them
       const touched = {
         title: true,
         context: true
       };
       this.setState({ showErrors: true, touched });
-      return;
+      return null;
+    } else {
+      // proceed to next step
+      this.props.goToNext();
     }
-    this.props.goToNext;
   };
 
   render() {
+
     const errors = this.validate({
       title: this.props.title,
       context: this.props.context,

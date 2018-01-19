@@ -1,31 +1,57 @@
-import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
-import Dropzone from 'react-dropzone'
+import React, { Component, Fragment } from 'react';
+// import PropTypes from "prop-types";
+import Dropzone from 'react-dropzone';
+// import { withHandlers } from "recompose";
 
 class Questions extends Component {
-  render () {
-    const { questions, type } = this.props
+  state = {
+    errors: null,
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    if (
+      this.props.questions.length < 2 ||
+      this.props.questions[0] === '' ||
+      this.props.questions[1] === ''
+    ) {
+      this.setState({
+        errors: 'You need to add atleast two questions to proceed',
+      });
+    } else {
+      this.props.privacy === 'private' ? this.props.goToNext() : this.props.handleSubmit();
+    }
+  };
+
+  render() {
+    const { questions, type, handleSubmit, handleInput } = this.props;
+
     return (
       <Fragment>
-        <h1>Questions</h1>
+        <h1 data-test="questionsPage">Questions</h1>
         {questions.map((question, index) => (
           <span key={index} className="flex  align-items justify-center">
             {type === 'text' ? (
               <input
                 data-test={`question${index}`}
                 type="text"
-                placeholder="text single choice"
-                onChange={this.props.handleInput(index)}
+                placeholder="Type your poll question here..."
+                onChange={handleInput(index)}
                 value={question}
               />
             ) : (
-              <Dropzone
-                data-test="dropzone"
-                className=""
-                onDrop={this.props.handleInput(index)}
-              >
+              //  <TextInput
+              //   element={`question${index}`}
+              //   handleChange={handleInput(index)}
+              //   handleBlur={this.handleBlur}
+              //   value={question}
+              //   errors={this.validate(question)}
+              //   touched={this.state.touched}
+              //   placeholder="Type your poll question here..."
+              // />
+              <Dropzone data-test="dropzone" className="" onDrop={this.props.handleInput(index)}>
                 {question ? (
-                  <img src={question} />
+                  <img src={question} alt={`question ${index + 1}`} />
                 ) : (
                   <p>'Drag image here to upload.'</p>
                 )}
@@ -39,54 +65,32 @@ class Questions extends Component {
                 )} */}
               </Dropzone>
             )}
-            <button
-              className="seethrough"
-              onClick={this.props.handleDelete(index)}
-            >
+            <button className="seethrough" onClick={this.props.handleDelete(index)}>
               X
             </button>
           </span>
         ))}
         <div>
-          <button
-            data-test="add"
-            className="seethrough"
-            onClick={this.props.addQuestion}
-          >
+          <button data-test="add" className="seethrough" onClick={this.props.addQuestion}>
             Add Another
           </button>
         </div>
-        <button
-          onClick={this.props.goToPrev}
-          type="submit"
-          className="seethrough"
-        >
+        {this.state.errors && <p data-error>{this.state.errors}</p>}
+        <button onClick={this.props.goToPrev} className="seethrough">
           Back
         </button>
-        {this.props.privacy === 'public' ? (
-          <button
-            onClick={this.props.handleSubmit}
-            type="submit"
-            data-colour="green"
-            data-test="submit"
-            className=" grow"
-          >
-            Submit
-          </button>
-        ) : (
-          <button
-            onClick={this.props.goToNext}
-            type="submit"
-            data-colour="green"
-            data-test="submit"
-            className=" grow"
-          >
-            Next
-          </button>
-        )}
+        <button
+          onClick={this.handleSubmit}
+          type="submit"
+          data-colour="green"
+          data-test="submit"
+          className="grow"
+        >
+          {this.props.privacy === 'public' ? 'Submit' : 'Next'}
+        </button>
       </Fragment>
-    )
+    );
   }
 }
 
-export default Questions
+export default Questions;

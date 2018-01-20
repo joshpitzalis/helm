@@ -14,22 +14,34 @@ import * as routes from './constants/routes';
 import 'normalize.css';
 import './style.css';
 import { auth, db } from './constants/firebase';
+import PropTypes from 'prop-types';
 
 export default class Routes extends Component {
   state = {
-    loading: true,
     authed: false,
+    user: null,
   };
 
+  static childContextTypes = {
+    user: PropTypes.object,
+  };
+
+  getChildContext() {
+    return { user: this.state.user };
+  }
+
   componentDidMount() {
+    // when logged in set auth to true so you can access private routes
     auth.onAuthStateChanged(user =>
       this.setState({
         authed: true,
-        loading: false,
+        user: user,
       }),
     );
-    // create a user on firebase when you signup and then update it every time you login so that you have a fresh access toke to resync your friends list when you create a private poll.
 
+    // create a user on firebase when you signup and then update it every time
+    // you login so that you have a fresh access toke to resync your friends
+    // list when you create a private poll.
     auth.getRedirectResult().then(result => {
       if (result.credential) {
         const token = result.credential.accessToken;

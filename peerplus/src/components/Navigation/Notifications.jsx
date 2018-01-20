@@ -2,14 +2,17 @@ import { auth, facebookAuthProvider } from '../../constants/firebase';
 import React from 'react';
 import { compose, branch, renderNothing, setDisplayName, setPropTypes } from 'recompose';
 import PropTypes from 'prop-types';
-import { WithPrivatePollData } from '../../hocs/withPollData';
+import { withUserData } from '../../hocs/withUserData';
 
 const showIfLoggedIn = branch(({ user }) => !user, renderNothing);
 
-const Notifications = showIfLoggedIn(({ user }) => (
-  <WithPrivatePollData>
-    {polls => <p className="tr bn underline f4 b pointer seethrough"> {polls.length}</p>}
-  </WithPrivatePollData>
-));
+const Notifications = ({ user, pollcount }) => (
+  <p className="tr bn underline f4 b pointer seethrough">{pollcount}</p>
+);
 
-export default compose(setDisplayName('Notifications'), setPropTypes({ user: PropTypes.object }))(Notifications);
+export default compose(
+  setDisplayName('Notifications'),
+  setPropTypes({ user: PropTypes.object, pollcount: PropTypes.number }),
+  withUserData,
+  showIfLoggedIn,
+)(Notifications);

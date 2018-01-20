@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import { auth, facebookAuthProvider, db } from '../../constants/firebase';
-import * as routes from '../../constants/routes';
+import { Redirect } from 'react-router-dom';
+import { db } from '../../constants/firebase';
 
 class Poll extends Component {
   constructor(props) {
@@ -81,7 +80,11 @@ class Poll extends Component {
                     value={question}
                     onChange={e => this.handleChange(e, question)}
                   />
-                  {poll.type === 'text' ? question : <img src={question} />}
+                  {poll.type === 'text' ? (
+                    question
+                  ) : (
+                    <img src={question} alt={`option ${index + 1}`} />
+                  )}
                   <span
                     className={
                       poll.choice === 'multi' ? 'checkmark' : 'radiomark'

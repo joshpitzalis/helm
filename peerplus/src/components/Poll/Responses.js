@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import { Link, Redirect } from 'react-router-dom';
-import { auth, facebookAuthProvider, db } from '../../constants/firebase';
-import * as routes from '../../constants/routes';
+import React, { Component, Fragment } from 'react';
+import { Redirect } from 'react-router-dom';
+import { db } from '../../constants/firebase';
 
 class Responses extends Component {
   state = {
     poll: {},
-    redirectTo: null
+    redirectTo: null,
   };
 
   componentDidMount() {
@@ -18,15 +16,15 @@ class Responses extends Component {
         poll =>
           poll.exists &&
           this.setState({
-            poll: poll.data()
-          })
+            poll: poll.data(),
+          }),
       );
   }
 
   handleDelete = () => {
     db.doc(`polls/${this.props.match.params.pollId}`).delete();
     this.setState({
-      redirectTo: `/home`
+      redirectTo: `/home`,
     });
   };
 
@@ -42,13 +40,11 @@ class Responses extends Component {
             <h1>{poll.title}</h1>
             <h2>{poll.context}</h2>
           </header>
+          <Participants sentTo={poll.sendTo} />
           <ul className="list pl0 ml0 center mw6 br2 ">
             {poll.responses ? (
               Object.keys(poll.responses).map((response, index) => (
-                <li
-                  key={index}
-                  data-colour="green"
-                className="ph3 pv3 mv3 grow flex row">
+                <li key={index} data-colour="green" className="ph3 pv3 mv3 grow flex row">
                   <Percentage
                     value={poll.responses[response]}
                     index={index}
@@ -80,6 +76,17 @@ const Percentage = ({ value, index, total }) => (
   <p className="w-25" data-test={`count${index}`}>
     {Math.round(value / total * 100)} %
   </p>
+);
+
+const Participants = ({ sentTo }) => (
+  <div>
+    {sentTo &&
+      sentTo.map(participant => (
+        <div className="pa4 tc">
+          <img src={participant.photo} className="br-100 h3 w3 dib" alt="avatar" />
+        </div>
+      ))}
+  </div>
 );
 
 export default Responses;

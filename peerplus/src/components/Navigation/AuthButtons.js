@@ -1,7 +1,5 @@
-import { Link } from 'react-router-dom'
 import { auth, facebookAuthProvider } from '../../constants/firebase'
-import React, { Component, Fragment } from 'react'
-import * as routes from '../../constants/routes'
+import React from 'react'
 import {
   compose,
   branch,

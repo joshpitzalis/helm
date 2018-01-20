@@ -1,58 +1,45 @@
-import React from 'react'
+import React from 'react';
 import {
   compose,
   branch,
   renderComponent,
   renderNothing,
   setDisplayName,
-  setPropTypes
-} from 'recompose'
-import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types'
+  setPropTypes,
+} from 'recompose';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { Loading } from '../Loading';
 
-const NoPollsAvailable = () => <p>No Polls available.</p>
-const Loading = () => <div className="loader center ma4" />
+const NoPollsAvailable = () => <p>No Polls available.</p>;
 
 const onlyShowIfPollsAvailable = branch(
   ({ polls }) => polls && polls.length === 0,
-  renderComponent(NoPollsAvailable)
-)
+  renderComponent(NoPollsAvailable),
+);
 
-const showSpinnerWhileLoading = branch(
-  ({ polls }) => !polls,
-  renderComponent(Loading)
-)
+const showSpinnerWhileLoading = branch(({ polls }) => !polls, renderComponent(Loading));
 
-const onlyShowIfAuthenticated = branch(({ user }) => !user, renderNothing)
+// const onlyShowIfAuthenticated = branch(({ user }) => !user, renderNothing);
 
-const ListOfPolls = ({ user, polls }) => (
+const ListOfPolls = ({ polls }) => (
   <ul className="list pl0 ml0 center mw6 br2 ">
     {polls.map((poll, index) => (
-      <li key={index} data-colour="green" className="ph3 pv3 mv3 grow">
-        <Link
-          to={`/poll/${poll.id}`}
-          data-test={`poll${index}`}
-          className="link">
+      <Link to={`/responses/${poll.id}`} key={index} data-test={`response${index}`}>
+        <li data-colour="green" className="ph3 pv3 mv3 grow">
           {poll.title}
-        </Link>
-
-        {poll.createdBy === user.uid && (
-          <Link to={`/responses/${poll.id}`} data-test={`response${index}`}>
-            (Responses)
-          </Link>
-        )}
-      </li>
+        </li>
+      </Link>
     ))}
   </ul>
-)
+);
 
 export default compose(
   setDisplayName('Polls'),
   setPropTypes({
-    user: PropTypes.object,
-    polls: PropTypes.array
+    polls: PropTypes.array,
   }),
-  onlyShowIfAuthenticated,
+  // onlyShowIfAuthenticated,
   onlyShowIfPollsAvailable,
-  showSpinnerWhileLoading
-)(ListOfPolls)
+  showSpinnerWhileLoading,
+)(ListOfPolls);

@@ -8,6 +8,7 @@ describe('Single choice text poll', () => {
       }
     })
     cy.on('uncaught:exception', (err, runnable) => {
+      console.error(err)
       return false
     })
   })
@@ -67,6 +68,7 @@ describe('Multiple choice text poll', () => {
       }
     })
     cy.on('uncaught:exception', (err, runnable) => {
+      console.error(err)
       return false
     })
   })
@@ -129,6 +131,7 @@ describe.skip('Single choice image poll', () => {
       }
     })
     cy.on('uncaught:exception', (err, runnable) => {
+      console.error(err)
       return false
     })
   })

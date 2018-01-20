@@ -16,8 +16,18 @@ import './style.css';
 import { auth, db } from './constants/firebase';
 
 export default class Routes extends Component {
+  state = {
+    authed: false,
+  };
   componentDidMount() {
-    auth.getRedirectResult().then((result) => {
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        // User is signed in.
+      } else {
+        // No user is signed in.
+      }
+    });
+    auth.getRedirectResult().then(result => {
       if (result.credential) {
         const token = result.credential.accessToken;
         const uid = auth.currentUser.uid;

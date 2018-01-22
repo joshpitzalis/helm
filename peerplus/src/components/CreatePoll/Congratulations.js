@@ -6,7 +6,7 @@ class Congratulations extends Component {
     return (
       <Fragment>
         <Link to={`/poll/${this.props.pollId}`}>
-          <h1 data-test="poll" congratulations>{`Poll is available at ${this.props.pollId}`}</h1>
+          <h1 data-test="congratulations" >{`Poll is available at ${this.props.pollId}`}</h1>
         </Link>
       </Fragment>
     );

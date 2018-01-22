@@ -6,7 +6,7 @@ export const withUserData = WrappedComponent => {
   return class withUserData extends Component {
     static contextTypes = { user: PropTypes.object };
     render() {
-      return <WrappedComponent {...this.props} user={this.context.user} />;
+      return <WrappedComponent  user={this.context.user} {...this.props}/>;
     }
   };
 };

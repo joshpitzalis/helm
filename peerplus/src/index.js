@@ -29,7 +29,7 @@ export default class Routes extends Component {
   getChildContext() {
     return { user: this.state.user };
   }
-
+  
   componentDidMount() {
     // when logged in set auth to true so you can access private routes
     auth.onAuthStateChanged(user =>
@@ -68,6 +68,7 @@ export default class Routes extends Component {
           <Route exact path={routes.LANDING} component={() => <LandingPage />} />
           <PrivateRoute
             exact
+           
             path={routes.HOME}
             authed={this.state.authed}
             component={() => <HomePage />}

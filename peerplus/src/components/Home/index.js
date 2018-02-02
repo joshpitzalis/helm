@@ -19,7 +19,7 @@ const Home = ({ user, polls }) => (
 );
 
 export const Badges = ({ user }) => (
-  <div className="grid row gap1">
+  <div className="grid row gap1trades">
     <Link to={`/onboarding/${user.uid}`}>
       <Thunder />
     </Link>

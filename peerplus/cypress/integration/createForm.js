@@ -13,7 +13,7 @@ describe('requires all fields to proceed from step 1', () => {
     });
   });
 
-  it.only('creates the private poll', () => {
+  it('creates the private poll', () => {
     cy.get("[data-test='create']").click();
     cy.url().should('contain', 'create');
     cy.get("[data-test='title']").type('test question');
@@ -38,11 +38,11 @@ describe('requires all fields to proceed from step 1', () => {
       .first()
       .click();
     cy.get("[data-test='submit']").click();
-    cy.get('[congratulations]');
- 
+    cy.get('[data-test="congratulations"]');
+    // select a friend
+    // send
     // make sure friend recieved
     // make sure non friend didnt
-
   });
 });
 

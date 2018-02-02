@@ -25,11 +25,13 @@ const showSpinnerWhileLoading = branch(({ polls }) => !polls, renderComponent(Lo
 const ListOfPolls = ({ polls }) => (
   <ul className="list pl0 ml0 center mw6 br2 ">
     {polls.map((poll, index) => (
-      <Link to={`/responses/${poll.id}`} key={index} data-test={`response${index}`}>
-        <li data-colour="green" className="ph3 pv3 mv3 grow">
+      
+        <li data-colour="green" className="ph3 pv3 mv3 grow" key={index} data-test={`response${index}`}>
+        <Link to={`/responses/${poll.id}`} >
           {poll.title}
+          </Link>
         </li>
-      </Link>
+   
     ))}
   </ul>
 );

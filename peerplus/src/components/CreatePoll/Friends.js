@@ -1,36 +1,16 @@
 import React, { Component, Fragment } from 'react';
-// import WithFriends from '../../hocs/withFriendsData';
+import {withFriendsData} from '../../hocs/withFriendsData';
 import { Loading } from '../Loading';
 import axios from 'axios';
 import { auth, db } from '../../constants/firebase';
+import PropTypes from 'prop-types';
 
-export default class Friends extends Component {
-  state = {
-    currentState: 'loading',
-    friends: [],
-  };
+class Friends extends Component {
 
-  async componentDidMount() {
-    const token = await db
-      .doc(`users/${auth.currentUser.uid}`)
-      .get()
-      .then(result => result.data().token);
-
-    axios
-      .get(`https://graph.facebook.com/me/friends?access_token=${token}&fields=name,id,picture`)
-      .then(result => {
-        this.setState({ friends: result.data.data });
-        this.transition('ideal');
-      })
-      .catch(error => console.log(error));
-  }
-
-  transition(to) {
-    this.setState({ currentState: to });
-  }
+ 
 
   render() {
-    const { sendTo, handleAddFriend, handleRemoveFriend, handleSubmit, goToPrev } = this.props;
+    const { sendTo, handleAddFriend, handleRemoveFriend, handleSubmit, goToPrev, friends } = this.props;
     return (
       <Fragment>
         <header>
@@ -58,12 +38,7 @@ export default class Friends extends Component {
           </button> */}
         {/* <p>Last synced ...</p> */}
         <ul>
-          {
-            {
-              ideal: <FriendList friends={this.state.friends} handleAddFriend={handleAddFriend} />,
-              loading: <Loading />,
-            }[this.state.currentState]
-          }
+          <FriendList friends={friends} handleAddFriend={handleAddFriend} />
         </ul>
         <button onClick={goToPrev} type="submit" className="seethrough ">
           Back
@@ -101,3 +76,6 @@ const FriendList = ({ friends, handleAddFriend }) => (
     ))}
   </Fragment>
 );
+
+
+export default withFriendsData(Friends)

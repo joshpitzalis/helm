@@ -10,9 +10,13 @@ const PollBox = ({ polls, close }) => (
       <ul className="list pl0 ml0 center mw6 ba b--light-silver br2">
         {polls &&
           polls.map((poll, index) => (
-            <Link to={`/poll/${poll.id}`} key={index}>
-              <li className="ph3 pv3 bb b--light-silver">{poll.title}</li>
-            </Link>
+         
+              <li className="ph3 pv3 bb b--light-silver" data-test={`poll${index}`} key={index}>   
+              <Link to={`/poll/${poll.id}`} onClick={close}>
+              {poll.title}   
+              </Link>
+              </li>
+         
           ))}
       </ul>
     </div>

@@ -19,18 +19,21 @@ describe('Single choice text poll', () => {
     cy.get(`[data-test='context']`).type('some context')
     cy.get(`[data-test='single']`).check()
     cy.get(`[data-test='text']`).check()
+    cy.get(`[data-test="public"]`).check()
     cy.get(`[data-test='submit']`).click()
     cy.get(`[data-test='question0']`).type('option 1')
     cy.get(`[data-test='add']`).click()
     cy.get(`[data-test='question1']`).type('option 2')
-    cy.get(`[data-test='submitPoll']`).click()
+    cy.get(`[data-test='submit']`).click()
     cy.wait(5000)
-    cy.get(`[data-test='poll']`).click()
+    cy.get(`[data-test='congratulations']`).click()
     cy.url().should('contain', 'poll')
   })
 
-  it('completes the poll', () => {
+  go to poll url and mark it complete
+  it.only('completes the poll', () => {
     cy.url().should('contain', 'home')
+    cy.get(`[data-test='notifications']`).click()
     cy.get(`[data-test='poll0']`).click()
     cy.url().should('contain', 'poll')
     cy.contains('option 1')

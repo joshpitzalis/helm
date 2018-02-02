@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
-import { auth } from '../constants/firebase.js';
+import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
+import { auth } from "../constants/firebase.js";
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      redirectTo: null,
+      redirectTo: null
     };
     this.redirect = this.redirect.bind(this);
   }
@@ -15,8 +15,8 @@ export default class App extends Component {
     this.redirect();
   }
   redirect() {
-    auth.onAuthStateChanged((user) => {
-      user && this.setState({ redirectTo: '/home' });
+    auth.onAuthStateChanged(user => {
+      user && this.setState({ redirectTo: "/home" });
     });
   }
 
@@ -25,11 +25,9 @@ export default class App extends Component {
       return <Redirect to={this.state.redirectTo} />;
     }
     return (
-      <div>
-        <header>
-          <h1>Landing</h1>
-        </header>
-      </div>
+      <article>
+        <div className="vh-100" />
+      </article>
     );
   }
 }

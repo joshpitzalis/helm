@@ -21,10 +21,7 @@ export const withFriendsData = WrappedComponent => {
         .get(
           `https://graph.facebook.com/me/friends?access_token=${token}&fields=name,id,picture`
         )
-        .then(result => {
-          console.log("friends", result.data.data);
-          this.setState({ friends: result.data.data });
-        })
+        .then(result => this.setState({ friends: result.data.data }))
         .catch(error => console.log(error));
     }
 
@@ -32,23 +29,7 @@ export const withFriendsData = WrappedComponent => {
       return <WrappedComponent friends={this.state.friends} {...this.props} />;
     }
   };
-
-  async componentDidMount() {
-    const token = await db
-      .doc(`users/${auth.currentUser.providerData[0].uid}`)
-      .get()
-      .then(result => result.data().token);
-
-    axios
-      .get(`https://graph.facebook.com/me/friends?access_token=${token}&fields=name,id,picture`)
-      .then(result => this.setState({ friends: result.data.data }))
-      .catch(error => console.log(error));
-  }
-
-  render() {
-    return <div>{this.props.children(this.state.friends)}</div>;
-  }
-}
+};
 
 export class withMyData extends Component {
   state = {

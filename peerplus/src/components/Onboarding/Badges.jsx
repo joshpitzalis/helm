@@ -240,7 +240,7 @@ export const Recieve = ({ color }) => (
 );
 
 export const Add = ({ color }) => (
-  <svg width="36" height="50" viewBox="0 0 10 17" className="dim">
+  <svg width="36" height="50" viewBox="0 0 11 17" className="dim">
     <g
       id="Page-1"
       stroke="none"

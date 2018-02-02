@@ -36,10 +36,10 @@ const Home = ({ user, polls }) => (
 export const Badges = ({ user }) => (
   <div className="grid row gap1">
     <Link to={`/onboarding/${user.uid}`} className="pt3">
-      <Thunder />
+      <Thunder color="#f5b152" />
     </Link>
     <Link to={`/onboarding/${user.uid}`}>
-      <Invite color="#f5b152" />
+      <Invite />
     </Link>
     <Link to={`/onboarding/${user.uid}`}>
       <Weekly />

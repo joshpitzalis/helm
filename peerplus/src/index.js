@@ -1,32 +1,32 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import registerServiceWorker from './registerServiceWorker';
-import { BrowserRouter, Route, Redirect } from 'react-router-dom';
-import Navigation from './components/Navigation/index.js';
-import LandingPage from './components/Landing';
-import HomePage from './components/Home';
-import AccountPage from './components/Account';
-import Poll from './components/Poll';
-import Onboarding from './components/Onboarding/index.js';
-import Responses from './components/Poll/Responses';
-import CreatePoll from './components/CreatePoll';
-import Done from './components/Poll/Done';
-import * as routes from './constants/routes';
-import 'normalize.css';
-import './style.css';
-import './grid.css';
-
-import { auth, db } from './constants/firebase';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
+import registerServiceWorker from "./registerServiceWorker";
+import { BrowserRouter, Route, Redirect } from "react-router-dom";
+import Navigation from "./components/Navigation/index.js";
+import LandingPage from "./components/Landing";
+import HomePage from "./components/Home";
+import AccountPage from "./components/Account";
+import Poll from "./components/Poll";
+import Onboarding from "./components/Onboarding/index.js";
+import Responses from "./components/Poll/Responses";
+import CreatePoll from "./components/CreatePoll";
+import Done from "./components/Poll/Done";
+import * as routes from "./constants/routes";
+import "normalize.css";
+import "./style.css";
+import "./grid.css";
+import { Footer } from "./components/Footer.js";
+import { auth, db } from "./constants/firebase";
+import PropTypes from "prop-types";
 
 export default class Routes extends Component {
   state = {
     authed: false,
-    user: null,
+    user: null
   };
 
   static childContextTypes = {
-    user: PropTypes.object,
+    user: PropTypes.object
   };
 
   getChildContext() {
@@ -38,8 +38,8 @@ export default class Routes extends Component {
     auth.onAuthStateChanged(user =>
       this.setState({
         authed: true,
-        user: user,
-      }),
+        user: user
+      })
     );
 
     // create a user on firebase when you signup and then update it every time
@@ -57,7 +57,7 @@ export default class Routes extends Component {
           lastUpdate: +new Date(),
           id,
           name,
-          photo,
+          photo
         });
       }
     });
@@ -81,9 +81,9 @@ export default class Routes extends Component {
           />
           <PrivateRoute
             exact
-            path={routes.ACCOUNT}
+            path={`${routes.ACCOUNT}/:userId`}
             authed={this.state.authed}
-            component={() => <AccountPage />}
+            component={AccountPage}
           />
           <PrivateRoute
             exact
@@ -105,6 +105,7 @@ export default class Routes extends Component {
             component={Onboarding}
           />
           <Route exact path={`${routes.DONE}/:pollId`} component={Done} />
+          <Footer />
         </main>
       </BrowserRouter>
     );
@@ -118,7 +119,10 @@ const renderMergedProps = (component, ...rest) => {
 };
 
 const PropsRoute = ({ component, ...rest }) => (
-  <Route {...rest} render={routeProps => renderMergedProps(component, routeProps, rest)} />
+  <Route
+    {...rest}
+    render={routeProps => renderMergedProps(component, routeProps, rest)}
+  />
 );
 
 const PrivateRoute = ({ component, authed, ...rest }) => (
@@ -128,11 +132,13 @@ const PrivateRoute = ({ component, authed, ...rest }) => (
       authed === true ? (
         renderMergedProps(component, routeProps, rest)
       ) : (
-        <Redirect to={{ pathname: '/', state: { from: routeProps.location } }} />
+        <Redirect
+          to={{ pathname: "/", state: { from: routeProps.location } }}
+        />
       )
     }
   />
 );
 
-ReactDOM.render(<Routes />, document.getElementById('root'));
+ReactDOM.render(<Routes />, document.getElementById("root"));
 registerServiceWorker();

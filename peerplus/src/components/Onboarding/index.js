@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Logo from "../../images/peerPlusLogo.png";
 import { Link } from "react-router-dom";
-
 import {
   Thunder,
   Invite,
@@ -21,11 +20,11 @@ export default class Onboarding extends Component {
       <article className="pv5">
         <section className="mw6-ns w-100 center tc grid col">
           <div className="flex">
-            <Thunder />
+            <Thunder color="#f5b152" />
             <p className="w-100 ml5 tl">Create an account.</p>
           </div>
           <div className="flex">
-            <Invite color="#f5b152" />
+            <Invite />
             <p className="w-100 ml5 tl">Collect your first set of results.</p>
           </div>
           <div className="flex">

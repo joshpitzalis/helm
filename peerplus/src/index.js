@@ -7,12 +7,15 @@ import LandingPage from './components/Landing';
 import HomePage from './components/Home';
 import AccountPage from './components/Account';
 import Poll from './components/Poll';
+import Onboarding from './components/Onboarding/index.js';
 import Responses from './components/Poll/Responses';
 import CreatePoll from './components/CreatePoll';
 import Done from './components/Poll/Done';
 import * as routes from './constants/routes';
 import 'normalize.css';
 import './style.css';
+import './grid.css';
+
 import { auth, db } from './constants/firebase';
 import PropTypes from 'prop-types';
 
@@ -65,7 +68,11 @@ export default class Routes extends Component {
       <BrowserRouter>
         <main>
           <Navigation />
-          <Route exact path={routes.LANDING} component={() => <LandingPage />} />
+          <Route
+            exact
+            path={routes.LANDING}
+            render={props => <LandingPage {...props} count={5} />}
+          />
           <PrivateRoute
             exact
             path={routes.HOME}
@@ -90,6 +97,12 @@ export default class Routes extends Component {
             path={`${routes.RESPONSES}/:pollId`}
             authed={this.state.authed}
             component={Responses}
+          />
+          <PrivateRoute
+            exact
+            path={`${routes.ONBOARDING}/:userId`}
+            authed={this.state.authed}
+            component={Onboarding}
           />
           <Route exact path={`${routes.DONE}/:pollId`} component={Done} />
         </main>

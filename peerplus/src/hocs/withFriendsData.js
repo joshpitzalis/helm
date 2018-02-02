@@ -10,7 +10,7 @@ export class withFriendsData extends Component {
 
   async componentDidMount() {
     const token = await db
-      .doc(`users/${auth.currentUser.uid}`)
+      .doc(`users/${auth.currentUser.providerData[0].uid}`)
       .get()
       .then(result => result.data().token);
 

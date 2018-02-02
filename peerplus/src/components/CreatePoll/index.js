@@ -24,6 +24,7 @@ class Polls extends Component {
     privacy: null,
     sendTo: [],
     participants: {},
+    duration: 36,
   };
 
   handleChange = el => e => {
@@ -99,7 +100,7 @@ class Polls extends Component {
       context: this.state.context,
       choice: this.state.choice,
       type: this.state.type,
-      // duration: this.duration.value,
+      duration: this.state.duration,
       privacy: this.state.privacy,
       questions: this.state.questions,
       createdBy: this.props.user.uid,
@@ -139,6 +140,7 @@ class Polls extends Component {
                   type={this.state.type}
                   privacy={this.state.privacy}
                   goToNext={this.handleCreateForm}
+                  duration={this.state.duration}
                 />
               ),
               2: (

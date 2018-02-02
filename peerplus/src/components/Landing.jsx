@@ -15,7 +15,9 @@ export default class App extends Component {
     this.redirect();
   }
   redirect() {
-    auth.onAuthStateChanged(() => this.setState({ redirectTo: '/home' }));
+    auth.onAuthStateChanged((user) => {
+      user && this.setState({ redirectTo: '/home' });
+    });
   }
 
   render() {

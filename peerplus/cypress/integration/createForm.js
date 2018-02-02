@@ -39,18 +39,10 @@ describe('requires all fields to proceed from step 1', () => {
       .click();
     cy.get("[data-test='submit']").click();
     cy.get('[congratulations]');
-    // select a friend
-    // send
+ 
     // make sure friend recieved
     // make sure non friend didnt
 
-    // cy.get(`[data-test='question0']`).type('option 1');
-    // cy.get(`[data-test='add']`).click();
-    // cy.get(`[data-test='question1']`).type('option 2');
-    // cy.get(`[data-test='submitPoll']`).click();
-    // cy.wait(5000);
-    // cy.get(`[data-test='poll']`).click();
-    // cy.url().should('contain', 'poll');
   });
 });
 

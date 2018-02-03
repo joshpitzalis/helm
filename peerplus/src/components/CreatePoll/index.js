@@ -1,30 +1,30 @@
-import React, { Component } from 'react';
-import Create from './Create';
-import Questions from './Questions';
-import Friends from './Friends';
-import Congratulations from './Congratulations';
-import { db, storage } from '../../constants/firebase';
-import { compose, setDisplayName, setPropTypes } from 'recompose';
-import { withUserData } from '../../hocs/withUserData';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import Create from "./Create";
+import Questions from "./Questions";
+import Friends from "./Friends";
+import Congratulations from "./Congratulations";
+import { db, storage } from "../../constants/firebase";
+import { compose, setDisplayName, setPropTypes } from "recompose";
+import { withUserData } from "../../hocs/withUserData";
+import PropTypes from "prop-types";
 
 class Polls extends Component {
   state = {
     step: 1,
-    title: '',
-    context: '',
+    title: "",
+    context: "",
     choice: null,
     type: null,
     duration: null,
     private: null,
     redirectTo: null,
-    questions: [''],
+    questions: [""],
     pollId: null,
     disabled: true,
     privacy: null,
     sendTo: [],
     participants: {},
-    duration: 36,
+    duration: 36
   };
 
   handleChange = el => e => {
@@ -32,25 +32,25 @@ class Polls extends Component {
   };
 
   handleInput = i => e => {
-    if (this.state.type === 'text') {
+    if (this.state.type === "text") {
       let questions = [...this.state.questions];
       questions[i] = e.target.value;
       this.setState({
-        questions,
+        questions
       });
     } else {
       let questions = [...this.state.questions];
       const file = e[0];
       const uploadTask = storage
         .ref(`polls/${this.state.pollId}`)
-        .child('file.name')
+        .child("file.name")
         .put(file);
 
       uploadTask
         .then(res => {
           questions[i] = res.downloadURL;
           this.setState({
-            questions,
+            questions
           });
         })
         .catch(error => console.error(error));
@@ -59,17 +59,20 @@ class Polls extends Component {
 
   handleDelete = i => e => {
     e.preventDefault();
-    let questions = [...this.state.questions.slice(0, i), ...this.state.questions.slice(i + 1)];
+    let questions = [
+      ...this.state.questions.slice(0, i),
+      ...this.state.questions.slice(i + 1)
+    ];
     this.setState({
-      questions,
+      questions
     });
   };
 
   addQuestion = e => {
     e.preventDefault();
-    let questions = this.state.questions.concat(['']);
+    let questions = this.state.questions.concat([""]);
     this.setState({
-      questions,
+      questions
     });
   };
 
@@ -86,15 +89,15 @@ class Polls extends Component {
   };
 
   handleCreateForm = async e => {
-    const newPoll = await db.collection('polls').doc();
+    const newPoll = await db.collection("polls").doc();
     this.setState({
       pollId: newPoll.id,
-      step: this.state.step + 1,
+      step: this.state.step + 1
     });
   };
 
-  handleSubmitForm = () => {
-    db.doc(`polls/${this.state.pollId}`).set({
+  handleSubmitForm = async () => {
+    await db.doc(`polls/${this.state.pollId}`).set({
       id: this.state.pollId,
       title: this.state.title,
       context: this.state.context,
@@ -106,7 +109,7 @@ class Polls extends Component {
       createdBy: this.props.user.uid,
       createdAt: new Date(),
       sendTo: this.state.sendTo,
-      participants: this.state.participants,
+      participants: this.state.participants
     });
     this.setState({ step: 4 });
   };
@@ -167,7 +170,7 @@ class Polls extends Component {
                   handleAddFriend={this.handleAddFriend}
                 />
               ),
-              4: <Congratulations pollId={this.state.pollId} />,
+              4: <Congratulations pollId={this.state.pollId} />
             }[this.state.step]
           }
           <Progress step={this.state.step} />
@@ -178,11 +181,15 @@ class Polls extends Component {
 }
 
 const Progress = ({ step }) => (
-  <progress className="w-100" value={step === 1 ? '33' : step === 2 ? '66' : '100'} max="100" />
+  <progress
+    className="w-100"
+    value={step === 1 ? "33" : step === 2 ? "66" : "100"}
+    max="100"
+  />
 );
 
 export default compose(
-  setDisplayName('CreatePollForm'),
+  setDisplayName("CreatePollForm"),
   setPropTypes({ user: PropTypes.object }),
-  withUserData,
+  withUserData
 )(Polls);

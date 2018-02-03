@@ -99,17 +99,17 @@ export const First = ({ color }) => (
     <g
       id="Page-1"
       stroke="none"
-      stroke-width="1"
+      strokeWidth="1"
       fill="none"
-      fill-rule="evenodd"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      fillRule="evenodd"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     >
       <g
         id="Upload"
         transform="translate(-20.000000, -17.000000)"
         stroke={color || "#000"}
-        stroke-width="0.6"
+        strokeWidth="0.6"
       >
         <g id="Group-97" transform="translate(20.000000, 17.000000)">
           <path d="M2.8235,8.7157 L6.1005,10.0727" id="Stroke-45" />
@@ -147,17 +147,17 @@ export const Picture = ({ color }) => (
     <g
       id="Page-1"
       stroke="none"
-      stroke-width="1"
+      strokeWidth="1"
       fill="none"
-      fill-rule="evenodd"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      fillRule="evenodd"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     >
       <g
         id="Camera"
         transform="translate(-16.000000, -16.000000)"
         stroke={color || "#000"}
-        stroke-width="0.7"
+        strokeWidth="0.7"
       >
         <g id="Group-8" transform="translate(17.000000, 16.000000)">
           <path d="M13.0846,7.8453 L16.7206,6.3593" id="Stroke-1727" />
@@ -206,7 +206,7 @@ export const Recieve = ({ color }) => (
       strokeWidth="1"
       fill="none"
       fillRule="evenodd"
-      strokelinecap="round"
+      strokeLinecap="round"
       strokeLinejoin="round"
     >
       <g
@@ -254,7 +254,7 @@ export const Add = ({ color }) => (
         id="Plus"
         transform="translate(-20.000000, -19.000000)"
         stroke={color || "#000"}
-        stroke-width="0.6"
+        strokeWidth="0.6"
       >
         <g id="Group-99" transform="translate(20.000000, 19.000000)">
           <path
@@ -296,7 +296,7 @@ export const Person = ({ color }) => (
         id="Human"
         transform="translate(-21.000000, -16.000000)"
         stroke={color || "#000"}
-        stroke-width="0.6"
+        strokeWidth="0.6"
       >
         <g id="Group-69" transform="translate(22.000000, 16.000000)">
           <path d="M4.5883,17.7409 L6.8413,16.8079" id="Stroke-603" />
@@ -354,17 +354,17 @@ export const Chart = ({ color }) => (
     <g
       id="Page-1"
       stroke="none"
-      stroke-width="1"
+      strokeWidth="1"
       fill="none"
-      fill-rule="evenodd"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      fillRule="evenodd"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     >
       <g
         id="Bar-Graph"
         transform="translate(-16.000000, -13.000000)"
         stroke={color || "#000"}
-        stroke-width="0.7"
+        strokeWidth="0.7"
       >
         <g id="Group-30" transform="translate(17.000000, 14.000000)">
           <path d="M2.8412,2.5383 L5.6582,1.3713" id="Stroke-1379" />
@@ -399,17 +399,17 @@ export const Trash = ({ color }) => (
     <g
       id="Page-1"
       stroke="none"
-      stroke-width="1"
+      strokeWidth="1"
       fill="none"
-      fill-rule="evenodd"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      fillRule="evenodd"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     >
       <g
         id="Trash"
         transform="translate(-16.000000, -16.000000)"
         stroke={color || "#000"}
-        stroke-width="0.6"
+        strokeWidth="0.6"
       >
         <g id="Group-14" transform="translate(16.000000, 16.000000)">
           <path d="M8.4619,17.7767 L8.4619,9.7377" id="Stroke-1675" />

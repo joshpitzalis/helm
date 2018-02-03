@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
-import { db } from '../../constants/firebase';
+import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
+import { db } from "../../constants/firebase";
 
 class Poll extends Component {
   constructor(props) {
@@ -75,19 +75,19 @@ class Poll extends Component {
                 <label key={index} className="container">
                   <input
                     data-test={`response${index}`}
-                    type={poll.choice === 'multi' ? 'checkbox' : 'radio'}
+                    type={poll.choice === "multi" ? "checkbox" : "radio"}
                     name="responses"
                     value={question}
                     onChange={e => this.handleChange(e, question)}
                   />
-                  {poll.type === 'text' ? (
+                  {poll.type === "text" ? (
                     question
                   ) : (
                     <img src={question} alt={`option ${index + 1}`} />
                   )}
                   <span
                     className={
-                      poll.choice === 'multi' ? 'checkmark' : 'radiomark'
+                      poll.choice === "multi" ? "checkmark" : "radiomark"
                     }
                   />
                 </label>

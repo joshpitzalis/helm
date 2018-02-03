@@ -1,5 +1,5 @@
 import React from "react";
-import { withMyPollData, WithMyPollData } from "../../hocs/withPollData";
+import { WithMyPollData } from "../../hocs/withPollData";
 import { withUserData } from "../../hocs/withUserData";
 import { compose } from "recompose";
 import CreatePollButton from "./CreatePollButton";

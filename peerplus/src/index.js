@@ -35,11 +35,13 @@ export default class Routes extends Component {
 
   componentDidMount() {
     // when logged in set auth to true so you can access private routes
-    auth.onAuthStateChanged(user =>
-      this.setState({
-        authed: true,
-        user: user
-      })
+    auth.onAuthStateChanged(
+      user =>
+        user &&
+        this.setState({
+          authed: true,
+          user: user
+        })
     );
 
     // create a user on firebase when you signup and then update it every time

@@ -55,10 +55,8 @@ class Poll extends Component {
       }
     }
     const completedBy = this.state.poll.completedBy || [];
-    const newCompletedBy = [
-      ...completedBy,
-      this.props.user.providerData[0].uid
-    ];
+    const me = this.props.user.providerData[0].uid || "";
+    const newCompletedBy = [...completedBy, me];
     this.setState({ submitting: true });
     await db
       .doc(`polls/${this.props.match.params.pollId}`)

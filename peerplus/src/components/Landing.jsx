@@ -26,7 +26,7 @@ export default class App extends Component {
     }
     return (
       <article>
-        <div className="vh-100" />
+        <div className="vh-100 hello">Landing</div>
       </article>
     );
   }

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { db } from "../../constants/firebase";
+import { withUserData } from "../../hocs/withUserData";
 
 class Poll extends Component {
   constructor(props) {
@@ -8,7 +9,8 @@ class Poll extends Component {
     this.state = {
       poll: {},
       responses: {},
-      redirectTo: null
+      redirectTo: null,
+      submitting: false
     };
   }
 
@@ -29,12 +31,14 @@ class Poll extends Component {
     const count = e.target.checked ? 1 : 0;
     const responses = this.state.responses;
     responses[question] = count;
+    console.log("question", question);
+
     this.setState({
       responses
     });
   };
 
-  handleSubmit = e => {
+  handleSubmit = async e => {
     e.preventDefault();
 
     const existing = this.state.poll.responses || {};
@@ -47,10 +51,15 @@ class Poll extends Component {
         existing[response] = responses[response];
       }
     }
-
-    db
+    const completedBy = this.state.poll.completedBy || [];
+    const newCompletedBy = [
+      ...completedBy,
+      this.props.user.providerData[0].uid
+    ];
+    this.setState({ submitting: true });
+    await db
       .doc(`polls/${this.props.match.params.pollId}`)
-      .update({ responses: existing });
+      .update({ responses: existing, completedBy: newCompletedBy });
 
     this.setState({
       redirectTo: `/done/${this.props.match.params.pollId}`
@@ -95,7 +104,7 @@ class Poll extends Component {
             <input
               data-test="submit"
               type="submit"
-              value="Submit"
+              value={this.state.submitting ? "Submitting..." : "Submit"}
               onClick={this.handleSubmit}
             />
           </form>
@@ -105,4 +114,4 @@ class Poll extends Component {
   }
 }
 
-export default Poll;
+export default withUserData(Poll);

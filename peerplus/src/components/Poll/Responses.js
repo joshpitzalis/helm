@@ -1,11 +1,11 @@
-import React, { Component, Fragment } from 'react';
-import { Redirect } from 'react-router-dom';
-import { db } from '../../constants/firebase';
+import React, { Component, Fragment } from "react";
+import { Redirect } from "react-router-dom";
+import { db } from "../../constants/firebase";
 
 class Responses extends Component {
   state = {
     poll: {},
-    redirectTo: null,
+    redirectTo: null
   };
 
   componentDidMount() {
@@ -16,15 +16,15 @@ class Responses extends Component {
         poll =>
           poll.exists &&
           this.setState({
-            poll: poll.data(),
-          }),
+            poll: poll.data()
+          })
       );
   }
 
   handleDelete = () => {
     db.doc(`polls/${this.props.match.params.pollId}`).delete();
     this.setState({
-      redirectTo: `/home`,
+      redirectTo: `/home`
     });
   };
 
@@ -44,13 +44,17 @@ class Responses extends Component {
           <ul className="list pl0 ml0 center mw6 br2 ">
             {poll.responses ? (
               Object.keys(poll.responses).map((response, index) => (
-                <li key={index} data-colour="green" className="ph3 pv3 mv3 grow flex row">
+                <li
+                  key={index}
+                  data-colour="green"
+                  className="ph3 pv3 mv3 grow flex row"
+                >
                   <Percentage
                     value={poll.responses[response]}
                     index={index}
                     total={Object.keys(poll.responses).length}
                   />
-                  {poll.type === 'text' ? (
+                  {poll.type === "text" ? (
                     <p>
                       <strong>{response}</strong>
                     </p>
@@ -63,6 +67,16 @@ class Responses extends Component {
               <p>No responses yet</p>
             )}
           </ul>
+          {poll.completedBy &&
+            poll.completedBy.length > 2 && (
+              <button
+                data-test="delete"
+                onClick={this.handleDelete}
+                className="seethrough"
+              >
+                End the poll early
+              </button>
+            )}
           <button data-test="delete" onClick={this.handleDelete}>
             Delete This Poll
           </button>
@@ -83,7 +97,11 @@ const Participants = ({ sentTo }) => (
     {sentTo &&
       sentTo.map(participant => (
         <div className="pa4 tc">
-          <img src={participant.photo} className="br-100 h3 w3 dib" alt="avatar" />
+          <img
+            src={participant.photo}
+            className="br-100 h3 w3 dib"
+            alt="avatar"
+          />
         </div>
       ))}
   </div>

@@ -7410,6 +7410,10 @@ react-modal@^3.1.10:
     prop-types "^15.5.10"
     warning "^3.0.0"
 
+react-progressive-image@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/react-progressive-image/-/react-progressive-image-0.3.0.tgz#dd28e299c474216f2d640def5d4bc5b09aea7457"
+
 react-router-dom@^4.2.2:
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-4.2.2.tgz#c8a81df3adc58bba8a76782e946cbd4eae649b8d"

@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { db } from "../../constants/firebase";
 import { withUserData } from "../../hocs/withUserData";
+import { ErrorHandler } from "../../hocs/ErrorHandler";
+import ProgressiveImage from "react-progressive-image";
+import Logo from "../../images/peerPlusLogo.png";
 
 class Poll extends Component {
   constructor(props) {
@@ -92,7 +95,15 @@ class Poll extends Component {
                   {poll.type === "text" ? (
                     question
                   ) : (
-                    <img src={question} alt={`option ${index + 1}`} />
+                    <ProgressiveImage src={question} placeholder={Logo}>
+                      {(src, loading) => (
+                        <img
+                          src={src}
+                          style={{ opacity: loading ? 0.5 : 1 }}
+                          alt={`option ${index + 1}`}
+                        />
+                      )}
+                    </ProgressiveImage>
                   )}
                   <span
                     className={
@@ -114,4 +125,4 @@ class Poll extends Component {
   }
 }
 
-export default withUserData(Poll);
+export default ErrorHandler(withUserData(Poll));

@@ -96,7 +96,8 @@ class Polls extends Component {
     });
   };
 
-  handleSubmitForm = async () => {
+  handleSubmitForm = async e => {
+    e && e.preventDefault();
     await db.doc(`polls/${this.state.pollId}`).set({
       id: this.state.pollId,
       title: this.state.title,

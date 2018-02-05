@@ -1,16 +1,20 @@
-import React, { Component, Fragment } from 'react';
-import {withFriendsData} from '../../hocs/withFriendsData';
-import { Loading } from '../Loading';
-import axios from 'axios';
-import { auth, db } from '../../constants/firebase';
-import PropTypes from 'prop-types';
+import React, { Component, Fragment } from "react";
+import { withFriendsData } from "../../hocs/withFriendsData";
+import { Loading } from "../Loading";
+import axios from "axios";
+import { auth, db } from "../../constants/firebase";
+import PropTypes from "prop-types";
 
 class Friends extends Component {
-
- 
-
   render() {
-    const { sendTo, handleAddFriend, handleRemoveFriend, handleSubmit, goToPrev, friends } = this.props;
+    const {
+      sendTo,
+      handleAddFriend,
+      handleRemoveFriend,
+      handleSubmit,
+      goToPrev,
+      friends
+    } = this.props;
     return (
       <Fragment>
         <header>
@@ -77,5 +81,4 @@ const FriendList = ({ friends, handleAddFriend }) => (
   </Fragment>
 );
 
-
-export default withFriendsData(Friends)
+export default withFriendsData(Friends);

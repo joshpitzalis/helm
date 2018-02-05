@@ -47,7 +47,22 @@ describe("Users who havn't signed up get an invitation to join after they comple
     cy.visit(`/poll/${this.pollId}`);
     cy.get("[data-test='response0']").check();
     cy.get("[data-test='submit']").click();
-
+    cy.url().should("contain", "done");
+    cy.contains("Thank you for completing the poll.");
     cy.get("[data-test='login']").contains("Sign Up With Facebook");
+  });
+
+  it("deletes the poll", () => {
+    cy.visit("/home", {
+      onBeforeLoad: win => {
+        win.localStorage.setItem(user1.key, user1.token);
+      }
+    });
+    cy.url().should("contain", "home");
+    cy.get(`[data-test='response0']`).click();
+    cy.get(`[data-test='delete']`).click();
+    cy.url().should("contain", "home");
+    cy.wait(10000);
+    cy.contains("No Polls available.");
   });
 });

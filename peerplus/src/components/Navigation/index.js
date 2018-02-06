@@ -10,37 +10,49 @@ import { withPrivatePollData } from "../../hocs/withPollData";
 import { withUserData } from "../../hocs/withUserData";
 import PollBox from "./PollBox";
 
-const Navigation = ({ showPolls, setPollsVisible, user, polls }) => (
-  <Fragment>
-    <nav className="flex justify-between items-center ph5-ns ph3">
-      <Link to={routes.HOME}>
-        <img
-          src={Logo}
-          alt="Peer Plus"
-          height="50"
-          width="50"
-          className="grow dib mv2"
+const Navigation = ({ showPolls, setPollsVisible, user, polls }) => {
+  const PollsForMe =
+    polls &&
+    polls.filter(
+      poll =>
+        !poll.seenBy ||
+        !Object.keys(poll.seenBy).includes(user.providerData[0].uid)
+    );
+
+  console.log(polls);
+
+  return (
+    <Fragment>
+      <nav className="flex justify-between items-center ph5-ns ph3">
+        <Link to={routes.HOME}>
+          <img
+            src={Logo}
+            alt="Peer Plus"
+            height="50"
+            width="50"
+            className="grow dib mv2"
+          />
+        </Link>
+        <div className="flex">
+          <button
+            onClick={() => setPollsVisible(x => !x)}
+            className="grow seethrough"
+          >
+            <Notifications pollcount={PollsForMe && PollsForMe.length} />
+          </button>
+          {!user && <AuthButtons user={user} />}
+        </div>
+      </nav>
+      {showPolls && (
+        <PollBox
+          polls={PollsForMe}
+          close={() => setPollsVisible(x => !x)}
+          user={user}
         />
-      </Link>
-      <div className="flex">
-        <button
-          onClick={() => setPollsVisible(x => !x)}
-          className="grow seethrough"
-        >
-          <Notifications pollcount={polls && polls.length} />
-        </button>
-        {!user && <AuthButtons user={user} />}
-      </div>
-    </nav>
-    {showPolls && (
-      <PollBox
-        polls={polls}
-        close={() => setPollsVisible(x => !x)}
-        user={user}
-      />
-    )}
-  </Fragment>
-);
+      )}
+    </Fragment>
+  );
+};
 
 export default compose(
   setPropTypes({ user: PropTypes.object, polls: PropTypes.array }),

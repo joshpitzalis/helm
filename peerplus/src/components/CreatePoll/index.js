@@ -7,6 +7,7 @@ import { db, storage } from "../../constants/firebase";
 import { compose, setDisplayName, setPropTypes } from "recompose";
 import { withUserData } from "../../hocs/withUserData";
 import PropTypes from "prop-types";
+import { uploadImage } from "./helpers.js";
 
 class Polls extends Component {
   state = {
@@ -24,14 +25,15 @@ class Polls extends Component {
     privacy: null,
     sendTo: [],
     participants: {},
-    duration: 36
+    duration: 36,
+    uploadInProcess: false
   };
 
   handleChange = el => e => {
     this.setState({ [el]: e.target.value });
   };
 
-  handleInput = i => e => {
+  handleInput = i => async e => {
     if (this.state.type === "text") {
       let questions = [...this.state.questions];
       questions[i] = e.target.value;
@@ -39,21 +41,14 @@ class Polls extends Component {
         questions
       });
     } else {
+      this.setState({ uploadInProcess: true });
       let questions = [...this.state.questions];
       const file = e[0];
-      const uploadTask = storage
-        .ref(`polls/${this.state.pollId}`)
-        .child("file.name")
-        .put(file);
-
-      uploadTask
-        .then(res => {
-          questions[i] = res.downloadURL;
-          this.setState({
-            questions
-          });
-        })
-        .catch(error => console.error(error));
+      questions[i] = await uploadImage(file, this.state.pollId);
+      this.setState({
+        questions,
+        uploadInProcess: false
+      });
     }
   };
 
@@ -159,6 +154,7 @@ class Polls extends Component {
                   goToNext={this.goToNext}
                   handleSubmit={this.handleSubmitForm}
                   privacy={this.state.privacy}
+                  uploadInProcess={this.state.uploadInProcess}
                 />
               ),
               3: (

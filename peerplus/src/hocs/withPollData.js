@@ -2,33 +2,19 @@ import { lifecycle, compose } from "recompose";
 import { auth, db } from "../constants/firebase";
 import React, { Component, Fragment } from "react";
 
-// export const withPollData = lifecycle({
-//   componentDidMount() {
-//     db
-//       .collection("polls")
-//       .get()
-//       .then(coll => {
-//         const polls = coll.docs.map(doc => doc.data());
-//         this.setState({ polls });
-//       });
-//   }
-// });
-
 export const withPrivatePollData = lifecycle({
   componentDidMount() {
-    let facebookId;
     auth.onAuthStateChanged(user => {
       if (user) {
-        facebookId = auth.currentUser.providerData[0].uid;
+        let facebookId = auth.currentUser.providerData[0].uid;
         db
           .collection("polls")
           .where(`participants.${facebookId}`, "==", true)
-          .get()
-          .then(coll =>
+          .onSnapshot(snap => {
             this.setState({
-              polls: coll.docs.map(doc => doc.data())
-            })
-          );
+              polls: snap.docs.map(doc => doc.data())
+            });
+          });
       } else {
         console.error("You not be logged in, matey.");
       }

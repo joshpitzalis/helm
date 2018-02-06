@@ -27,7 +27,7 @@ class Questions extends Component {
   };
 
   render() {
-    const { questions, type, handleInput } = this.props;
+    const { questions, type, handleInput, uploadInProcess } = this.props;
 
     return (
       <Fragment>
@@ -55,7 +55,7 @@ class Questions extends Component {
               <Dropzone
                 data-test="dropzone"
                 className=""
-                onDrop={this.props.handleInput(index)}
+                onDrop={handleInput(index)}
               >
                 {question ? (
                   <img src={question} alt={`question ${index + 1}`} />
@@ -98,12 +98,14 @@ class Questions extends Component {
           type="submit"
           data-colour="green"
           data-test="submit"
-          className="grow"
-          disabled={this.state.submitting}
+          className={uploadInProcess ? null : "grow"}
+          disabled={this.state.submitting || uploadInProcess}
         >
           {this.state.submitting === true
             ? "Submitting..."
-            : this.props.privacy === "public" ? "Submit" : "Next"}
+            : uploadInProcess
+              ? "Uploading..."
+              : this.props.privacy === "public" ? "Submit" : "Next"}
         </button>
       </Fragment>
     );

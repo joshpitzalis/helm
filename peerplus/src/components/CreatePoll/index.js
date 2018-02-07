@@ -1,32 +1,32 @@
-import React, { Component } from "react";
-import Create from "./Create";
-import Questions from "./Questions";
-import Friends from "./Friends";
-import Congratulations from "./Congratulations";
-import { db, storage } from "../../constants/firebase";
-import { compose, setDisplayName, setPropTypes } from "recompose";
-import { withUserData } from "../../hocs/withUserData";
-import PropTypes from "prop-types";
-import { uploadImage } from "./helpers.js";
+import React, { Component } from 'react';
+import Create from './Create';
+import Questions from './Questions';
+import Friends from './Friends';
+import Congratulations from './Congratulations';
+import { db, storage } from '../../constants/firebase';
+import { compose, setDisplayName, setPropTypes } from 'recompose';
+import { withUserData } from '../../hocs/withUserData';
+import PropTypes from 'prop-types';
+import { uploadImage } from './helpers.js';
 
 class Polls extends Component {
   state = {
     step: 1,
-    title: "",
-    context: "",
+    title: '',
+    context: '',
     choice: null,
     type: null,
     duration: null,
     private: null,
     redirectTo: null,
-    questions: [""],
+    questions: [''],
     pollId: null,
     disabled: true,
     privacy: null,
     sendTo: [],
     participants: {},
     duration: 36,
-    uploadInProcess: false
+    uploadInProcess: false,
   };
 
   handleChange = el => e => {
@@ -34,11 +34,11 @@ class Polls extends Component {
   };
 
   handleInput = i => async e => {
-    if (this.state.type === "text") {
+    if (this.state.type === 'text') {
       let questions = [...this.state.questions];
       questions[i] = e.target.value;
       this.setState({
-        questions
+        questions,
       });
     } else {
       this.setState({ uploadInProcess: true });
@@ -47,27 +47,24 @@ class Polls extends Component {
       questions[i] = await uploadImage(file, this.state.pollId);
       this.setState({
         questions,
-        uploadInProcess: false
+        uploadInProcess: false,
       });
     }
   };
 
   handleDelete = i => e => {
     e.preventDefault();
-    let questions = [
-      ...this.state.questions.slice(0, i),
-      ...this.state.questions.slice(i + 1)
-    ];
+    let questions = [...this.state.questions.slice(0, i), ...this.state.questions.slice(i + 1)];
     this.setState({
-      questions
+      questions,
     });
   };
 
   addQuestion = e => {
     e.preventDefault();
-    let questions = this.state.questions.concat([""]);
+    let questions = this.state.questions.concat(['']);
     this.setState({
-      questions
+      questions,
     });
   };
 
@@ -84,10 +81,10 @@ class Polls extends Component {
   };
 
   handleCreateForm = async e => {
-    const newPoll = await db.collection("polls").doc();
+    const newPoll = await db.collection('polls').doc();
     this.setState({
       pollId: newPoll.id,
-      step: this.state.step + 1
+      step: this.state.step + 1,
     });
   };
 
@@ -102,10 +99,10 @@ class Polls extends Component {
       duration: this.state.duration,
       privacy: this.state.privacy,
       questions: this.state.questions,
-      createdBy: this.props.user.uid,
+      createdBy: this.props.user.providerData[0].uid,
       createdAt: new Date(),
       sendTo: this.state.sendTo,
-      participants: this.state.participants
+      participants: this.state.participants,
     });
     this.setState({ step: 4 });
   };
@@ -167,7 +164,7 @@ class Polls extends Component {
                   handleAddFriend={this.handleAddFriend}
                 />
               ),
-              4: <Congratulations pollId={this.state.pollId} />
+              4: <Congratulations pollId={this.state.pollId} />,
             }[this.state.step]
           }
           <Progress step={this.state.step} />
@@ -178,15 +175,11 @@ class Polls extends Component {
 }
 
 const Progress = ({ step }) => (
-  <progress
-    className="w-100"
-    value={step === 1 ? "33" : step === 2 ? "66" : "100"}
-    max="100"
-  />
+  <progress className="w-100" value={step === 1 ? '33' : step === 2 ? '66' : '100'} max="100" />
 );
 
 export default compose(
-  setDisplayName("CreatePollForm"),
+  setDisplayName('CreatePollForm'),
   setPropTypes({ user: PropTypes.object }),
-  withUserData
+  withUserData,
 )(Polls);

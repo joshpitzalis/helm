@@ -1,12 +1,16 @@
-import { db } from "../../constants/firebase";
+import { db } from '../../constants/firebase';
 
 export const markNotificationAsSeen = (pollId, userId) => {
-  console.log("begin", pollId);
   db.doc(`polls/${pollId}`).set(
     {
-      seenBy: { [userId]: true }
+      seenBy: { [userId]: true },
     },
-    { merge: true }
+    { merge: true },
   );
-  console.log("done");
+};
+
+export const markResultsAsSeen = (pollId, userId) => {
+  db.doc(`polls/${pollId}`).update({
+    seenBy: { [userId]: false },
+  });
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import AuthButtons from './AuthButtons';
-import { markNotificationAsSeen } from './helpers';
+import { markNotificationAsSeen, markResultsAsSeen } from './helpers';
 
 const PollBox = ({ polls, close, user }) => (
   <section className="center w-100 db" onMouseLeave={close}>
@@ -20,11 +20,21 @@ const PollBox = ({ polls, close, user }) => (
               className="ph3 pv3 bb b--light-silver"
               data-test={`poll${index}`}
               key={poll.id}
-              onClick={() => markNotificationAsSeen(poll.id, user.providerData[0].uid)}
+              onClick={() =>
+                (poll.ended
+                  ? markResultsAsSeen(poll.id, user.providerData[0].uid)
+                  : markNotificationAsSeen(poll.id, user.providerData[0].uid))
+              }
             >
-              <Link to={`/poll/${poll.id}`} onClick={close}>
-                {poll.title}
-              </Link>
+              {poll.ended ? (
+                <Link to={`/responses/${poll.id}`} onClick={close}>
+                  Results for {poll.title}
+                </Link>
+              ) : (
+                <Link to={`/poll/${poll.id}`} onClick={close}>
+                  {poll.title}
+                </Link>
+              )}
             </li>
           ))}
       </ul>

@@ -5,12 +5,13 @@ import { withUserData } from "../../hocs/withUserData";
 import { ErrorHandler } from "../../hocs/ErrorHandler";
 import ProgressiveImage from "react-progressive-image";
 import Logo from "../../images/peerPlusLogo.png";
+import { Loading } from "../Loading";
 
 class Poll extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      poll: {},
+      poll: null,
       responses: {},
       redirectTo: null,
       submitting: false
@@ -72,15 +73,41 @@ class Poll extends Component {
     if (redirectTo) {
       return <Redirect to={redirectTo} />;
     }
+
+    if (
+      (poll && poll.privacy == "public") ||
+      (poll &&
+        poll.participants &&
+        this.props.user &&
+        Object.keys(poll.participants).includes(
+          this.props.user.providerData[0].uid
+        ))
+    ) {
+      console.log("We've been expecting you.");
+    } else if (poll && this.props.user && poll.privacy == "private") {
+      this.setState({
+        redirectTo: `/error`
+      });
+    } else {
+      return (
+        <article className="pv5">
+          <section className="mw6-ns w-100 center tc">
+            <Loading />
+          </section>
+        </article>
+      );
+    }
+
     return (
       <article className="pv5">
         <section className="mw6-ns w-100 center tc">
           <header>
-            <h1>{poll.title}</h1>
-            <h2>{poll.context}</h2>
+            <h1>{poll && poll.title}</h1>
+            <h2>{poll && poll.context}</h2>
           </header>
           <form>
-            {poll.questions &&
+            {poll &&
+              poll.questions &&
               poll.questions.map((question, index) => (
                 <label key={index} className="container">
                   <input

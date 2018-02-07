@@ -11,6 +11,7 @@ import Onboarding from "./components/Onboarding/index.js";
 import Responses from "./components/Poll/Responses";
 import CreatePoll from "./components/CreatePoll";
 import Done from "./components/Poll/Done";
+import Error from "./components/Error";
 import * as routes from "./constants/routes";
 import "normalize.css";
 import "./style.css";
@@ -107,6 +108,7 @@ export default class Routes extends Component {
             component={Onboarding}
           />
           <Route exact path={`${routes.DONE}/:pollId`} component={Done} />
+          <Route exact path={routes.ERROR} component={Error} />
           <Footer />
         </main>
       </BrowserRouter>

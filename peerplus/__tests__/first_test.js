@@ -22,3 +22,7 @@ test(
 
 // tk test that notifications show polls to be DONE
 // tk test that notifications update in realtime
+// tk make sure notifications dont show public polls
+
+// tk private polls redirect to error page if user is not logged in
+// tk private polls redirect to error page if user is not a participant

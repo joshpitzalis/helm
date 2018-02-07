@@ -1,6 +1,6 @@
 import { db } from "../../constants/firebase";
 
-export const markAsSeen = (pollId, userId) => {
+export const markNotificationAsSeen = (pollId, userId) => {
   console.log("begin", pollId);
   db.doc(`polls/${pollId}`).set(
     {

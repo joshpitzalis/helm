@@ -19,8 +19,6 @@ const Navigation = ({ showPolls, setPollsVisible, user, polls }) => {
         !Object.keys(poll.seenBy).includes(user.providerData[0].uid)
     );
 
-  console.log(polls);
-
   return (
     <Fragment>
       <nav className="flex justify-between items-center ph5-ns ph3">
@@ -38,7 +36,10 @@ const Navigation = ({ showPolls, setPollsVisible, user, polls }) => {
             onClick={() => setPollsVisible(x => !x)}
             className="grow seethrough"
           >
-            <Notifications pollcount={PollsForMe && PollsForMe.length} />
+            {PollsForMe &&
+              PollsForMe.length > 0 && (
+                <Notifications pollcount={PollsForMe.length} />
+              )}
           </button>
           {!user && <AuthButtons user={user} />}
         </div>

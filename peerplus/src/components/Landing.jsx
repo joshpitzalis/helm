@@ -56,9 +56,11 @@ class PreparedPolls extends Component {
     return (
       <BrowserRouter>
         <div className="w-100">
-          <div className="grid row jca pv4 ">
+          <div className="grid gap1 row jcc pv4 ">
             <Link to="/fun">
-              <span className="pa3 bg-brown ">Fun</span>
+              <span className="pa3 bg-brown " activeStyle={{ backgroundColor: 'red' }}>
+                Fun
+              </span>
             </Link>
             <Link to="/work">
               <span className="pa3 bg-brown ">Work</span>
@@ -94,20 +96,24 @@ class Child extends Component {
   render() {
     const { polls } = this.state;
     return (
-      <div className="grid dense pv4 ">
+      <div className="pv4 w-100 grid grid3 gap1">
         {polls &&
           polls
             .filter(poll => poll.category === (this.props.match.params.id || 'fun'))
-            .map((poll, index) => <Poll key={index} title={poll.title} />)}
+            .map((poll, index) => <Poll key={index} title={poll.title} index={index} />)}
       </div>
     );
   }
 }
 
-const Poll = ({ title }) => (
-  <div>
-    <h1 className="lh-title">{title}</h1>
-  </div>
+const Poll = ({ title, index }) => (
+  <p
+    data-colour={index === 0 ? 'blue' : index === 1 ? 'red' : index === 2 ? 'orange' : 'green'}
+    className={`pointer fancyFont dib pa4 mv0 h5 ${(index === 1 && 'span2 brown') ||
+      (index === 2 && 'span2 brown')} `}
+  >
+    {title}
+  </p>
 );
 
 export const getPreparedPolls = () =>

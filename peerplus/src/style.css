@@ -122,6 +122,10 @@ button {
   background-color: var(--brown);
 }
 
+.brown {
+  color: var(--brown);
+}
+
 .footerBar {
   height: 0.25rem;
 }
@@ -339,4 +343,17 @@ input[type='text'] {
 
 hr {
   border-color: var(--white);
+}
+
+.fancyFont {
+  font-family: 'salomeregular', Arial, sans-serif;
+  font-size: 38px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 500;
+  line-height: 46.4px;
+}
+.cw {
+  grid-auto-columns: -webkit-min-content;
+  grid-auto-columns: min-content;
 }

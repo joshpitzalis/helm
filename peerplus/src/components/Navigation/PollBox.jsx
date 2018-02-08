@@ -38,9 +38,9 @@ const PollBox = ({ polls, close, user }) => (
             </li>
           ))}
       </ul>
-      <div className="f4 center mw6 pt4">
+      {/* <div className="f4 center mw6 pt4">
         <AuthButtons user={user} />
-      </div>
+      </div> */}
     </div>
   </section>
 );

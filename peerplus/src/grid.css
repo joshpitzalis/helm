@@ -1,4 +1,13 @@
-.gap1{
+.grid3 {
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-flow: dense;
+}
+
+.span2 {
+  grid-column-end: span 2;
+}
+
+.gap1 {
   grid-gap: 1rem;
 }
 

@@ -1,37 +1,40 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment } from "react";
 // import PropTypes from "prop-types";
-import Dropzone from 'react-dropzone';
+import Dropzone from "react-dropzone";
 // import { withHandlers } from "recompose";
 
 class Questions extends Component {
   state = {
     errors: null,
+    submitting: false
   };
 
   handleSubmit = e => {
     e.preventDefault();
     if (
       this.props.questions.length < 2 ||
-      this.props.questions[0] === '' ||
-      this.props.questions[1] === ''
+      this.props.questions[0] === "" ||
+      this.props.questions[1] === ""
     ) {
       this.setState({
-        errors: 'You need to add atleast two questions to proceed',
+        errors: "You need to add atleast two questions to proceed"
       });
     } else {
-      this.props.privacy === 'private' ? this.props.goToNext() : this.props.handleSubmit();
+      this.props.privacy === "private"
+        ? this.props.goToNext()
+        : this.setState({ submitting: true }, () => this.props.handleSubmit());
     }
   };
 
   render() {
-    const { questions, type, handleInput } = this.props;
+    const { questions, type, handleInput, uploadInProcess } = this.props;
 
     return (
       <Fragment>
         <h1 data-test="questionsPage">Questions</h1>
         {questions.map((question, index) => (
           <span key={index} className="flex  align-items justify-center">
-            {type === 'text' ? (
+            {type === "text" ? (
               <input
                 data-test={`question${index}`}
                 type="text"
@@ -49,7 +52,11 @@ class Questions extends Component {
               //   touched={this.state.touched}
               //   placeholder="Type your poll question here..."
               // />
-              <Dropzone data-test="dropzone" className="" onDrop={this.props.handleInput(index)}>
+              <Dropzone
+                data-test="dropzone"
+                className=""
+                onDrop={handleInput(index)}
+              >
                 {question ? (
                   <img src={question} alt={`question ${index + 1}`} />
                 ) : (
@@ -65,13 +72,20 @@ class Questions extends Component {
                 )} */}
               </Dropzone>
             )}
-            <button className="seethrough" onClick={this.props.handleDelete(index)}>
+            <button
+              className="seethrough"
+              onClick={this.props.handleDelete(index)}
+            >
               X
             </button>
           </span>
         ))}
         <div>
-          <button data-test="add" className="seethrough" onClick={this.props.addQuestion}>
+          <button
+            data-test="add"
+            className="seethrough"
+            onClick={this.props.addQuestion}
+          >
             Add Another
           </button>
         </div>
@@ -84,9 +98,14 @@ class Questions extends Component {
           type="submit"
           data-colour="green"
           data-test="submit"
-          className="grow"
+          className={uploadInProcess ? null : "grow"}
+          disabled={this.state.submitting || uploadInProcess}
         >
-          {this.props.privacy === 'public' ? 'Submit' : 'Next'}
+          {this.state.submitting === true
+            ? "Submitting..."
+            : uploadInProcess
+              ? "Uploading..."
+              : this.props.privacy === "public" ? "Submit" : "Next"}
         </button>
       </Fragment>
     );

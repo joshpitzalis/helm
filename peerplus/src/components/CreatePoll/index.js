@@ -7,6 +7,7 @@ import { db, storage } from '../../constants/firebase';
 import { compose, setDisplayName, setPropTypes } from 'recompose';
 import { withUserData } from '../../hocs/withUserData';
 import PropTypes from 'prop-types';
+import { uploadImage } from './helpers.js';
 
 class Polls extends Component {
   state = {
@@ -24,13 +25,15 @@ class Polls extends Component {
     privacy: null,
     sendTo: [],
     participants: {},
+    duration: 36,
+    uploadInProcess: false,
   };
 
   handleChange = el => e => {
     this.setState({ [el]: e.target.value });
   };
 
-  handleInput = i => e => {
+  handleInput = i => async e => {
     if (this.state.type === 'text') {
       let questions = [...this.state.questions];
       questions[i] = e.target.value;
@@ -38,21 +41,14 @@ class Polls extends Component {
         questions,
       });
     } else {
+      this.setState({ uploadInProcess: true });
       let questions = [...this.state.questions];
       const file = e[0];
-      const uploadTask = storage
-        .ref(`polls/${this.state.pollId}`)
-        .child('file.name')
-        .put(file);
-
-      uploadTask
-        .then(res => {
-          questions[i] = res.downloadURL;
-          this.setState({
-            questions,
-          });
-        })
-        .catch(error => console.error(error));
+      questions[i] = await uploadImage(file, this.state.pollId);
+      this.setState({
+        questions,
+        uploadInProcess: false,
+      });
     }
   };
 
@@ -92,17 +88,18 @@ class Polls extends Component {
     });
   };
 
-  handleSubmitForm = () => {
-    db.doc(`polls/${this.state.pollId}`).set({
+  handleSubmitForm = async e => {
+    e && e.preventDefault();
+    await db.doc(`polls/${this.state.pollId}`).set({
       id: this.state.pollId,
       title: this.state.title,
       context: this.state.context,
       choice: this.state.choice,
       type: this.state.type,
-      // duration: this.duration.value,
+      duration: this.state.duration,
       privacy: this.state.privacy,
       questions: this.state.questions,
-      createdBy: this.props.user.uid,
+      createdBy: this.props.user.providerData[0].uid,
       createdAt: new Date(),
       sendTo: this.state.sendTo,
       participants: this.state.participants,
@@ -139,6 +136,7 @@ class Polls extends Component {
                   type={this.state.type}
                   privacy={this.state.privacy}
                   goToNext={this.handleCreateForm}
+                  duration={this.state.duration}
                 />
               ),
               2: (
@@ -153,6 +151,7 @@ class Polls extends Component {
                   goToNext={this.goToNext}
                   handleSubmit={this.handleSubmitForm}
                   privacy={this.state.privacy}
+                  uploadInProcess={this.state.uploadInProcess}
                 />
               ),
               3: (

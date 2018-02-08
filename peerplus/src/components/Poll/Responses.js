@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
 import { db } from '../../constants/firebase';
+import { withUserData } from '../../hocs/withUserData';
+import { ErrorHandler } from '../../hocs/ErrorHandler';
 
 class Responses extends Component {
   state = {
@@ -28,11 +30,24 @@ class Responses extends Component {
     });
   };
 
+  handleEndPollEarly = () => {
+    db.doc(`polls/${this.props.match.params.pollId}`).update({
+      ended: true,
+      endsAt: Date.now(),
+    });
+    this.setState({
+      redirectTo: `/home`,
+    });
+  };
+
   render() {
     const { poll, redirectTo } = this.state;
     if (redirectTo) {
       return <Redirect to={redirectTo} />;
     }
+
+    const user = this.props.user.providerData[0].uid || null;
+    const creator = poll.createdBy;
     return (
       <article className="pv5">
         <section className="mw6-ns w-100 center tc">
@@ -40,7 +55,7 @@ class Responses extends Component {
             <h1>{poll.title}</h1>
             <h2>{poll.context}</h2>
           </header>
-          <Participants sentTo={poll.sendTo} />
+          {user && user === creator && <Participants sentTo={poll.sendTo} />}
           <ul className="list pl0 ml0 center mw6 br2 ">
             {poll.responses ? (
               Object.keys(poll.responses).map((response, index) => (
@@ -63,9 +78,29 @@ class Responses extends Component {
               <p>No responses yet</p>
             )}
           </ul>
-          <button data-test="delete" onClick={this.handleDelete}>
-            Delete This Poll
+          {user &&
+            user === creator &&
+            poll.completedBy &&
+            poll.completedBy.length > 2 && (
+              <button data-test="delete" onClick={this.handleEndPollEarly} className="seethrough">
+                End the poll early
+              </button>
+            )}
+          <button
+            onClick={() =>
+              this.setState({
+                redirectTo: `/home`,
+              })
+            }
+          >
+            Back
           </button>
+          {user &&
+            user === creator && (
+              <button data-test="delete" className="seethrough" onClick={this.handleDelete}>
+                Delete This Poll
+              </button>
+            )}
         </section>
       </article>
     );
@@ -81,12 +116,12 @@ const Percentage = ({ value, index, total }) => (
 const Participants = ({ sentTo }) => (
   <div>
     {sentTo &&
-      sentTo.map(participant => (
-        <div className="pa4 tc">
+      sentTo.map((participant, index) => (
+        <div className="pa4 tc" key={index}>
           <img src={participant.photo} className="br-100 h3 w3 dib" alt="avatar" />
         </div>
       ))}
   </div>
 );
 
-export default Responses;
+export default ErrorHandler(withUserData(Responses));

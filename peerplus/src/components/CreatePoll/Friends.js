@@ -1,9 +1,9 @@
-import React, { Component, Fragment } from "react";
-import { withFriendsData } from "../../hocs/withFriendsData";
-import { Loading } from "../Loading";
-import axios from "axios";
-import { auth, db } from "../../constants/firebase";
-import PropTypes from "prop-types";
+import React, { Component, Fragment } from 'react';
+import { withFriendsData } from '../../hocs/withFriendsData';
+import { Loading } from '../Loading';
+import axios from 'axios';
+import { auth, db } from '../../constants/firebase';
+import PropTypes from 'prop-types';
 
 class Friends extends Component {
   render() {
@@ -13,12 +13,12 @@ class Friends extends Component {
       handleRemoveFriend,
       handleSubmit,
       goToPrev,
-      friends
+      friends,
     } = this.props;
     return (
       <Fragment>
         <header>
-          <h1>Send to</h1>
+          <h2 className="f1">Send to</h2>
         </header>
         <ul>
           {sendTo &&
@@ -27,7 +27,7 @@ class Friends extends Component {
                 <img src={friend.photo} alt={`${friend.name}`} />
                 {friend.name}
                 <button
-                  onClick={e => {
+                  onClick={(e) => {
                     e.preventDefault();
                     handleRemoveFriend(friend.id);
                   }}
@@ -69,7 +69,7 @@ const FriendList = ({ friends, handleAddFriend }) => (
         {friend.name}
         <button
           data-addfriend
-          onClick={e => {
+          onClick={(e) => {
             e.preventDefault();
             handleAddFriend(friend.id, friend.name, friend.picture.data.url);
           }}

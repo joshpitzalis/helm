@@ -164,7 +164,14 @@ class Polls extends Component {
                   handleAddFriend={this.handleAddFriend}
                 />
               ),
-              4: <Congratulations pollId={this.state.pollId} />,
+              4: (
+                <Congratulations
+                  pollId={this.state.pollId}
+                  privacy={this.state.privacy}
+                  type={this.state.type}
+                  userId={this.props.user.providerData[0].uid}
+                />
+              ),
             }[this.state.step]
           }
           <Progress step={this.state.step} />

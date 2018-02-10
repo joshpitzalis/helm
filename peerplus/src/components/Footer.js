@@ -15,7 +15,7 @@ const Footer = ({ user }) => (
     </div>
     <footer className="flex justify-between items-center ph5-ns ph3">
       <p className="white f4">support@peerplus.com</p>
-      {user ? <LogoutButton /> : <p className="white f4">Terms</p>}
+      {user ? <LogoutButton color="white" /> : <p className="white f4">Terms</p>}
     </footer>
   </Fragment>
 );

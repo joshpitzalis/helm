@@ -1,11 +1,12 @@
-import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
-import { db } from "../../constants/firebase";
-import { withUserData } from "../../hocs/withUserData";
-import { ErrorHandler } from "../../hocs/ErrorHandler";
-import ProgressiveImage from "react-progressive-image";
-import Logo from "../../images/peerPlusLogo.png";
-import { Loading } from "../Loading";
+import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
+import { db } from '../../constants/firebase';
+import { withUserData } from '../../hocs/withUserData';
+import { ErrorHandler } from '../../hocs/ErrorHandler';
+import ProgressiveImage from 'react-progressive-image';
+import Logo from '../../images/peerPlusLogo.png';
+import { Loading } from '../Loading';
+import { markOnboardingStepComplete } from '../Onboarding/helpers';
 
 class Poll extends Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class Poll extends Component {
       poll: null,
       responses: {},
       redirectTo: null,
-      submitting: false
+      submitting: false,
     };
   }
 
@@ -26,19 +27,21 @@ class Poll extends Component {
         poll =>
           poll.exists &&
           this.setState({
-            poll: poll.data()
-          })
+            poll: poll.data(),
+          }),
       );
+
+    this.props.user && markOnboardingStepComplete(this.props.user.providerData[0].uid, 'recieved');
   }
 
   handleChange = (e, question) => {
     const count = e.target.checked ? 1 : 0;
     const responses = this.state.responses;
     responses[question] = count;
-    console.log("question", question);
+    console.log('question', question);
 
     this.setState({
-      responses
+      responses,
     });
   };
 
@@ -56,7 +59,7 @@ class Poll extends Component {
       }
     }
     const completedBy = this.state.poll.completedBy || [];
-    const me = this.props.user ? this.props.user.providerData[0].uid : "";
+    const me = this.props.user ? this.props.user.providerData[0].uid : '';
     const newCompletedBy = [...completedBy, me];
     this.setState({ submitting: true });
     await db
@@ -64,7 +67,7 @@ class Poll extends Component {
       .update({ responses: existing, completedBy: newCompletedBy });
 
     this.setState({
-      redirectTo: `/done/${this.props.match.params.pollId}`
+      redirectTo: `/done/${this.props.match.params.pollId}`,
     });
   };
 
@@ -75,18 +78,16 @@ class Poll extends Component {
     }
 
     if (
-      (poll && poll.privacy == "public") ||
+      (poll && poll.privacy == 'public') ||
       (poll &&
         poll.participants &&
         this.props.user &&
-        Object.keys(poll.participants).includes(
-          this.props.user.providerData[0].uid
-        ))
+        Object.keys(poll.participants).includes(this.props.user.providerData[0].uid))
     ) {
       console.log("We've been expecting you.");
-    } else if (poll && this.props.user && poll.privacy == "private") {
+    } else if (poll && this.props.user && poll.privacy == 'private') {
       this.setState({
-        redirectTo: `/error`
+        redirectTo: `/error`,
       });
     } else {
       return (
@@ -112,12 +113,12 @@ class Poll extends Component {
                 <label key={index} className="container">
                   <input
                     data-test={`response${index}`}
-                    type={poll.choice === "multi" ? "checkbox" : "radio"}
+                    type={poll.choice === 'multi' ? 'checkbox' : 'radio'}
                     name="responses"
                     value={question}
                     onChange={e => this.handleChange(e, question)}
                   />
-                  {poll.type === "text" ? (
+                  {poll.type === 'text' ? (
                     question
                   ) : (
                     <ProgressiveImage src={question} placeholder={Logo}>
@@ -130,17 +131,13 @@ class Poll extends Component {
                       )}
                     </ProgressiveImage>
                   )}
-                  <span
-                    className={
-                      poll.choice === "multi" ? "checkmark" : "radiomark"
-                    }
-                  />
+                  <span className={poll.choice === 'multi' ? 'checkmark' : 'radiomark'} />
                 </label>
               ))}
             <input
               data-test="submit"
               type="submit"
-              value={this.state.submitting ? "Submitting..." : "Submit"}
+              value={this.state.submitting ? 'Submitting...' : 'Submit'}
               onClick={this.handleSubmit}
             />
           </form>

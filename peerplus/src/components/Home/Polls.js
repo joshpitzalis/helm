@@ -1,31 +1,29 @@
-import React from "react";
+import React from 'react';
 import {
   compose,
   branch,
   renderComponent,
   renderNothing,
   setDisplayName,
-  setPropTypes
-} from "recompose";
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
-import { Loading } from "../Loading";
+  setPropTypes,
+} from 'recompose';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { Loading } from '../Loading';
+import { markOnboardingStepComplete } from '../Onboarding/helpers';
 
 const NoPollsAvailable = () => <p>No Polls available.</p>;
 
 const onlyShowIfPollsAvailable = branch(
   ({ polls }) => polls && polls.length === 0,
-  renderComponent(NoPollsAvailable)
+  renderComponent(NoPollsAvailable),
 );
 
-const showSpinnerWhileLoading = branch(
-  ({ polls }) => !polls,
-  renderComponent(Loading)
-);
+const showSpinnerWhileLoading = branch(({ polls }) => !polls, renderComponent(Loading));
 
 // const onlyShowIfAuthenticated = branch(({ user }) => !user, renderNothing);
 
-const ListOfPolls = ({ polls }) => (
+const ListOfPolls = ({ polls, user }) => (
   <ul className="list pl0 ml0 center mw6 br2 ">
     {polls.map((poll, index) => (
       <li
@@ -34,13 +32,16 @@ const ListOfPolls = ({ polls }) => (
         key={index}
         data-test={`response${index}`}
       >
-        <Link to={`/responses/${poll.id}`}>
+        <Link
+          to={`/responses/${poll.id}`}
+          onClick={() => markOnboardingStepComplete(user.providerData[0].uid, 'response')}
+        >
           {Object.keys(poll.participants).length > 0 &&
             poll.completedBy &&
-            calculatePercentageComplete(
+            `${calculatePercentageComplete(
               Object.keys(poll.participants).length,
-              poll.completedBy.length
-            ) + "%"}
+              poll.completedBy.length,
+            )}%`}
           {poll.title}
         </Link>
       </li>
@@ -49,15 +50,14 @@ const ListOfPolls = ({ polls }) => (
 );
 
 export default compose(
-  setDisplayName("Polls"),
+  setDisplayName('Polls'),
   setPropTypes({
-    polls: PropTypes.array
+    polls: PropTypes.array,
   }),
   // onlyShowIfAuthenticated,
   onlyShowIfPollsAvailable,
-  showSpinnerWhileLoading
+  showSpinnerWhileLoading,
 )(ListOfPolls);
 
-export const calculatePercentageComplete = (participants, completedBy) => {
-  return Math.floor(completedBy / participants * 100);
-};
+export const calculatePercentageComplete = (participants, completedBy) =>
+  Math.floor(completedBy / participants * 100);

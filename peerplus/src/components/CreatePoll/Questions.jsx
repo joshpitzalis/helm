@@ -1,15 +1,18 @@
 import React, { Component, Fragment } from 'react';
-// import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 import Dropzone from 'react-dropzone';
-// import { withHandlers } from "recompose";
 
 class Questions extends Component {
-  state = {
-    errors: null,
-    submitting: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      errors: null,
+      submitting: false,
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-  handleSubmit = e => {
+  handleSubmit(e) {
     e.preventDefault();
     if (
       this.props.questions.length < 2 ||
@@ -24,10 +27,12 @@ class Questions extends Component {
         ? this.props.goToNext()
         : this.setState({ submitting: true }, () => this.props.handleSubmit());
     }
-  };
+  }
 
   render() {
-    const { questions, type, handleInput, uploadInProcess } = this.props;
+    const {
+      questions, type, handleInput, uploadInProcess,
+    } = this.props;
 
     return (
       <Fragment>
@@ -102,5 +107,19 @@ class Questions extends Component {
     );
   }
 }
+
+Questions.propTypes = {
+  addQuestion: PropTypes.func,
+  goToNext: PropTypes.func,
+  goToPrev: PropTypes.func,
+  handleDelete: PropTypes.func,
+  handleInput: PropTypes.func,
+  handleSubmit: PropTypes.func,
+  pollId: PropTypes.string,
+  privacy: PropTypes.string,
+  questions: PropTypes.arrayOf(PropTypes.string),
+  type: PropTypes.string,
+  uploadInProcess: PropTypes.bool,
+};
 
 export default Questions;

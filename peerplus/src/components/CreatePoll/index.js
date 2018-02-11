@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Create from './Create';
-import Questions from './Questions';
+import Questions from './Questions.jsx';
 import Friends from './Friends';
 import Congratulations from './Congratulations';
 import { db, storage } from '../../constants/firebase';

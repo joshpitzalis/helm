@@ -2,10 +2,14 @@
  * @jest-environment node
  */
 
-import { calculatePercentageComplete } from "./Polls.js";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './index';
 
-test("calculates percentage of people who completed a poll", () => {
-  let participants = 10;
-  let completedBy = 1;
+import { calculatePercentageComplete } from './Polls.js';
+
+test('calculates percentage of people who completed a poll', () => {
+  const participants = 10;
+  const completedBy = 1;
   expect(calculatePercentageComplete(participants, completedBy)).toBe(10);
 });

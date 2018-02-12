@@ -117,6 +117,7 @@ export default class Routes extends Component {
           />
           <Route exact path={`${routes.DONE}/:pollId`} component={Done} />
           <Route exact path={routes.ERROR} component={Error} />
+          <Redirect from="/fun" to="/" />
           <Footer />
         </main>
       </BrowserRouter>

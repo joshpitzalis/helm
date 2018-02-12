@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
-import { auth, db } from '../constants/firebase.js';
+import { auth, db, facebookAuthProvider } from '../constants/firebase.js';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 export default class Landing extends Component {
@@ -27,7 +27,7 @@ export default class Landing extends Component {
           <h1 className="lh-title">
             Quick & Easy <br /> Online Polls.
           </h1>
-          <button>Get Started</button>
+          <button onClick={() => auth.signInWithRedirect(facebookAuthProvider)}>Get Started</button>
         </article>
         <section className="ph5-ns pv4-ns pa3 ">
           <h2 className="f2 b tc w-100">Our Polls</h2>
@@ -40,7 +40,7 @@ export default class Landing extends Component {
           <h1 className="tc lh-title">
             Create your own poll <br />in 30 seconds.
           </h1>
-          <button>Begin</button>
+          <button onClick={() => auth.signInWithRedirect(facebookAuthProvider)}>Begin</button>
         </article>
       </Fragment>
     );
@@ -70,7 +70,7 @@ class PreparedPolls extends Component {
           </div>
 
           <Route exact path="/:id" component={Child} />
-          {/* <Redirect from="/" to="/fun" /> */}
+          <Redirect from="/" to="/fun" />
         </div>
       </BrowserRouter>
     );
@@ -102,6 +102,7 @@ const Poll = ({ title, index }) => (
     data-colour={index === 0 ? 'blue' : index === 1 ? 'red' : index === 2 ? 'orange' : 'green'}
     className={`pointer fancyFont dib pa4 mv0 h5 ${(index === 1 && 'span2 brown') ||
       (index === 2 && 'span2')} `}
+    onClick={() => auth.signInWithRedirect(facebookAuthProvider)}
   >
     {title}
   </p>

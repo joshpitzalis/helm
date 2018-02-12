@@ -9,13 +9,9 @@ export default class Landing extends Component {
     this.state = {
       redirectTo: null,
     };
-    this.redirect = this.redirect.bind(this);
   }
 
   componentDidMount() {
-    this.redirect();
-  }
-  redirect() {
     auth.onAuthStateChanged(user => {
       user && this.setState({ redirectTo: '/home' });
     });
@@ -58,7 +54,7 @@ class PreparedPolls extends Component {
         <div className="w-100">
           <div className="grid gap1 row jcc pv4 ">
             <Link to="/fun">
-              <span className="pa3 bg-brown " activeStyle={{ backgroundColor: 'red' }}>
+              <span className="pa3 bg-brown " activestyle={{ backgroundColor: 'red' }}>
                 Fun
               </span>
             </Link>
@@ -73,13 +69,8 @@ class PreparedPolls extends Component {
             </Link>
           </div>
 
-          <Route
-            exact
-            path="/:id"
-            // render={() => <Child polls={this.state.polls} />}
-            component={Child}
-          />
-          <Redirect from="/" to="/fun" />
+          <Route exact path="/:id" component={Child} />
+          {/* <Redirect from="/" to="/fun" /> */}
         </div>
       </BrowserRouter>
     );
@@ -110,7 +101,7 @@ const Poll = ({ title, index }) => (
   <p
     data-colour={index === 0 ? 'blue' : index === 1 ? 'red' : index === 2 ? 'orange' : 'green'}
     className={`pointer fancyFont dib pa4 mv0 h5 ${(index === 1 && 'span2 brown') ||
-      (index === 2 && 'span2 brown')} `}
+      (index === 2 && 'span2')} `}
   >
     {title}
   </p>

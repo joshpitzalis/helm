@@ -19,6 +19,10 @@ import './grid.css';
 import Footer from './components/Footer.js';
 import { auth, db } from './constants/firebase';
 import PropTypes from 'prop-types';
+import {
+  updateLastLogin,
+  checkThatUserLoggedInLessThanAWeek,
+} from './components/Onboarding/helpers';
 
 export default class Routes extends Component {
   state = {
@@ -36,19 +40,20 @@ export default class Routes extends Component {
 
   componentDidMount() {
     // when logged in set auth to true so you can access private routes
-    auth.onAuthStateChanged(
-      user =>
-        user
-          ? this.setState({
-              authed: true,
-              user: user,
-            })
-          : this.setState({
-              authed: false,
-              user: null,
-            }),
-    );
+    auth.onAuthStateChanged(user => {
+      user
+        ? this.setState({
+            authed: true,
+            user: user,
+          })
+        : this.setState({
+            authed: false,
+            user: null,
+          });
 
+      user && updateLastLogin(user.providerData[0].uid);
+      user && checkThatUserLoggedInLessThanAWeek(user.providerData[0].uid);
+    });
     // create a user on firebase when you signup and then update it every time
     // you login so that you have a fresh access toke to resync your friends
     // list when you create a private poll.
@@ -58,14 +63,18 @@ export default class Routes extends Component {
         const uid = auth.currentUser.uid;
         const { name, id } = result.additionalUserInfo.profile;
         const photo = result.additionalUserInfo.profile.picture.data.url;
-        db.doc(`users/${id}`).set({
-          uid,
-          token,
-          lastUpdate: +new Date(),
-          id,
-          name,
-          photo,
-        });
+
+        db.doc(`users/${id}`).set(
+          {
+            uid,
+            token,
+            id,
+
+            name,
+            photo,
+          },
+          { merge: true },
+        );
       }
     });
   }

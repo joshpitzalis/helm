@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Create from './Create';
-import Questions from './Questions';
+import Questions from './Questions.jsx';
 import Friends from './Friends';
 import Congratulations from './Congratulations';
 import { db, storage } from '../../constants/firebase';
@@ -164,7 +164,14 @@ class Polls extends Component {
                   handleAddFriend={this.handleAddFriend}
                 />
               ),
-              4: <Congratulations pollId={this.state.pollId} />,
+              4: (
+                <Congratulations
+                  pollId={this.state.pollId}
+                  privacy={this.state.privacy}
+                  type={this.state.type}
+                  userId={this.props.user.providerData[0].uid}
+                />
+              ),
             }[this.state.step]
           }
           <Progress step={this.state.step} />

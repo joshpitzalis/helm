@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { db } from '../../constants/firebase';
 import { withUserData } from '../../hocs/withUserData';
 import { ErrorHandler } from '../../hocs/ErrorHandler';
+import { markOnboardingStepComplete } from '../Onboarding/helpers';
 
 class Responses extends Component {
   state = {
@@ -25,6 +26,7 @@ class Responses extends Component {
 
   handleDelete = () => {
     db.doc(`polls/${this.props.match.params.pollId}`).delete();
+    markOnboardingStepComplete(this.props.user.providerData[0].uid, 'delete');
     this.setState({
       redirectTo: `/home`,
     });
@@ -48,6 +50,9 @@ class Responses extends Component {
 
     const user = this.props.user.providerData[0].uid || null;
     const creator = poll.createdBy;
+
+    console.log('user', user);
+    console.log('creator', creator);
     return (
       <article className="pv5">
         <section className="mw6-ns w-100 center tc">
@@ -97,7 +102,7 @@ class Responses extends Component {
           </button>
           {user &&
             user === creator && (
-              <button data-test="delete" className="seethrough" onClick={this.handleDelete}>
+              <button data-test="delete" className="seethrough pointer" onClick={this.handleDelete}>
                 Delete This Poll
               </button>
             )}

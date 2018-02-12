@@ -3,10 +3,10 @@ import React from 'react';
 import { compose, branch, renderComponent, setDisplayName, setPropTypes } from 'recompose';
 import PropTypes from 'prop-types';
 
-export const LogoutButton = () => (
+export const LogoutButton = ({ color }) => (
   <button
     data-test="logout"
-    className="tr bn underline f4 b pointer seethrough"
+    className={`tr bn underline f4 b pointer seethrough ${color}`}
     onClick={() =>
       auth
         .signOut()

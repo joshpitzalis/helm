@@ -1,14 +1,15 @@
-import { auth, db } from "../constants/firebase";
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import axios from "axios";
+import { auth, db } from '../constants/firebase';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import axios from 'axios';
+import { markOnboardingStepComplete } from '../components/Onboarding/helpers';
 
 export const withFriendsData = WrappedComponent => {
   return class extends Component {
     static contextTypes = { user: PropTypes.object };
 
     state = {
-      friends: []
+      friends: [],
     };
 
     async componentDidMount() {
@@ -18,11 +19,11 @@ export const withFriendsData = WrappedComponent => {
         .then(result => result.data().token);
 
       axios
-        .get(
-          `https://graph.facebook.com/me/friends?access_token=${token}&fields=name,id,picture`
-        )
+        .get(`https://graph.facebook.com/me/friends?access_token=${token}&fields=name,id,picture`)
         .then(result => this.setState({ friends: result.data.data }))
         .catch(error => console.log(error));
+
+      markOnboardingStepComplete(this.context.user.providerData[0].uid, 'friends');
     }
 
     render() {
@@ -33,7 +34,7 @@ export const withFriendsData = WrappedComponent => {
 
 export class withMyData extends Component {
   state = {
-    friends: []
+    friends: [],
   };
 
   async componentDidMount() {
@@ -43,9 +44,7 @@ export class withMyData extends Component {
       .then(result => result.data().token);
 
     axios
-      .get(
-        `https://graph.facebook.com/me?access_token=${token}&fields=name,id,picture`
-      )
+      .get(`https://graph.facebook.com/me?access_token=${token}&fields=name,id,picture`)
       .then(result => this.setState({ friends: result.data.data }))
       .catch(error => console.log(error));
   }

@@ -72,7 +72,7 @@ class Create extends Component {
 
     return (
       <Fragment>
-        <h1>Create a poll</h1>
+        <h2 className="f1">Create a Poll</h2>
         <TextInput
           element="title"
           handleChange={this.props.handleChange}

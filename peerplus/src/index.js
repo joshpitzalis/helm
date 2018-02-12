@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
-import { BrowserRouter, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import Navigation from './components/Navigation/index.js';
 import LandingPage from './components/Landing';
 import HomePage from './components/Home';
@@ -84,40 +84,44 @@ export default class Routes extends Component {
       <BrowserRouter>
         <main>
           <Navigation />
-          <Route
-            exact
-            path={routes.LANDING}
-            render={props => <LandingPage {...props} count={5} />}
-          />
-          <PrivateRoute exact path={routes.HOME} authed={this.state.authed} component={HomePage} />
-          <PrivateRoute
-            exact
-            path={`${routes.ACCOUNT}/:userId`}
-            authed={this.state.authed}
-            component={AccountPage}
-          />
-          <PrivateRoute
-            exact
-            path={routes.CREATE}
-            authed={this.state.authed}
-            component={CreatePoll}
-          />
-          <Route exact path={`${routes.POLL}/:pollId`} component={Poll} />
-          <PrivateRoute
-            exact
-            path={`${routes.RESPONSES}/:pollId`}
-            authed={this.state.authed}
-            component={Responses}
-          />
-          <PrivateRoute
-            exact
-            path={`${routes.ONBOARDING}/:userId`}
-            authed={this.state.authed}
-            component={Onboarding}
-          />
-          <Route exact path={`${routes.DONE}/:pollId`} component={Done} />
-          <Route exact path={routes.ERROR} component={Error} />
-          <Redirect from="/fun" to="/" />
+          <Switch>
+            <Route exact path={routes.LANDING} render={props => <LandingPage {...props} />} />
+            <PrivateRoute
+              exact
+              path={routes.HOME}
+              authed={this.state.authed}
+              component={HomePage}
+            />
+            <PrivateRoute
+              exact
+              path={`${routes.ACCOUNT}/:userId`}
+              authed={this.state.authed}
+              component={AccountPage}
+            />
+            <PrivateRoute
+              exact
+              path={routes.CREATE}
+              authed={this.state.authed}
+              component={CreatePoll}
+            />
+            <Route exact path={`${routes.POLL}/:pollId`} component={Poll} />
+            <PrivateRoute
+              exact
+              path={`${routes.RESPONSES}/:pollId`}
+              authed={this.state.authed}
+              component={Responses}
+            />
+            <PrivateRoute
+              exact
+              path={`${routes.ONBOARDING}/:userId`}
+              authed={this.state.authed}
+              component={Onboarding}
+            />
+            <Route exact path={`${routes.DONE}/:pollId`} component={Done} />
+            <Route exact path={routes.ERROR} component={Error} />
+            {/* <Redirect exact from="/fun" to="/" /> */}
+            <Route component={LandingPage} />
+          </Switch>
           <Footer />
         </main>
       </BrowserRouter>

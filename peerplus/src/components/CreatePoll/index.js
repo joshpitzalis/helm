@@ -170,6 +170,7 @@ class Polls extends Component {
                   privacy={this.state.privacy}
                   type={this.state.type}
                   userId={this.props.user.providerData[0].uid}
+                  title={this.state.title}
                 />
               ),
             }[this.state.step]

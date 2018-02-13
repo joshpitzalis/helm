@@ -65,14 +65,6 @@ class Questions extends Component {
                 ) : (
                   <p>'Drag image here to upload.'</p>
                 )}
-
-                {/* {this.props.transferCurrent !== 0 &&
-                  this.props.transferCurrent !== this.props.transferTotal && (
-                    <progress
-                  value={this.props.transferCurrent}
-                  max={this.props.transferTotal}
-                    />
-                )} */}
               </Dropzone>
             )}
             <button className="seethrough" onClick={this.props.handleDelete(index)}>
@@ -80,6 +72,11 @@ class Questions extends Component {
             </button>
           </span>
         ))}
+        {this.props.transferCurrent !== 0 &&
+          this.props.transferCurrent &&
+          this.props.transferCurrent !== this.props.transferTotal && (
+            <progress value={this.props.transferCurrent} max={this.props.transferTotal} />
+          )}
         <div>
           <button data-test="add" className="seethrough" onClick={this.props.addQuestion}>
             Add Another

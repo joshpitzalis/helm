@@ -1,5 +1,6 @@
 import firebase from 'firebase';
 
+// global.XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 require('firebase/firestore');
 
 const config = {

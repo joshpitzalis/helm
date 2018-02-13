@@ -134,11 +134,19 @@ class Poll extends Component {
                   <span className={poll.choice === 'multi' ? 'checkmark' : 'radiomark'} />
                 </label>
               ))}
+            <p data-error>{this.state.errors}</p>
             <input
               data-test="submit"
               type="submit"
               value={this.state.submitting ? 'Submitting...' : 'Submit'}
-              onClick={this.handleSubmit}
+              onClick={
+                Object.keys(this.state.responses).length === 0
+                  ? (e) => {
+                      e.preventDefault();
+                      this.setState({ errors: 'You must select atleast one option to proceed.' });
+                    }
+                  : this.handleSubmit
+              }
             />
           </form>
         </section>

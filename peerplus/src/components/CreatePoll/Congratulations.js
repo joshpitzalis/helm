@@ -27,7 +27,7 @@ class Congratulations extends Component {
         <Link to={`/poll/${this.props.pollId}`}>
           <h2 data-test="congratulations" className="f1 lh-title">
             Poll is available at
-            <span data-test="newPollId">{` ${this.props.pollId}`}</span>
+            <span data-test="newPollId">{`${this.props.pollId}`}</span>
           </h2>
         </Link>
         <ShareButton compact socialMedia="facebook" url={url} media={Logo} text={title} />

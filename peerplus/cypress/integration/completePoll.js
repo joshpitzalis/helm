@@ -1,6 +1,6 @@
 import user1 from '../fixtures/testUsers';
 
-describe('Finer details on completing a poll', () => {
+describe('Cannot complete a poll without a response', () => {
   before('login', () => {
     cy.visit('/home', {
       onBeforeLoad: (win) => {

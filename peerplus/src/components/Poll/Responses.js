@@ -52,8 +52,6 @@ class Responses extends Component {
     const user = this.props.user.providerData[0].uid || null;
     const creator = poll.createdBy;
 
-    console.log('user', user);
-    console.log('creator', creator);
     return (
       <article className="pv5">
         <section className="mw6-ns w-100 center tc">
@@ -125,7 +123,7 @@ const DeleteButton = withState('confirmVisible', 'setConfirmVisible', false)(
 
 const Percentage = ({ value, index, total }) => (
   <p className="w-25" data-test={`count${index}`}>
-    {Math.round(value / total * 100)} %
+    {Math.floor(value / total * 100)} %
   </p>
 );
 

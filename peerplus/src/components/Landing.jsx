@@ -23,8 +23,8 @@ export default class Landing extends Component {
     }
     return (
       <Fragment>
-        <article className="ph5-ns pv4-ns pa3">
-          <h1 className="lh-title">
+        <article className="ph5-ns pv4-ns pa3 tl-ns tc">
+          <h1 className="lh-title f1-ns f2 tl-ns tc">
             Quick & Easy <br /> Online Polls.
           </h1>
           <button onClick={() => auth.signInWithRedirect(facebookAuthProvider)}>Get Started</button>
@@ -37,7 +37,7 @@ export default class Landing extends Component {
           <PreparedPolls />
         </section>
         <article className="pa5-ns pa3 tc">
-          <h1 className="tc lh-title">
+          <h1 className="tc lh-title f1-ns f2">
             Create your own poll <br />in 30 seconds.
           </h1>
           <button onClick={() => auth.signInWithRedirect(facebookAuthProvider)}>Begin</button>

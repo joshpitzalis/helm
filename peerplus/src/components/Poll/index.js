@@ -110,7 +110,7 @@ class Poll extends Component {
             {poll &&
               poll.questions &&
               poll.questions.map((question, index) => (
-                <label key={index} className="container">
+                <label key={index} className="container tl">
                   <input
                     data-test={`response${index}`}
                     type={poll.choice === 'multi' ? 'checkbox' : 'radio'}

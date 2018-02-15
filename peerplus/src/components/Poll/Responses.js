@@ -67,7 +67,7 @@ class Responses extends Component {
                   <Percentage
                     value={poll.responses[response]}
                     index={index}
-                    total={Object.keys(poll.responses).length}
+                    total={poll.responses}
                   />
                   {poll.type === 'text' ? (
                     <p>
@@ -123,7 +123,7 @@ const DeleteButton = withState('confirmVisible', 'setConfirmVisible', false)(
 
 const Percentage = ({ value, index, total }) => (
   <p className="w-25" data-test={`count${index}`}>
-    {Math.floor(value / total * 100)} %
+    {Math.floor(value / Object.values(total).reduce((a, b) => a + b, 0) * 100)} %
   </p>
 );
 

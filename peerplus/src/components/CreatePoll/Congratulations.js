@@ -34,7 +34,7 @@ class Congratulations extends Component {
     return (
       <Fragment>
         <Link to={`/poll/${this.props.pollId}`}>
-          <h2 data-test="congratulations" className="f1-ns f3 lh-title">
+          <h2 data-test="congratulations" className="f3 lh-title">
             Poll is available at
             <span data-test="newPollId">{`${this.props.pollId}`}</span>
           </h2>

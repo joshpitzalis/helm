@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import {
   compose,
   branch,
@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Loading } from '../Loading';
 import { markOnboardingStepComplete } from '../Onboarding/helpers';
-// import PieChart from 'react-minimal-pie-chart';
+import PieChart from 'react-minimal-pie-chart';
 
 const NoPollsAvailable = () => <p>No Polls available.</p>;
 
@@ -25,20 +25,26 @@ const showSpinnerWhileLoading = branch(({ polls }) => !polls, renderComponent(Lo
 // const onlyShowIfAuthenticated = branch(({ user }) => !user, renderNothing);
 
 const ListOfPolls = ({ polls, user }) => (
-  <ul className="list pl0 ml0 center mw6 br2 ">
+  <ul className="list pl0 ml0 center mw6 br2 tl ">
     {polls.map((poll, index) => (
-      <Fragment>
-        {/* <PieChart
-          data={[
-            { value: 10, key: 1, color: '#E38627' },
-            { value: 15, key: 2, color: '#C13C37' },
-            { value: 20, key: 3, color: '#6A2135' },
-          ]}
-        /> */}
+      <div className="flex jcc" key={index}>
+        <PieChart
+          data={Object.values(poll.responses).map((response, index) => ({
+            value: response,
+            key: index,
+            color: {
+              0: '#f7db8c',
+              1: '#adcfe2',
+              2: '#f37966',
+              3: '#dce8bd',
+              4: '#ffaf39',
+            }[index],
+          }))}
+          className="h3 w3 dib top-1 relative ml2"
+        />
         <li
           data-colour="green"
-          className="ph3 pv3 mv3 grow"
-          key={index}
+          className="ph3 pv3 mv3 grow dib h3 w-100 mh3"
           data-test={`response${index}`}
         >
           <Link
@@ -54,7 +60,7 @@ const ListOfPolls = ({ polls, user }) => (
             {poll.title}
           </Link>
         </li>
-      </Fragment>
+      </div>
     ))}
   </ul>
 );

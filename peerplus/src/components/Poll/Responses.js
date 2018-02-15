@@ -4,6 +4,7 @@ import { db } from '../../constants/firebase';
 import { withUserData } from '../../hocs/withUserData';
 import { ErrorHandler } from '../../hocs/ErrorHandler';
 import { markOnboardingStepComplete } from '../Onboarding/helpers';
+import { withState, withHandlers } from 'recompose';
 
 class Responses extends Component {
   state = {
@@ -51,14 +52,12 @@ class Responses extends Component {
     const user = this.props.user.providerData[0].uid || null;
     const creator = poll.createdBy;
 
-    console.log('user', user);
-    console.log('creator', creator);
     return (
       <article className="pv5">
         <section className="mw6-ns w-100 center tc">
           <header>
-            <h1>{poll.title}</h1>
-            <h2>{poll.context}</h2>
+            <h2 className="f1 lh-title">{poll.title}</h2>
+            <h3>{poll.context}</h3>
           </header>
           {user && user === creator && <Participants sentTo={poll.sendTo} />}
           <ul className="list pl0 ml0 center mw6 br2 ">
@@ -102,9 +101,7 @@ class Responses extends Component {
           </button>
           {user &&
             user === creator && (
-              <button data-test="delete" className="seethrough pointer" onClick={this.handleDelete}>
-                Delete This Poll
-              </button>
+              <DeleteButton handleDelete={this.handleDelete} text={'Delete this Poll'} />
             )}
         </section>
       </article>
@@ -112,9 +109,21 @@ class Responses extends Component {
   }
 }
 
+const DeleteButton = withState('confirmVisible', 'setConfirmVisible', false)(
+  ({ handleDelete, text, confirmVisible, setConfirmVisible }) => (
+    <button
+      data-test="delete"
+      className="seethrough pointer"
+      onClick={confirmVisible ? handleDelete : () => setConfirmVisible(true)}
+    >
+      {confirmVisible ? 'Are you sure ?' : text}
+    </button>
+  ),
+);
+
 const Percentage = ({ value, index, total }) => (
   <p className="w-25" data-test={`count${index}`}>
-    {Math.round(value / total * 100)} %
+    {Math.floor(value / total * 100)} %
   </p>
 );
 

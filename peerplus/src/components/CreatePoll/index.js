@@ -44,7 +44,7 @@ class Polls extends Component {
       this.setState({ uploadInProcess: true });
       let questions = [...this.state.questions];
       const file = e[0];
-      questions[i] = await uploadImage(file, this.state.pollId);
+      questions[i] = await uploadImage(file, this.state.pollId, this.handleTransfer);
       this.setState({
         questions,
         uploadInProcess: false,
@@ -85,6 +85,12 @@ class Polls extends Component {
     this.setState({
       pollId: newPoll.id,
       step: this.state.step + 1,
+    });
+  };
+
+  handleTransfer = (property, value) => {
+    this.setState({
+      [property]: value,
     });
   };
 
@@ -152,6 +158,8 @@ class Polls extends Component {
                   handleSubmit={this.handleSubmitForm}
                   privacy={this.state.privacy}
                   uploadInProcess={this.state.uploadInProcess}
+                  transferTotal={this.state.transferTotal}
+                  transferCurrent={this.state.transferCurrent}
                 />
               ),
               3: (
@@ -170,6 +178,7 @@ class Polls extends Component {
                   privacy={this.state.privacy}
                   type={this.state.type}
                   userId={this.props.user.providerData[0].uid}
+                  title={this.state.title}
                 />
               ),
             }[this.state.step]

@@ -172,6 +172,18 @@ h1 {
   font-weight: 500;
   line-height: 26.4px;
 }
+
+@media only screen and (min-width: 500px) {
+  .f1-ns {
+    font-family: 'salomeregular', Arial, sans-serif;
+    font-size: 98px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 500;
+    line-height: 1.25;
+  }
+}
+
 h2,
 h3 {
   font-family: Futura, 'Trebuchet MS', Arial, sans-serif;
@@ -243,7 +255,7 @@ input[type='text'] {
 .container {
   display: block;
   position: relative;
-  /* padding-left: 35px; */
+  left: 3rem;
   padding: var(--spacing-medium);
   cursor: pointer;
   font-size: 22px;
@@ -265,7 +277,7 @@ input[type='text'] {
   margin: var(--spacing-medium);
   position: absolute;
   top: 0;
-  left: 0;
+  left: -3rem;
   height: var(--spacing-large);
   width: var(--spacing-large);
   background-color: white;
@@ -276,7 +288,7 @@ input[type='text'] {
   margin: var(--spacing-medium);
   position: absolute;
   top: 0;
-  left: 0;
+  left: -3rem;
   height: var(--spacing-large);
   width: var(--spacing-large);
   background-color: white;

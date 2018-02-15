@@ -1,7 +1,7 @@
 import user1 from '../fixtures/testUsers';
 
-describe('requires all fields to proceed from step 1', () => {
-  beforeEach('login', () => {
+describe('Cannot complete a poll without a response', () => {
+  before('login', () => {
     cy.visit('/home', {
       onBeforeLoad: (win) => {
         win.localStorage.setItem(user1.key, user1.token);
@@ -13,7 +13,7 @@ describe('requires all fields to proceed from step 1', () => {
     });
   });
 
-  it('creates the private poll', () => {
+  it('creates a public poll', () => {
     cy.get("[data-test='create']").click();
     cy.url().should('contain', 'create');
     cy.get("[data-test='title']").type('test question');
@@ -22,7 +22,7 @@ describe('requires all fields to proceed from step 1', () => {
     cy.get("[data-test='text']").check();
     cy.get("[data-test='submit']").click();
     cy.get('[data-error]').contains('You must make your poll public or private.');
-    cy.get("[data-test='private']").check();
+    cy.get("[data-test='public']").check();
     cy.get("[data-test='submit']").click();
     cy.contains('Options');
     cy.get("[data-test='submit']").click();
@@ -32,21 +32,30 @@ describe('requires all fields to proceed from step 1', () => {
     cy.get('[data-test="add"]').click();
     cy.get("[data-test='question1']").type('test question');
     cy.get("[data-test='submit']").click();
-    cy.contains('Send to');
-    cy.wait(5000);
     cy
-      .get('[data-addFriend]')
-      .first()
-      .click();
-    cy.get("[data-test='submit']").click();
+      .get('[data-test="newPollId"]')
+      .invoke('text')
+      .as('pollId');
     cy.get('[data-test="congratulations"]');
-    // select a friend
-    // send
-    // make sure friend recieved
-    // make sure non friend didnt
+  });
+
+  it('Cannot complete the new poll without a response ', function () {
+    cy.visit(`/poll/${this.pollId}`);
+    cy.get("[data-test='submit']").click();
+    cy.get('[data-error]').contains('You must select atleast one option to proceed.');
+    cy.get("[data-test='response0']").check();
+    cy.get("[data-test='submit']").click();
+    cy.url().should('contain', 'done');
+    cy.contains('Thank you for completing the poll.');
+    cy.get("[data-test='login']").contains('Sign Up With Facebook');
   });
 
   it('deletes the poll', () => {
+    cy.visit('/home', {
+      onBeforeLoad: (win) => {
+        win.localStorage.setItem(user1.key, user1.token);
+      },
+    });
     cy.url().should('contain', 'home');
     cy.get("[data-test='response0']").click();
     cy.get("[data-test='delete']").click();
@@ -56,8 +65,3 @@ describe('requires all fields to proceed from step 1', () => {
     cy.contains('No Polls available.');
   });
 });
-
-// test that loading appears before friends content arrives
-// test that add person works
-// test that remove eprson works
-// test that resync works

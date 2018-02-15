@@ -47,36 +47,36 @@ class _Badges extends Component {
 
   render() {
     return (
-      <div className="grid row gap1">
+      <div className="grid row5 row-ns rowGap1">
         <Link to={`/onboarding/${this.props.user.uid}`} className="pt3">
           <Thunder color="#f5b152" />
         </Link>
         <Link to={`/onboarding/${this.props.user.uid}`}>
-          <Weekly color={this.state.onboarding.weekly && '#f5b152'} />
+          <Weekly color={this.state.onboarding && this.state.onboarding.weekly && '#f5b152'} />
         </Link>
         <Link to={`/onboarding/${this.props.user.uid}`}>
-          <First color={this.state.onboarding.public && '#f5b152'} />
+          <First color={this.state.onboarding && this.state.onboarding.public && '#f5b152'} />
         </Link>
         <Link to={`/onboarding/${this.props.user.uid}`}>
-          <Picture color={this.state.onboarding.photo && '#f5b152'} />
+          <Picture color={this.state.onboarding && this.state.onboarding.photo && '#f5b152'} />
         </Link>
         <Link to={`/onboarding/${this.props.user.uid}`}>
-          <Chart color={this.state.onboarding.response && '#f5b152'} />
+          <Chart color={this.state.onboarding && this.state.onboarding.response && '#f5b152'} />
         </Link>
         <Link to={`/onboarding/${this.props.user.uid}`}>
-          <Recieve color={this.state.onboarding.recieved && '#f5b152'} />
+          <Recieve color={this.state.onboarding && this.state.onboarding.recieved && '#f5b152'} />
         </Link>
         <Link to={`/onboarding/${this.props.user.uid}`} className="pt2">
-          <Add color={this.state.onboarding.private && '#f5b152'} />
+          <Add color={this.state.onboarding && this.state.onboarding.private && '#f5b152'} />
         </Link>
         <Link to={`/onboarding/${this.props.user.uid}`}>
-          <Person color={this.state.onboarding.friends && '#f5b152'} />
+          <Person color={this.state.onboarding && this.state.onboarding.friends && '#f5b152'} />
         </Link>
         <Link to={`/onboarding/${this.props.user.uid}`}>
-          <Invite color={this.state.onboarding.invite && '#f5b152'} />
+          <Invite color={this.state.onboarding && this.state.onboarding.invite && '#f5b152'} />
         </Link>
         <Link to={`/onboarding/${this.props.user.uid}`} className="pt1">
-          <Trash color={this.state.onboarding.delete && '#f5b152'} />
+          <Trash color={this.state.onboarding && this.state.onboarding.delete && '#f5b152'} />
         </Link>
       </div>
     );

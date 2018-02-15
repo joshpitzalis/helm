@@ -17,24 +17,24 @@ class Poll extends Component {
       redirectTo: null,
       submitting: false,
     };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
     db
       .doc(`polls/${this.props.match.params.pollId}`)
       .get()
-      .then(
-        poll =>
-          poll.exists &&
+      .then(poll =>
+        poll.exists &&
           this.setState({
             poll: poll.data(),
-          }),
-      );
+          }));
 
     this.props.user && markOnboardingStepComplete(this.props.user.providerData[0].uid, 'recieved');
   }
 
-  handleChange = (e, question) => {
+  handleChange(e, question) {
     const count = e.target.checked ? 1 : 0;
     const responses = this.state.responses;
     responses[question] = count;
@@ -43,9 +43,9 @@ class Poll extends Component {
     this.setState({
       responses,
     });
-  };
+  }
 
-  handleSubmit = async e => {
+  async handleSubmit(e) {
     e.preventDefault();
 
     const existing = this.state.poll.responses || {};
@@ -69,7 +69,7 @@ class Poll extends Component {
     this.setState({
       redirectTo: `/done/${this.props.match.params.pollId}`,
     });
-  };
+  }
 
   render() {
     const { poll, redirectTo } = this.state;
@@ -87,7 +87,7 @@ class Poll extends Component {
       console.log("We've been expecting you.");
     } else if (poll && this.props.user && poll.privacy == 'private') {
       this.setState({
-        redirectTo: `/error`,
+        redirectTo: '/error',
       });
     } else {
       return (
@@ -103,14 +103,14 @@ class Poll extends Component {
       <article className="pv5">
         <section className="mw6-ns w-100 center tc">
           <header>
-            <h1>{poll && poll.title}</h1>
-            <h2>{poll && poll.context}</h2>
+            <h2 className="f1 lh-title">{poll && poll.title}</h2>
+            <h3>{poll && poll.context}</h3>
           </header>
           <form>
             {poll &&
               poll.questions &&
               poll.questions.map((question, index) => (
-                <label key={index} className="container">
+                <label key={index} className="container tl">
                   <input
                     data-test={`response${index}`}
                     type={poll.choice === 'multi' ? 'checkbox' : 'radio'}
@@ -134,11 +134,19 @@ class Poll extends Component {
                   <span className={poll.choice === 'multi' ? 'checkmark' : 'radiomark'} />
                 </label>
               ))}
+            <p data-error>{this.state.errors}</p>
             <input
               data-test="submit"
               type="submit"
               value={this.state.submitting ? 'Submitting...' : 'Submit'}
-              onClick={this.handleSubmit}
+              onClick={
+                Object.keys(this.state.responses).length === 0
+                  ? (e) => {
+                      e.preventDefault();
+                      this.setState({ errors: 'You must select atleast one option to proceed.' });
+                    }
+                  : this.handleSubmit
+              }
             />
           </form>
         </section>

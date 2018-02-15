@@ -55,7 +55,7 @@ describe("Users who havn't signed up get an invitation to join after they comple
       },
     });
     cy.url().should('contain', 'home');
-    cy.wait(5000);
+    cy.wait(10000);
     cy.get("[data-test='response0']").click();
     cy.get("[data-test='delete']").click();
     cy.get("[data-test='delete']").click();

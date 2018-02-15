@@ -8,7 +8,7 @@ jobs:
     docker:
       # specify the version you desire here
       - image: cypress/base:6
-      environment:
+        environment:
           ## this enables colors in the output
           TERM: xterm
       # Specify service dependencies here if necessary

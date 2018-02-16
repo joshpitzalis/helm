@@ -59,5 +59,11 @@ describe('requires all fields to proceed from step 1', () => {
 
 // test that loading appears before friends content arrives
 // test that add person works
-// test that remove eprson works
+// test that remove person works
 // test that resync works
+
+// add someone to ongoing form
+// create private poll
+// add a new participant
+// make sure that perosn got teh invite
+// check total participants

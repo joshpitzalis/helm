@@ -12,6 +12,7 @@ import Responses from './components/Poll/Responses';
 import CreatePoll from './components/CreatePoll';
 import Done from './components/Poll/Done';
 import Error from './components/Error';
+import AddTo from './components/Poll/AddSomeoneNew';
 import * as routes from './constants/routes';
 import 'normalize.css';
 import './style.css';
@@ -110,6 +111,12 @@ export default class Routes extends Component {
               path={`${routes.RESPONSES}/:pollId`}
               authed={this.state.authed}
               component={Responses}
+            />
+            <PrivateRoute
+              exact
+              path={`/addTo/:pollId`}
+              authed={this.state.authed}
+              component={AddTo}
             />
             <PrivateRoute
               exact

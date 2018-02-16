@@ -59,7 +59,15 @@ class Responses extends Component {
             <h2 className="f1 lh-title">{poll.title}</h2>
             <h3>{poll.context}</h3>
           </header>
-          {user && user === creator && <Participants sentTo={poll.sendTo} />}
+          {user &&
+            user === creator && (
+              <Participants
+                sentTo={poll.sendTo}
+                redirect={() =>
+                  this.setState({ redirectTo: `/addTo/${this.props.match.params.pollId}` })
+                }
+              />
+            )}
           <ul className="list pl0 ml0 center mw6 br2 ">
             {poll.responses ? (
               Object.keys(poll.responses).map((response, index) => (
@@ -127,13 +135,19 @@ const Percentage = ({ value, index, total }) => (
   </p>
 );
 
-const Participants = ({ sentTo }) => (
-  <div>
+const Participants = ({ sentTo, redirect }) => (
+  <div className="pa4 tc grid row aic jcc gap1">
+    <button className="h3 grow dib ma0" onClick={redirect}>
+      +
+    </button>
     {sentTo &&
       sentTo.map((participant, index) => (
-        <div className="pa4 tc" key={index}>
-          <img src={participant.photo} className="br-100 h3 w3 dib" alt="avatar" />
-        </div>
+        <img
+          key={index}
+          src={participant.photo || participant.picture.data.url}
+          className="br-100 h3 w3 dib ma0"
+          alt="avatar"
+        />
       ))}
   </div>
 );

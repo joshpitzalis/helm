@@ -72,3 +72,12 @@ export class WithMyPollData extends Component {
     return <Fragment> {this.props.children(this.state.polls)}</Fragment>;
   }
 }
+
+export const WithOnePollData = lifecycle({
+  componentDidMount() {
+    db
+      .doc(`polls/${this.props.match.params.pollId}`)
+      .get()
+      .then(doc => this.setState({ poll: doc.data() }));
+  },
+});

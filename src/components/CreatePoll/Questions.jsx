@@ -20,7 +20,12 @@ class Questions extends Component {
       this.props.questions[1] === ''
     ) {
       this.setState({
-        errors: 'You need to add atleast two questions to proceed',
+        errors: 'You need to add atleast two options to proceed',
+      });
+    } else if (this.props.questions[0] === this.props.questions[1]) {
+      this.setState({
+        errors:
+          'Your options cannot be exactly teh same, that would make checking teh responses confusing.',
       });
     } else {
       this.props.privacy === 'private'

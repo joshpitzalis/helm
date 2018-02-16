@@ -7,7 +7,7 @@ install:
 before_script:
 - npm start -- --silent &
 script:
-- npm run cypress open
+- cypress run
 notifications:
   email: false
 cache:

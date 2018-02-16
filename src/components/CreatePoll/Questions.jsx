@@ -25,7 +25,7 @@ class Questions extends Component {
     } else if (this.props.questions[0] === this.props.questions[1]) {
       this.setState({
         errors:
-          'Your options cannot be exactly teh same, that would make checking teh responses confusing.',
+          'Your options cannot be exactly teh same, that would make checking the responses confusing.',
       });
     } else {
       this.props.privacy === 'private'

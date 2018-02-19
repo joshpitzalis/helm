@@ -4,7 +4,15 @@ import { withUserData } from '../../hocs/withUserData';
 import PropTypes from 'prop-types';
 
 const Notifications = ({ pollcount, user }) =>
-  user && <p className="tr bn underline f4 b pointer seethrough" data-test='notifications'>{pollcount}</p>;
+  user && (
+    <p
+      data-colour="orange"
+      className="tc bn w2 h2 b pointer br-100 brown flex x relative left-1"
+      data-test="notifications"
+    >
+      {pollcount}
+    </p>
+  );
 
 export default compose(
   setDisplayName('Notifications'),

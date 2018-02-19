@@ -94,6 +94,10 @@ button {
   color: var(--black);
 }
 
+button:focus {
+  outline: 0;
+}
+
 [data-colour='orange'] {
   background-color: var(--primary);
 }
@@ -368,4 +372,8 @@ hr {
 .cw {
   grid-auto-columns: -webkit-min-content;
   grid-auto-columns: min-content;
+}
+
+.no-no-underline {
+  text-decoration: none !important;
 }

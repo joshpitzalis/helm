@@ -7,6 +7,7 @@ import ProgressiveImage from 'react-progressive-image';
 import Logo from '../../images/peerPlusLogo.png';
 import { Loading } from '../Loading';
 import { markOnboardingStepComplete } from '../Onboarding/helpers';
+import { getProfilePicture } from './helpers';
 
 class Poll extends Component {
   constructor(props) {
@@ -27,9 +28,14 @@ class Poll extends Component {
       .get()
       .then(poll =>
         poll.exists &&
-          this.setState({
-            poll: poll.data(),
-          }));
+          this.setState(
+            {
+              poll: poll.data(),
+            },
+            () =>
+              getProfilePicture(this.state.poll.createdBy).then(res =>
+                this.setState({ createdBy: res })),
+          ));
 
     this.props.user && markOnboardingStepComplete(this.props.user.providerData[0].uid, 'recieved');
   }
@@ -102,10 +108,15 @@ class Poll extends Component {
     return (
       <article className="pv5">
         <section className="mw6-ns w-100 center tc">
+          {poll &&
+            poll.privacy == 'public' && (
+              <img src={this.state.createdBy} alt="" className="br-100 h3 w3 dib ma0" />
+            )}
           <header>
             <h2 className="f1 lh-title">{poll && poll.title}</h2>
             <h3>{poll && poll.context}</h3>
           </header>
+          <hr />
           <form>
             {poll &&
               poll.questions &&

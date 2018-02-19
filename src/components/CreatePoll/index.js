@@ -8,6 +8,7 @@ import { compose, setDisplayName, setPropTypes } from 'recompose';
 import { withUserData } from '../../hocs/withUserData';
 import PropTypes from 'prop-types';
 import { uploadImage } from './helpers.js';
+import { auth, facebookAuthProvider } from '../../constants/firebase';
 
 class Polls extends Component {
   state = {
@@ -97,7 +98,7 @@ class Polls extends Component {
 
   handleCreateForm = async e => {
     if (!this.props.user) {
-      console.log('no pig');
+      auth.signInWithPopup(facebookAuthProvider);
       return;
     }
     const newPoll = await db.collection('polls').doc();

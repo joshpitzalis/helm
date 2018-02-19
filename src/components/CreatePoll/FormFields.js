@@ -1,5 +1,5 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export const TextInput = ({
   handleChange,
@@ -8,7 +8,7 @@ export const TextInput = ({
   errors,
   touched,
   value,
-  placeholder
+  placeholder,
 }) => (
   <div>
     <input
@@ -23,7 +23,7 @@ export const TextInput = ({
       {errors[element] && touched[element] ? errors[element] : null}
     </p>
   </div>
-)
+);
 
 TextInput.propTypes = {
   handleChange: PropTypes.func.isRequired,
@@ -32,8 +32,8 @@ TextInput.propTypes = {
   errors: PropTypes.object.isRequired,
   touched: PropTypes.object.isRequired,
   value: PropTypes.string.isRequired,
-  placeholder: PropTypes.string.isRequired
-}
+  placeholder: PropTypes.string.isRequired,
+};
 
 export const RadioChoice = ({
   handleChange,
@@ -43,7 +43,7 @@ export const RadioChoice = ({
   choice,
   group,
   title,
-  showErrors
+  showErrors,
 }) => (
   <label className="container">
     {title}
@@ -60,7 +60,7 @@ export const RadioChoice = ({
       {errors[group] && showErrors ? errors[group] : null}
     </p>
   </label>
-)
+);
 
 RadioChoice.propTypes = {
   handleChange: PropTypes.func.isRequired,
@@ -69,23 +69,17 @@ RadioChoice.propTypes = {
   value: PropTypes.string.isRequired,
   choice: PropTypes.string,
   group: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired
-}
+  title: PropTypes.string.isRequired,
+};
 
-
-
-export const required = value => {
-  return value && value.length > 0
-}
-export const longerThan = (min, value) => {
-  return value.length > min
-}
+export const required = value => value && value.length > 0;
+export const longerThan = (min, value) => value.length > min;
 
 // const isValidEmail = value => {
 //   return value.indexOf('@') !== -1
 // }
 
-export const isValidText = value => {
-  const regExp = /^[A-Za-z0-9 .,!"']+$/
-  return value.match(regExp)
-}
+export const isValidText = (value) => {
+  const regExp = /^[A-Za-z0-9 .,!"']+$/;
+  return value ? value.match(regExp) : true;
+};

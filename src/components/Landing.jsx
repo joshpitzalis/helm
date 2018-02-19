@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
 import { auth, db, facebookAuthProvider } from '../constants/firebase.js';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 export default class Landing extends Component {
   constructor(props) {
@@ -10,6 +11,20 @@ export default class Landing extends Component {
       redirectTo: null,
     };
   }
+
+  static childContextTypes = {
+    redirectToCreatePage: PropTypes.func,
+  };
+
+  getChildContext() {
+    return {
+      redirectToCreatePage: this.pog,
+    };
+  }
+
+  pog = id => {
+    this.setState({ redirectTo: `/create/${id}` });
+  };
 
   componentDidMount() {
     auth.onAuthStateChanged(user => {
@@ -91,22 +106,28 @@ class Child extends Component {
         {polls &&
           polls
             .filter(poll => poll.category === (this.props.match.params.id || 'fun'))
-            .map((poll, index) => <Poll key={index} title={poll.title} index={index} />)}
+            .map((poll, index) => (
+              <Poll key={index} title={poll.title} id={poll.id} index={index} />
+            ))}
       </div>
     );
   }
 }
 
-const Poll = ({ title, index }) => (
+const Poll = ({ title, index, id }, context) => (
   <p
     data-colour={index === 0 ? 'blue' : index === 1 ? 'red' : index === 2 ? 'orange' : 'green'}
     className={`pointer fancyFont dib pa4 mv0 h5 ${(index === 1 && 'span2 brown') ||
       (index === 2 && 'span2')} `}
-    onClick={() => auth.signInWithRedirect(facebookAuthProvider)}
+    onClick={() => context.redirectToCreatePage(id)}
   >
     {title}
   </p>
 );
+
+Poll.contextTypes = {
+  redirectToCreatePage: PropTypes.func,
+};
 
 export const getPreparedPolls = () =>
   db

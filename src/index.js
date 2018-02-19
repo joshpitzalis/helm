@@ -56,7 +56,7 @@ export default class Routes extends Component {
       user && checkThatUserLoggedInLessThanAWeek(user.providerData[0].uid);
     });
     // create a user on firebase when you signup and then update it every time
-    // you login so that you have a fresh access toke to resync your friends
+    // you login so that you have a fresh access token to resync your friends
     // list when you create a private poll.
     auth.getRedirectResult().then(result => {
       if (result.credential) {
@@ -105,6 +105,8 @@ export default class Routes extends Component {
               authed={this.state.authed}
               component={CreatePoll}
             />
+
+            <Route exact path={`${routes.CREATE}/:pollId`} component={CreatePoll} />
             <Route exact path={`${routes.POLL}/:pollId`} component={Poll} />
             <PrivateRoute
               exact

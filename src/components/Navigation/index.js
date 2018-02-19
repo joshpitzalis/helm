@@ -121,11 +121,25 @@ const LoggedIn = ({ showPolls, setPollsVisible, user, polls, transition }) => {
           <img src={Logo} alt="Peer Plus" height="50" width="50" className="grow dib mv2" />
         </Link>
         <div className="flex">
-          <button onClick={() => setPollsVisible(x => !x)} className="grow seethrough">
+          <button
+            onClick={() => setPollsVisible(x => !x)}
+            className="grow seethrough no-no-underline mt1"
+          >
             {pollsAndResults &&
               pollsAndResults.length > 0 && <Notifications pollcount={pollsAndResults.length} />}
           </button>
           {!user && <AuthButtons user={user} />}
+          {user && (
+            <div className="flex x">
+              <img
+                src={user.photoURL}
+                className="br-100 dib ma0 pointer grow"
+                height="50"
+                width="50"
+                onClick={() => setPollsVisible(x => !x)}
+              />
+            </div>
+          )}
           {/* <button onClick={() => transition({ type: 'LOGOUT' })}>Login</button> */}
         </div>
       </nav>

@@ -8,6 +8,7 @@ import { compose, setDisplayName, setPropTypes } from 'recompose';
 import { withUserData } from '../../hocs/withUserData';
 import PropTypes from 'prop-types';
 import { uploadImage } from './helpers.js';
+import { auth, facebookAuthProvider } from '../../constants/firebase';
 
 class Polls extends Component {
   state = {
@@ -28,6 +29,21 @@ class Polls extends Component {
     duration: 36,
     uploadInProcess: false,
   };
+
+  componentDidMount() {
+    if (this.props.match.params.pollId) {
+      db
+        .doc(`preparedPolls/${this.props.match.params.pollId}`)
+        .get()
+        .then(
+          poll =>
+            poll.exists &&
+            this.setState({
+              title: poll.data().title,
+            }),
+        );
+    }
+  }
 
   handleChange = el => e => {
     this.setState({ [el]: e.target.value });
@@ -81,6 +97,10 @@ class Polls extends Component {
   };
 
   handleCreateForm = async e => {
+    if (!this.props.user) {
+      auth.signInWithPopup(facebookAuthProvider);
+      return;
+    }
     const newPoll = await db.collection('polls').doc();
     this.setState({
       pollId: newPoll.id,
@@ -96,6 +116,7 @@ class Polls extends Component {
 
   handleSubmitForm = async e => {
     e && e.preventDefault();
+
     await db.doc(`polls/${this.state.pollId}`).set({
       id: this.state.pollId,
       title: this.state.title,
@@ -177,7 +198,7 @@ class Polls extends Component {
                   pollId={this.state.pollId}
                   privacy={this.state.privacy}
                   type={this.state.type}
-                  userId={this.props.user.providerData[0].uid}
+                  userId={this.props.user ? this.props.user.providerData[0].uid : null}
                   title={this.state.title}
                 />
               ),

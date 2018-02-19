@@ -14,8 +14,8 @@ const Footer = ({ user }) => (
       <div data-colour="blue" />
     </div>
     <footer className="flex justify-between items-center ph5-ns ph3">
-      <p className="white f4">v 0.4.0</p>
-      {user ? <LogoutButton color="white" /> : <p className="white f4">Terms</p>}
+      <p className="white f4">v 0.5.0</p>
+      <p className="white f4">Terms</p>
     </footer>
   </Fragment>
 );

@@ -7,9 +7,8 @@ import { markNotificationAsSeen, markResultsAsSeen } from './helpers';
 const PollBox = ({ polls, close, user }) => (
   <section className="center w-100 db" onMouseLeave={close}>
     <div className="pa3 pa5-ns ">
-      <p className="f4 bold center mw6 grid row jcb">
-        {polls && polls.length} Polls to complete
-        <Link className=" " to={`/account/${user.uid}`} onClick={close}>
+      <p className="f4 bold center mw6 grid row jce">
+        <Link className="link no-underline" to={`/account/${user.uid}`} onClick={close}>
           My Account
         </Link>
       </p>
@@ -38,9 +37,9 @@ const PollBox = ({ polls, close, user }) => (
             </li>
           ))}
       </ul>
-      {/* <div className="f4 center mw6 pt4">
+      <div className="f5 center mw6 pt4 tr">
         <AuthButtons user={user} />
-      </div> */}
+      </div>
     </div>
   </section>
 );

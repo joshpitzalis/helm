@@ -107,10 +107,7 @@ class Responses extends Component {
           >
             Back
           </button>
-          {user &&
-            user === creator && (
-              <DeleteButton handleDelete={this.handleDelete} text={'Delete this Poll'} />
-            )}
+          {user && user === creator && <DeleteButton handleDelete={this.handleDelete} />}
         </section>
       </article>
     );
@@ -118,15 +115,28 @@ class Responses extends Component {
 }
 
 const DeleteButton = withState('confirmVisible', 'setConfirmVisible', false)(
-  ({ handleDelete, text, confirmVisible, setConfirmVisible }) => (
-    <button
-      data-test="delete"
-      className="seethrough pointer"
-      onClick={confirmVisible ? handleDelete : () => setConfirmVisible(true)}
-    >
-      {confirmVisible ? 'Are you sure ?' : text}
-    </button>
-  ),
+  ({ handleDelete, text, confirmVisible, setConfirmVisible }) =>
+    confirmVisible ? (
+      <div>
+        <p>Are you Sure?</p>
+        <button data-test="delete" className="seethrough pointer" onClick={handleDelete}>
+          Yes
+        </button>
+        <button className="seethrough pointer" onClick={() => setConfirmVisible(false)}>
+          No
+        </button>
+      </div>
+    ) : (
+      <div>
+        <button
+          data-test="delete"
+          className="seethrough pointer"
+          onClick={() => setConfirmVisible(true)}
+        >
+          Delete this Poll
+        </button>
+      </div>
+    ),
 );
 
 const Percentage = ({ value, index, total }) => (

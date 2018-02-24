@@ -94,7 +94,11 @@ class Responses extends Component {
             user === creator &&
             poll.completedBy &&
             poll.completedBy.length > 2 && (
-              <button data-test="delete" onClick={this.handleEndPollEarly} className="seethrough">
+              <button
+                data-test="deleteEarly"
+                onClick={this.handleEndPollEarly}
+                className="seethrough"
+              >
                 End the poll early
               </button>
             )}

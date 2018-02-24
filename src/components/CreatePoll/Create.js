@@ -159,13 +159,16 @@ class Create extends Component {
 
         <div>
           <input
+            data-test="slider"
             type="range"
             min="24"
             max="72"
             onChange={this.props.handleChange('duration')}
             value={this.props.duration}
           />
-          <div>The poll will end in {this.props.duration} hours.</div>
+          <div>
+            The poll will end in <span data-test="duration">{this.props.duration}</span> hours.
+          </div>
         </div>
 
         {errors.base ? <p data-error>{errors.base}</p> : null}

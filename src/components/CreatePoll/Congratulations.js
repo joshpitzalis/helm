@@ -61,7 +61,7 @@ class Congratulations extends Component {
         )} */}
 
         <Link to={`/home`}>
-          <button>Done</button>
+          <button data-test="done">Done</button>
         </Link>
       </Fragment>
     );

@@ -12,6 +12,8 @@ import PropTypes from 'prop-types';
 import { Loading } from '../Loading';
 import { markOnboardingStepComplete } from '../Onboarding/helpers';
 import PieChart from 'react-minimal-pie-chart';
+import addHours from 'date-fns/add_hours';
+import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 
 const NoPollsAvailable = () => <p>No Polls available.</p>;
 
@@ -67,7 +69,11 @@ const ListOfPolls = ({ polls, user }) => (
                 Object.keys(poll.participants).length,
                 poll.completedBy.length,
               )}%`}
-            {poll.title}
+            <p className="pa0 ma0 ttu">{poll.title}</p>
+            <p className="pa0 ma0" data-test="deadline">
+              Ends{' '}
+              {distanceInWordsToNow(addHours(poll.createdAt, poll.duration), { addSuffix: true })}
+            </p>
           </Link>
         </li>
       </div>

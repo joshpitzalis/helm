@@ -41,6 +41,13 @@ let locale =
   'en-US';
 // ...translations
 
+// analytics...
+import ReactGA from 'react-ga';
+ReactGA.initialize('UA-000000-01');
+ReactGA.pageview(window.location.pathname + window.location.search);
+
+// ...analytics
+
 export default class Routes extends Component {
   state = {
     authed: false,

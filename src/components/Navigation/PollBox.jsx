@@ -7,11 +7,11 @@ import { markNotificationAsSeen, markResultsAsSeen } from './helpers';
 const PollBox = ({ polls, close, user }) => (
   <section className="center w-100 db" onMouseLeave={close}>
     <div className="pa3 pa5-ns ">
-      <p className="f4 bold center mw6 grid row jce">
+      {/* <p className="f4 bold center mw6 grid row jce">
         <Link className="link no-underline" to={`/account/${user.uid}`} onClick={close}>
           My Account
         </Link>
-      </p>
+      </p> */}
       <ul className="list pl0 ml0 center mw6 ba b--light-silver br2">
         {polls &&
           polls.map((poll, index) => (

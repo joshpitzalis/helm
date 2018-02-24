@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import Navigation from './components/Navigation/index.js';
 import LandingPage from './components/Landing';
 import HomePage from './components/Home';
-import AccountPage from './components/Account';
+// import AccountPage from './components/Account';
 import Poll from './components/Poll';
 import Onboarding from './components/Onboarding/index.js';
 import Responses from './components/Poll/Responses';
@@ -24,6 +24,22 @@ import {
   updateLastLogin,
   checkThatUserLoggedInLessThanAWeek,
 } from './components/Onboarding/helpers';
+
+// translations...
+import messages from './messages';
+import { addLocaleData, IntlProvider } from 'react-intl';
+import en from 'react-intl/locale-data/en';
+import es from 'react-intl/locale-data/es';
+import fr from 'react-intl/locale-data/fr';
+
+addLocaleData([...en, ...es, ...fr]);
+
+let locale =
+  (navigator.language && navigator.languages[0]) ||
+  navigator.language ||
+  navigator.userLanguage ||
+  'en-US';
+// ...translations
 
 export default class Routes extends Component {
   state = {
@@ -93,12 +109,12 @@ export default class Routes extends Component {
               authed={this.state.authed}
               component={HomePage}
             />
-            <PrivateRoute
+            {/* <PrivateRoute
               exact
               path={`${routes.ACCOUNT}/:userId`}
               authed={this.state.authed}
               component={AccountPage}
-            />
+            /> */}
             <PrivateRoute
               exact
               path={routes.CREATE}
@@ -161,5 +177,10 @@ const PrivateRoute = ({ component, authed, ...rest }) => (
   />
 );
 
-ReactDOM.render(<Routes />, document.getElementById('root'));
+ReactDOM.render(
+  <IntlProvider locale={locale} messages={messages[locale]}>
+    <Routes />
+  </IntlProvider>,
+  document.getElementById('root'),
+);
 registerServiceWorker();

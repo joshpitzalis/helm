@@ -158,14 +158,11 @@ class Create extends Component {
         />
 
         <div>
-          <input
-            data-test="slider"
-            type="range"
-            min="24"
-            max="72"
-            onChange={this.props.handleChange('duration')}
-            value={this.props.duration}
+          <Slider
+            handleChange={this.props.handleChange('duration')}
+            duration={this.props.duration}
           />
+
           <div>
             The poll will end in <span data-test="duration">{this.props.duration}</span> hours.
           </div>
@@ -188,3 +185,22 @@ class Create extends Component {
 }
 
 export default Create;
+
+export const Slider = ({ duration, handleChange }) => {
+  return (
+    <input
+      data-test="slider"
+      type="range"
+      min="24"
+      max="72"
+      className="outline-transparent"
+      onChange={handleChange}
+      value={duration}
+    />
+  );
+};
+
+Slider.propTypes = {
+  duration: PropTypes.number.isRequired,
+  handleChange: PropTypes.func.isRequired,
+};

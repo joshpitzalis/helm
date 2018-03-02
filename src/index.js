@@ -18,20 +18,23 @@ import 'normalize.css';
 import './style.css';
 import './grid.css';
 import Footer from './components/Footer.js';
-import { auth, db } from './constants/firebase';
+import { auth, db, messaging } from './constants/firebase';
 import PropTypes from 'prop-types';
 import {
   updateLastLogin,
   checkThatUserLoggedInLessThanAWeek,
 } from './components/Onboarding/helpers';
-
-// translations...
+import ReactGA from 'react-ga';
+import NotificationResource from './resources/NotificationResource.js';
 import messages from './messages';
 import { addLocaleData, IntlProvider } from 'react-intl';
 import en from 'react-intl/locale-data/en';
 import es from 'react-intl/locale-data/es';
 import fr from 'react-intl/locale-data/fr';
+import 'tachyons';
+// require('tachyons');
 
+// translations...
 addLocaleData([...en, ...es, ...fr]);
 
 let locale =
@@ -42,7 +45,7 @@ let locale =
 // ...translations
 
 // analytics...
-import ReactGA from 'react-ga';
+
 ReactGA.initialize('UA-000000-01');
 ReactGA.pageview(window.location.pathname + window.location.search);
 
@@ -101,61 +104,64 @@ export default class Routes extends Component {
         );
       }
     });
+    this.notifications = new NotificationResource(messaging);
   }
 
   render() {
     return (
       <BrowserRouter>
-        <main>
+        <div>
           <Navigation />
-          <Switch>
-            <Route exact path={routes.LANDING} render={props => <LandingPage {...props} />} />
-            <PrivateRoute
-              exact
-              path={routes.HOME}
-              authed={this.state.authed}
-              component={HomePage}
-            />
-            {/* <PrivateRoute
+          <main>
+            <Switch>
+              <Route exact path={routes.LANDING} render={props => <LandingPage {...props} />} />
+              <PrivateRoute
+                exact
+                path={routes.HOME}
+                authed={this.state.authed}
+                component={HomePage}
+              />
+              {/* <PrivateRoute
               exact
               path={`${routes.ACCOUNT}/:userId`}
               authed={this.state.authed}
               component={AccountPage}
             /> */}
-            <PrivateRoute
-              exact
-              path={routes.CREATE}
-              authed={this.state.authed}
-              component={CreatePoll}
-            />
+              <PrivateRoute
+                exact
+                path={routes.CREATE}
+                authed={this.state.authed}
+                component={CreatePoll}
+              />
 
-            <Route exact path={`${routes.CREATE}/:pollId`} component={CreatePoll} />
-            <Route exact path={`${routes.POLL}/:pollId`} component={Poll} />
-            <PrivateRoute
-              exact
-              path={`${routes.RESPONSES}/:pollId`}
-              authed={this.state.authed}
-              component={Responses}
-            />
-            <PrivateRoute
-              exact
-              path={`/addTo/:pollId`}
-              authed={this.state.authed}
-              component={AddTo}
-            />
-            <PrivateRoute
-              exact
-              path={`${routes.ONBOARDING}/:userId`}
-              authed={this.state.authed}
-              component={Onboarding}
-            />
-            <Route exact path={`${routes.DONE}/:pollId`} component={Done} />
-            <Route exact path={routes.ERROR} component={Error} />
-            {/* <Redirect exact from="/fun" to="/" /> */}
-            <Route component={LandingPage} />
-          </Switch>
+              <Route exact path={`${routes.CREATE}/:pollId`} component={CreatePoll} />
+              <Route exact path={`${routes.POLL}/:pollId`} component={Poll} />
+              <PrivateRoute
+                exact
+                path={`${routes.RESPONSES}/:pollId`}
+                authed={this.state.authed}
+                component={Responses}
+              />
+              <PrivateRoute
+                exact
+                path={`/addTo/:pollId`}
+                authed={this.state.authed}
+                component={AddTo}
+              />
+              <PrivateRoute
+                exact
+                path={`${routes.ONBOARDING}/:userId`}
+                authed={this.state.authed}
+                component={Onboarding}
+              />
+              <Route exact path={`${routes.DONE}/:pollId`} component={Done} />
+              <Route exact path={routes.ERROR} component={Error} />
+              {/* <Redirect exact from="/fun" to="/" /> */}
+              <Route component={LandingPage} />
+            </Switch>
+          </main>
           <Footer />
-        </main>
+        </div>
       </BrowserRouter>
     );
   }

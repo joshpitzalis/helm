@@ -49,34 +49,152 @@ class _Badges extends Component {
     return (
       <div className="grid row5 row-ns rowGap1">
         <Link to={`/onboarding/${this.props.user.uid}`} className="pt3">
-          <Thunder color="#f5b152" />
+          <Thunder
+            color={
+              {
+                0: '#f7db8c',
+                1: '#ffaf39',
+                2: '#f37966',
+                3: '#adcfe2',
+                4: '#dce8bd',
+              }[Math.floor(Math.random() * 4) + 1]
+            }
+          />
         </Link>
         <Link to={`/onboarding/${this.props.user.uid}`}>
-          <Weekly color={this.state.onboarding && this.state.onboarding.weekly && '#f5b152'} />
+          <Weekly
+            color={
+              this.state.onboarding &&
+              this.state.onboarding.weekly &&
+              {
+                0: '#f7db8c',
+                1: '#ffaf39',
+                2: '#f37966',
+                3: '#adcfe2',
+                4: '#dce8bd',
+              }[Math.floor(Math.random() * 4) + 1]
+            }
+          />
         </Link>
         <Link to={`/onboarding/${this.props.user.uid}`}>
-          <First color={this.state.onboarding && this.state.onboarding.public && '#f5b152'} />
+          <First
+            color={
+              this.state.onboarding &&
+              this.state.onboarding.public &&
+              {
+                0: '#f7db8c',
+                1: '#ffaf39',
+                2: '#f37966',
+                3: '#adcfe2',
+                4: '#dce8bd',
+              }[Math.floor(Math.random() * 4) + 1]
+            }
+          />
         </Link>
         <Link to={`/onboarding/${this.props.user.uid}`}>
-          <Picture color={this.state.onboarding && this.state.onboarding.photo && '#f5b152'} />
+          <Picture
+            color={
+              this.state.onboarding &&
+              this.state.onboarding.photo &&
+              {
+                0: '#f7db8c',
+                1: '#ffaf39',
+                2: '#f37966',
+                3: '#adcfe2',
+                4: '#dce8bd',
+              }[Math.floor(Math.random() * 4) + 1]
+            }
+          />
         </Link>
         <Link to={`/onboarding/${this.props.user.uid}`}>
-          <Chart color={this.state.onboarding && this.state.onboarding.response && '#f5b152'} />
+          <Chart
+            color={
+              this.state.onboarding &&
+              this.state.onboarding.response &&
+              {
+                0: '#f7db8c',
+                1: '#ffaf39',
+                2: '#f37966',
+                3: '#adcfe2',
+                4: '#dce8bd',
+              }[Math.floor(Math.random() * 4) + 1]
+            }
+          />
         </Link>
         <Link to={`/onboarding/${this.props.user.uid}`}>
-          <Recieve color={this.state.onboarding && this.state.onboarding.recieved && '#f5b152'} />
+          <Recieve
+            color={
+              this.state.onboarding &&
+              this.state.onboarding.recieved &&
+              {
+                0: '#f7db8c',
+                1: '#ffaf39',
+                2: '#f37966',
+                3: '#adcfe2',
+                4: '#dce8bd',
+              }[Math.floor(Math.random() * 4) + 1]
+            }
+          />
         </Link>
         <Link to={`/onboarding/${this.props.user.uid}`} className="pt2">
-          <Add color={this.state.onboarding && this.state.onboarding.private && '#f5b152'} />
+          <Add
+            color={
+              this.state.onboarding &&
+              this.state.onboarding.private &&
+              {
+                0: '#f7db8c',
+                1: '#ffaf39',
+                2: '#f37966',
+                3: '#adcfe2',
+                4: '#dce8bd',
+              }[Math.floor(Math.random() * 4) + 1]
+            }
+          />
         </Link>
         <Link to={`/onboarding/${this.props.user.uid}`}>
-          <Person color={this.state.onboarding && this.state.onboarding.friends && '#f5b152'} />
+          <Person
+            color={
+              this.state.onboarding &&
+              this.state.onboarding.friends &&
+              {
+                0: '#f7db8c',
+                1: '#ffaf39',
+                2: '#f37966',
+                3: '#adcfe2',
+                4: '#dce8bd',
+              }[Math.floor(Math.random() * 4) + 1]
+            }
+          />
         </Link>
         <Link to={`/onboarding/${this.props.user.uid}`}>
-          <Invite color={this.state.onboarding && this.state.onboarding.invite && '#f5b152'} />
+          <Invite
+            color={
+              this.state.onboarding &&
+              this.state.onboarding.invite &&
+              {
+                0: '#f7db8c',
+                1: '#ffaf39',
+                2: '#f37966',
+                3: '#adcfe2',
+                4: '#dce8bd',
+              }[Math.floor(Math.random() * 4) + 1]
+            }
+          />
         </Link>
         <Link to={`/onboarding/${this.props.user.uid}`} className="pt1">
-          <Trash color={this.state.onboarding && this.state.onboarding.delete && '#f5b152'} />
+          <Trash
+            color={
+              this.state.onboarding &&
+              this.state.onboarding.delete &&
+              {
+                0: '#f7db8c',
+                1: '#ffaf39',
+                2: '#f37966',
+                3: '#adcfe2',
+                4: '#dce8bd',
+              }[Math.floor(Math.random() * 4) + 1]
+            }
+          />
         </Link>
       </div>
     );

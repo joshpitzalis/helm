@@ -17,7 +17,6 @@ class Polls extends Component {
     context: '',
     choice: null,
     type: null,
-    duration: null,
     private: null,
     redirectTo: null,
     questions: [''],

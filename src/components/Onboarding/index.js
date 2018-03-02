@@ -37,39 +37,147 @@ class Onboarding extends Component {
             <p className="w-100 ml5 tl">Create an account.</p>
           </div>
           <div className="flex">
-            <Weekly color={this.state.onboarding && this.state.onboarding.weekly && '#f5b152'} />
+            <Weekly
+              color={
+                this.state.onboarding &&
+                this.state.onboarding.weekly &&
+                {
+                  0: '#f7db8c',
+                  1: '#ffaf39',
+                  2: '#f37966',
+                  3: '#adcfe2',
+                  4: '#dce8bd',
+                }[Math.floor(Math.random() * 4) + 1]
+              }
+            />
             <p className="w-100 ml5 tl">Use Palpoll every Week.</p>
           </div>
           <div className="flex">
-            <First color={this.state.onboarding && this.state.onboarding.public && '#f5b152'} />
+            <First
+              color={
+                this.state.onboarding &&
+                this.state.onboarding.public &&
+                {
+                  0: '#f7db8c',
+                  1: '#ffaf39',
+                  2: '#f37966',
+                  3: '#adcfe2',
+                  4: '#dce8bd',
+                }[Math.floor(Math.random() * 4) + 1]
+              }
+            />
             <p className="w-100 ml5 tl">Send Your First Public Poll</p>
           </div>
           <div className="flex">
-            <Picture color={this.state.onboarding && this.state.onboarding.photo && '#f5b152'} />
+            <Picture
+              color={
+                this.state.onboarding &&
+                this.state.onboarding.photo &&
+                {
+                  0: '#f7db8c',
+                  1: '#ffaf39',
+                  2: '#f37966',
+                  3: '#adcfe2',
+                  4: '#dce8bd',
+                }[Math.floor(Math.random() * 4) + 1]
+              }
+            />
             <p className="w-100 ml5 tl">Send your first picture Poll.</p>
           </div>
           <div className="flex">
-            <Chart color={this.state.onboarding && this.state.onboarding.response && '#f5b152'} />
+            <Chart
+              color={
+                this.state.onboarding &&
+                this.state.onboarding.response &&
+                {
+                  0: '#f7db8c',
+                  1: '#ffaf39',
+                  2: '#f37966',
+                  3: '#adcfe2',
+                  4: '#dce8bd',
+                }[Math.floor(Math.random() * 4) + 1]
+              }
+            />
             <p className="w-100 ml5 tl">Collect your first set of results.</p>
           </div>
           <div className="flex">
-            <Recieve color={this.state.onboarding && this.state.onboarding.recieved && '#f5b152'} />
+            <Recieve
+              color={
+                this.state.onboarding &&
+                this.state.onboarding.recieved &&
+                {
+                  0: '#f7db8c',
+                  1: '#ffaf39',
+                  2: '#f37966',
+                  3: '#adcfe2',
+                  4: '#dce8bd',
+                }[Math.floor(Math.random() * 4) + 1]
+              }
+            />
             <p className="w-100 ml5 tl">Recieve your first public Poll.</p>
           </div>
           <div className="flex">
-            <Add color={this.state.onboarding && this.state.onboarding.private && '#f5b152'} />
+            <Add
+              color={
+                this.state.onboarding &&
+                this.state.onboarding.private &&
+                {
+                  0: '#f7db8c',
+                  1: '#ffaf39',
+                  2: '#f37966',
+                  3: '#adcfe2',
+                  4: '#dce8bd',
+                }[Math.floor(Math.random() * 4) + 1]
+              }
+            />
             <p className="w-100 ml5 tl">Send your first private request.</p>
           </div>
           <div className="flex">
-            <Person color={this.state.onboarding && this.state.onboarding.friends && '#f5b152'} />
+            <Person
+              color={
+                this.state.onboarding &&
+                this.state.onboarding.friends &&
+                {
+                  0: '#f7db8c',
+                  1: '#ffaf39',
+                  2: '#f37966',
+                  3: '#adcfe2',
+                  4: '#dce8bd',
+                }[Math.floor(Math.random() * 4) + 1]
+              }
+            />
             <p className="w-100 ml5 tl">Import Friends from facebook.</p>
           </div>
           <div className="flex">
-            <Invite color={this.state.onboarding && this.state.onboarding.invite && '#f5b152'} />
+            <Invite
+              color={
+                this.state.onboarding &&
+                this.state.onboarding.invite &&
+                {
+                  0: '#f7db8c',
+                  1: '#ffaf39',
+                  2: '#f37966',
+                  3: '#adcfe2',
+                  4: '#dce8bd',
+                }[Math.floor(Math.random() * 4) + 1]
+              }
+            />
             <p className="w-100 ml5 tl"> Add someone to a poll after it started.</p>
           </div>
           <div className="flex">
-            <Trash color={this.state.onboarding && this.state.onboarding.delete && '#f5b152'} />
+            <Trash
+              color={
+                this.state.onboarding &&
+                this.state.onboarding.delete &&
+                {
+                  0: '#f7db8c',
+                  1: '#ffaf39',
+                  2: '#f37966',
+                  3: '#adcfe2',
+                  4: '#dce8bd',
+                }[Math.floor(Math.random() * 4) + 1]
+              }
+            />
             <p className="w-100 ml5 tl">Delete your first Poll.</p>
           </div>
         </section>

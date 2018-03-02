@@ -1,6 +1,6 @@
 import firebase from 'firebase';
 
-global.XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
+// global.XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 require('firebase/firestore');
 
 const config = {
@@ -17,5 +17,6 @@ firebase.initializeApp(config);
 export const db = firebase.firestore();
 export const storage = firebase.storage();
 export const auth = firebase.auth();
+export const messaging = firebase.messaging();
 export const facebookAuthProvider = new firebase.auth.FacebookAuthProvider();
 facebookAuthProvider.addScope('user_friends');

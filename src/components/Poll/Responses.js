@@ -5,6 +5,7 @@ import { withUserData } from '../../hocs/withUserData';
 import { ErrorHandler } from '../../hocs/ErrorHandler';
 import { markOnboardingStepComplete } from '../Onboarding/helpers';
 import { withState, withHandlers } from 'recompose';
+import ClickToCopyPublicPoll from '../shared/clickToCopy';
 
 class Responses extends Component {
   state = {
@@ -55,37 +56,63 @@ class Responses extends Component {
     return (
       <article className="pv5">
         <section className="mw6-ns w-100 center tc">
-          <header>
+          <header className="pb4">
             <h2 className="f1 lh-title">{poll.title}</h2>
             <h3>{poll.context}</h3>
           </header>
-          {user &&
-            user === creator && (
-              <Participants
-                sentTo={poll.sendTo}
-                redirect={() =>
-                  this.setState({ redirectTo: `/addTo/${this.props.match.params.pollId}` })
-                }
-              />
-            )}
+          {user && user === creator && poll.privacy === 'private' ? (
+            <Participants
+              sentTo={poll.sendTo}
+              redirect={() =>
+                this.setState({ redirectTo: `/addTo/${this.props.match.params.pollId}` })
+              }
+            />
+          ) : (
+            <div style={{ opacity: '.6' }}>
+              <ClickToCopyPublicPoll pollId={this.props.match.params.pollId} />
+            </div>
+          )}
           <ul className="list pl0 ml0 center mw6 br2 ">
             {poll.responses ? (
-              Object.keys(poll.responses).map((response, index) => (
-                <li key={index} data-colour="green" className="ph3 pv3 mv3 grow flex row">
-                  <Percentage
-                    value={poll.responses[response]}
-                    index={index}
-                    total={poll.responses}
-                  />
-                  {poll.type === 'text' ? (
-                    <p>
-                      <strong>{response}</strong>
-                    </p>
-                  ) : (
-                    <img src={response} alt="" />
-                  )}
-                </li>
-              ))
+              Object.keys(poll.responses).map((response, index) => {
+                let randomColor = {
+                  0: '#f7db8c',
+                  1: '#ffaf39',
+                  2: '#f37966',
+                  3: '#adcfe2',
+                  4: '#dce8bd',
+                }[index < 5 ? index : Math.floor(Math.random() * 4) + 1];
+                let percentage = Math.floor(
+                  poll.responses[response] /
+                    Object.values(poll.responses).reduce((a, b) => a + b, 0) *
+                    100,
+                );
+                return (
+                  <div
+                    key={index}
+                    className="pa2 ma0 roundfirstAndlast"
+                    style={{
+                      background: `linear-gradient(to right, ${randomColor} 0% ,${randomColor} ${percentage}% , ${randomColor}8C ${percentage}% ,${randomColor}8C 100%
+                      )`,
+                    }}
+                  >
+                    <li className="pa2 ma0 flex row">
+                      <Percentage
+                        value={poll.responses[response]}
+                        index={index}
+                        total={poll.responses}
+                      />
+                      {poll.type === 'text' ? (
+                        <p>
+                          <strong>{response}</strong>
+                        </p>
+                      ) : (
+                        <img src={response} alt="" />
+                      )}
+                    </li>
+                  </div>
+                );
+              })
             ) : (
               <p>No responses yet</p>
             )}
@@ -123,7 +150,7 @@ const DeleteButton = withState('confirmVisible', 'setConfirmVisible', false)(
     confirmVisible ? (
       <div>
         <p>Are you Sure?</p>
-        <button data-test="delete" className="seethrough pointer" onClick={handleDelete}>
+        <button data-test="delete" className="seethrough pointer red" onClick={handleDelete}>
           Yes
         </button>
         <button className="seethrough pointer" onClick={() => setConfirmVisible(false)}>
@@ -134,8 +161,9 @@ const DeleteButton = withState('confirmVisible', 'setConfirmVisible', false)(
       <div>
         <button
           data-test="delete"
-          className="seethrough pointer"
+          className="seethrough pointer pt3 dim"
           onClick={() => setConfirmVisible(true)}
+          style={{ color: 'red' }}
         >
           Delete this Poll
         </button>

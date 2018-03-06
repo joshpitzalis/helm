@@ -116,35 +116,51 @@ class Poll extends Component {
             <h2 className="f1 lh-title">{poll && poll.title}</h2>
             <h3>{poll && poll.context}</h3>
           </header>
-          <hr />
-          <form>
-            {poll &&
-              poll.questions &&
-              poll.questions.map((question, index) => (
-                <label key={index} className="container tl">
-                  <input
-                    data-test={`response${index}`}
-                    type={poll.choice === 'multi' ? 'checkbox' : 'radio'}
-                    name="responses"
-                    value={question}
-                    onChange={e => this.handleChange(e, question)}
-                  />
-                  {poll.type === 'text' ? (
-                    question
-                  ) : (
-                    <ProgressiveImage src={question} placeholder={Logo}>
-                      {(src, loading) => (
-                        <img
-                          src={src}
-                          style={{ opacity: loading ? 0.5 : 1 }}
-                          alt={`option ${index + 1}`}
-                        />
+          <hr className="dn" />
+          <form className="mt3">
+            <div className="ma0 ">
+              {poll &&
+                poll.questions &&
+                poll.questions.map((question, index) => (
+                  <div
+                    key={index}
+                    className="pa2 ma0 roundfirstAndlast"
+                    style={{
+                      backgroundColor: {
+                        0: '#f7db8c',
+                        1: '#ffaf39',
+                        2: '#f37966',
+                        3: '#adcfe2',
+                        4: '#dce8bd',
+                      }[index < 5 ? index : Math.floor(Math.random() * 4) + 1],
+                    }}
+                  >
+                    <label className="container tl ma0 relative ">
+                      <input
+                        data-test={`response${index}`}
+                        type={poll.choice === 'multi' ? 'checkbox' : 'radio'}
+                        name="responses"
+                        value={question}
+                        onChange={e => this.handleChange(e, question)}
+                      />
+                      {poll.type === 'text' ? (
+                        question
+                      ) : (
+                        <ProgressiveImage src={question} placeholder={Logo}>
+                          {(src, loading) => (
+                            <img
+                              src={src}
+                              style={{ opacity: loading ? 0.5 : 1 }}
+                              alt={`option ${index + 1}`}
+                            />
+                          )}
+                        </ProgressiveImage>
                       )}
-                    </ProgressiveImage>
-                  )}
-                  <span className={poll.choice === 'multi' ? 'checkmark' : 'radiomark'} />
-                </label>
-              ))}
+                      <span className={poll.choice === 'multi' ? 'checkmark' : 'radiomark'} />
+                    </label>
+                  </div>
+                ))}
+            </div>
             <p data-error>{this.state.errors}</p>
             <input
               data-test="submit"

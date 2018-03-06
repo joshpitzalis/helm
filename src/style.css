@@ -32,7 +32,7 @@
 body {
   font: caption;
   color: var(--black);
-  /* If Ubuntu this will be Ubuntu Font.
+  /* @dev If Ubuntu this will be Ubuntu Font.
   If Yosemite, Helvetica.
   If El Capitan,  San Francisco.
   If Microsoft, Segoe UI */
@@ -63,6 +63,11 @@ article {
 
 article * + * {
   margin-top: 1rem;
+}
+
+.ba {
+  border-style: solid !important;
+  border-width: 1px !important;
 }
 
 button:not(.seethrough),
@@ -97,6 +102,10 @@ button {
 
 button:focus {
   outline: 0;
+}
+
+[data-colour='white'] {
+  background-color: var(--white);
 }
 
 [data-colour='orange'] {
@@ -264,7 +273,7 @@ input[type='text'] {
 .container {
   display: block;
   position: relative;
-  left: 3rem;
+  left: 2rem;
   padding: var(--spacing-medium);
   cursor: pointer;
   font-size: 22px;
@@ -272,7 +281,8 @@ input[type='text'] {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  /* width: 50%; */
+  width: 85%;
+  text-align: left;
 }
 
 /* Hide the browser's default radio button */
@@ -287,9 +297,10 @@ input[type='text'] {
   position: absolute;
   top: 0;
   left: -3rem;
+  /* left: -0.25rem; */
   height: var(--spacing-large);
   width: var(--spacing-large);
-  background-color: white;
+  background-color: var(--white);
   border-radius: 10%;
 }
 
@@ -298,27 +309,28 @@ input[type='text'] {
   position: absolute;
   top: 0;
   left: -3rem;
+  /* left: -0.25rem; */
   height: var(--spacing-large);
   width: var(--spacing-large);
-  background-color: white;
+  background-color: var(--white);
   border-radius: 50%;
 }
 
 /* On mouse-over, add a grey background color */
 .container:hover input ~ .checkmark {
-  background-color: var(--success);
+  background-color: #c3e276;
 }
 
 .container input:checked ~ .checkmark {
-  background-color: var(--primary);
+  background-color: #f59300fd;
 }
 
 .container:hover input ~ .radiomark {
-  background-color: var(--success);
+  background-color: #c3e276;
 }
 
 .container input:checked ~ .radiomark {
-  background-color: var(--primary);
+  background-color: #f59300fd;
 }
 
 /* Create the indicator (the dot/circle - hidden when not checked) */
@@ -359,7 +371,7 @@ input[type='text'] {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--primary);
+  background: #f59300fd;
 }
 
 hr {
@@ -426,4 +438,23 @@ input[type='range']::-webkit-slider-thumb:active {
   opacity: 1;
   -webkit-transition: opacity 0.5s ease-in;
   transition: opacity 0.5s ease-in;
+}
+
+.col3 {
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 1rem;
+}
+
+.shiftLeft {
+  left: 13rem;
+}
+
+.roundfirstAndlast:last-child {
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
+.roundfirstAndlast:first-child {
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
 }

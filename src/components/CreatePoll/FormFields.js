@@ -9,8 +9,12 @@ export const TextInput = ({
   touched,
   value,
   placeholder,
+  label,
 }) => (
   <div>
+    <label htmlFor="name" className="f6 b db mb2 tl ttc">
+      {element}
+    </label>
     <input
       data-test={element}
       type="text"
@@ -18,10 +22,11 @@ export const TextInput = ({
       onChange={handleChange(element)}
       value={value}
       onBlur={handleBlur(element)}
+      className="input-reset ba "
     />
-    <p data-error className="h1">
+    <small data-error className="h1 f5">
       {errors[element] && touched[element] ? errors[element] : null}
-    </p>
+    </small>
   </div>
 );
 
@@ -56,9 +61,9 @@ export const RadioChoice = ({
       value={value}
     />
     <span className="checkmark" />
-    <p data-error className="h1">
+    <small data-error className="h1 f5 pl3">
       {errors[group] && showErrors ? errors[group] : null}
-    </p>
+    </small>
   </label>
 );
 

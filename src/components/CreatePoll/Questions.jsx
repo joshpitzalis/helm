@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Dropzone from 'react-dropzone';
+import { Trash } from '../Onboarding/Badges';
 
 class Questions extends Component {
   constructor(props) {
@@ -44,50 +45,56 @@ class Questions extends Component {
         <h2 data-test="questionsPage" className="f1">
           Options
         </h2>
-        {questions.map((question, index) => (
-          <span key={index} className="flex  align-items justify-center">
-            {type === 'text' ? (
-              <input
-                data-test={`question${index}`}
-                type="text"
-                placeholder="Type your poll question here..."
-                onChange={handleInput(index)}
-                value={question}
-              />
-            ) : (
-              //  <TextInput
-              //   element={`question${index}`}
-              //   handleChange={handleInput(index)}
-              //   handleBlur={this.handleBlur}
-              //   value={question}
-              //   errors={this.validate(question)}
-              //   touched={this.state.touched}
-              //   placeholder="Type your poll question here..."
-              // />
-              <Dropzone data-test="dropzone" className="" onDrop={handleInput(index)}>
-                {question ? (
-                  <img src={question} alt={`question ${index + 1}`} />
-                ) : (
-                  <p>'Drag image here to upload.'</p>
-                )}
-              </Dropzone>
+
+        <div className="br3 pa4 bg-white">
+          {questions.map((question, index) => (
+            <span key={index} className="flex  align-items justify-center">
+              {type === 'text' ? (
+                <input
+                  data-test={`question${index}`}
+                  type="text"
+                  placeholder="Type your poll question here..."
+                  onChange={handleInput(index)}
+                  value={question}
+                  className="input-reset ba"
+                />
+              ) : (
+                //  <TextInput
+                //   element={`question${index}`}
+                //   handleChange={handleInput(index)}
+                //   handleBlur={this.handleBlur}
+                //   value={question}
+                //   errors={this.validate(question)}
+                //   touched={this.state.touched}
+                //   placeholder="Type your poll question here..."
+                // />
+
+                <Dropzone data-test="dropzone" className="" onDrop={handleInput(index)}>
+                  {question ? (
+                    <img src={question} alt={`question ${index + 1}`} />
+                  ) : (
+                    <p>'Drag image here to upload.'</p>
+                  )}
+                </Dropzone>
+              )}
+              <button className="seethrough" onClick={this.props.handleDelete(index)}>
+                <Trash />
+              </button>
+            </span>
+          ))}
+          {this.props.transferCurrent !== 0 &&
+            this.props.transferCurrent &&
+            this.props.transferCurrent !== this.props.transferTotal && (
+              <progress value={this.props.transferCurrent} max={this.props.transferTotal} />
             )}
-            <button className="seethrough" onClick={this.props.handleDelete(index)}>
-              X
+          <div>
+            <button data-test="add" className="seethrough" onClick={this.props.addQuestion}>
+              Add Another
             </button>
-          </span>
-        ))}
-        {this.props.transferCurrent !== 0 &&
-          this.props.transferCurrent &&
-          this.props.transferCurrent !== this.props.transferTotal && (
-            <progress value={this.props.transferCurrent} max={this.props.transferTotal} />
-          )}
-        <div>
-          <button data-test="add" className="seethrough" onClick={this.props.addQuestion}>
-            Add Another
-          </button>
+          </div>
+          {this.state.errors && <p data-error>{this.state.errors}</p>}
         </div>
-        {this.state.errors && <p data-error>{this.state.errors}</p>}
+        <br />
         <button onClick={this.props.goToPrev} className="seethrough">
           Back
         </button>

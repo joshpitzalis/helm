@@ -128,7 +128,7 @@ export class Poll extends Component {
     const { title, index, id, context } = this.props;
     return (
       <div
-        onClick={() => context.redirectToCreatePage(id)}
+        onClick={() => this.context.redirectToCreatePage(id)}
         onMouseEnter={() => this.setState({ show: true })}
         onMouseLeave={() => this.setState({ show: false })}
       >

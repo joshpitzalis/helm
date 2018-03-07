@@ -15,7 +15,8 @@
   --black: #595c5e;
   --primary: #ffaf39;
   --success: #dce8bd;
-  --danger: #f37966;
+  /* --danger: #f37966; */
+  --danger: #ed8a68;
   --brown: #f4f2e8;
   --blue: #adcfe2;
 
@@ -362,7 +363,7 @@ input[type='text'] {
   width: 8px;
   height: 8px;
   border-radius: 10%;
-  background: var(--primary);
+  background: #f59300fd;
 }
 
 .container .radiomark:after {

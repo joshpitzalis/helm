@@ -4,6 +4,20 @@ import Dropzone from 'react-dropzone';
 import { Trash } from '../Onboarding/Badges';
 
 class Questions extends Component {
+  static PropTypes = {
+    addQuestion: PropTypes.func,
+    goToNext: PropTypes.func,
+    goToPrev: PropTypes.func,
+    handleDelete: PropTypes.func,
+    handleInput: PropTypes.func,
+    handleSubmit: PropTypes.func,
+    pollId: PropTypes.string,
+    privacy: PropTypes.string,
+    questions: PropTypes.arrayOf(PropTypes.string),
+    type: PropTypes.string,
+    uploadInProcess: PropTypes.bool,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -36,9 +50,7 @@ class Questions extends Component {
   }
 
   render() {
-    const {
-      questions, type, handleInput, uploadInProcess,
-    } = this.props;
+    const { questions, type, handleInput, uploadInProcess } = this.props;
 
     return (
       <Fragment>
@@ -46,40 +58,40 @@ class Questions extends Component {
           Options
         </h2>
 
-        <div className="br3 pa4 bg-white">
+        <div className="br3 pt4 bg-white">
           {questions.map((question, index) => (
             <span key={index} className="flex  align-items justify-center">
               {type === 'text' ? (
-                <input
-                  data-test={`question${index}`}
-                  type="text"
-                  placeholder="Type your poll question here..."
-                  onChange={handleInput(index)}
-                  value={question}
-                  className="input-reset ba"
-                />
+                <Fragment>
+                  {' '}
+                  <input
+                    data-test={`question${index}`}
+                    type="text"
+                    placeholder="Type your poll question here..."
+                    onChange={handleInput(index)}
+                    value={question}
+                    className="input-reset ba"
+                  />
+                  <button className="seethrough" onClick={this.props.handleDelete(index)}>
+                    <Trash />
+                  </button>
+                </Fragment>
               ) : (
-                //  <TextInput
-                //   element={`question${index}`}
-                //   handleChange={handleInput(index)}
-                //   handleBlur={this.handleBlur}
-                //   value={question}
-                //   errors={this.validate(question)}
-                //   touched={this.state.touched}
-                //   placeholder="Type your poll question here..."
-                // />
-
-                <Dropzone data-test="dropzone" className="" onDrop={handleInput(index)}>
-                  {question ? (
-                    <img src={question} alt={`question ${index + 1}`} />
-                  ) : (
-                    <p>'Drag image here to upload.'</p>
-                  )}
-                </Dropzone>
+                <div className="flex col">
+                  <Dropzone data-test="dropzone" className="" onDrop={handleInput(index)}>
+                    {question ? (
+                      <img src={question} alt={`question ${index + 1}`} />
+                    ) : (
+                      <p>'Drag image here to upload.'</p>
+                    )}
+                  </Dropzone>
+                  <div>
+                    <button className="seethrough" onClick={this.props.handleDelete(index)}>
+                      <Trash />
+                    </button>
+                  </div>
+                </div>
               )}
-              <button className="seethrough" onClick={this.props.handleDelete(index)}>
-                <Trash />
-              </button>
             </span>
           ))}
           {this.props.transferCurrent !== 0 &&
@@ -87,11 +99,12 @@ class Questions extends Component {
             this.props.transferCurrent !== this.props.transferTotal && (
               <progress value={this.props.transferCurrent} max={this.props.transferTotal} />
             )}
-          <div>
-            <button data-test="add" className="seethrough" onClick={this.props.addQuestion}>
+          <div className="pa4" data-colour="white">
+            <button data-test="add" className="seethrough dim" onClick={this.props.addQuestion}>
               Add Another
             </button>
           </div>
+
           {this.state.errors && <p data-error>{this.state.errors}</p>}
         </div>
         <br />
@@ -116,19 +129,5 @@ class Questions extends Component {
     );
   }
 }
-
-Questions.propTypes = {
-  addQuestion: PropTypes.func,
-  goToNext: PropTypes.func,
-  goToPrev: PropTypes.func,
-  handleDelete: PropTypes.func,
-  handleInput: PropTypes.func,
-  handleSubmit: PropTypes.func,
-  pollId: PropTypes.string,
-  privacy: PropTypes.string,
-  questions: PropTypes.arrayOf(PropTypes.string),
-  type: PropTypes.string,
-  uploadInProcess: PropTypes.bool,
-};
 
 export default Questions;

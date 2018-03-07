@@ -6,6 +6,8 @@ import { ErrorHandler } from '../../hocs/ErrorHandler';
 import { markOnboardingStepComplete } from '../Onboarding/helpers';
 import { withState, withHandlers } from 'recompose';
 import ClickToCopyPublicPoll from '../shared/clickToCopy';
+import ProgressiveImage from 'react-progressive-image';
+import Logo from '../../images/peerPlusLogo.png';
 
 class Responses extends Component {
   state = {
@@ -96,18 +98,28 @@ class Responses extends Component {
                       )`,
                     }}
                   >
-                    <li className="pa2 ma0 flex row">
+                    <li className={`pa2 ma0 ${poll.type === 'text' ? 'flex' : 'db'}`}>
                       <Percentage
                         value={poll.responses[response]}
                         index={index}
                         total={poll.responses}
                       />
+
                       {poll.type === 'text' ? (
                         <p>
                           <strong>{response}</strong>
                         </p>
                       ) : (
-                        <img src={response} alt="" />
+                        <ProgressiveImage src={response} placeholder={Logo}>
+                          {(src, loading) => (
+                            <img
+                              className="br3"
+                              src={src}
+                              style={{ opacity: loading ? 0.5 : 1 }}
+                              alt={`option ${index + 1}`}
+                            />
+                          )}
+                        </ProgressiveImage>
                       )}
                     </li>
                   </div>
@@ -172,7 +184,7 @@ const DeleteButton = withState('confirmVisible', 'setConfirmVisible', false)(
 );
 
 const Percentage = ({ value, index, total }) => (
-  <p className="w-25" data-test={`count${index}`}>
+  <p className="w-25 center" data-test={`count${index}`}>
     {Math.floor(value / Object.values(total).reduce((a, b) => a + b, 0) * 100)} %
   </p>
 );

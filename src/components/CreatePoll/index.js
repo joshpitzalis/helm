@@ -56,6 +56,7 @@ class Polls extends Component {
         questions,
       });
     } else {
+      console.log('pof');
       this.setState({ uploadInProcess: true });
       let questions = [...this.state.questions];
       const file = e[0];

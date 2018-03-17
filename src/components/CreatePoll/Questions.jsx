@@ -4,7 +4,7 @@ import Dropzone from 'react-dropzone';
 import { Trash } from '../Onboarding/Badges';
 
 class Questions extends Component {
-  static PropTypes = {
+  static propTypes = {
     addQuestion: PropTypes.func,
     goToNext: PropTypes.func,
     goToPrev: PropTypes.func,
@@ -58,27 +58,27 @@ class Questions extends Component {
           Options
         </h2>
 
-        <div className="br3 pt4 bg-white">
+        <div className={`br3 bg-white pt4`}>
           {questions.map((question, index) => (
-            <span key={index} className="flex  align-items justify-center">
+            <span key={index} className="flex align-items justify-center">
               {type === 'text' ? (
-                <Fragment>
-                  {' '}
+                <div className="ph3 w-100 flex">
                   <input
                     data-test={`question${index}`}
                     type="text"
                     placeholder="Type your poll question here..."
                     onChange={handleInput(index)}
                     value={question}
-                    className="input-reset ba"
+                    autoFocus
+                    className="f6 b db mb2 tl ttc"
                   />
-                  <button className="seethrough" onClick={this.props.handleDelete(index)}>
+                  <button className="seethrough " onClick={this.props.handleDelete(index)}>
                     <Trash />
                   </button>
-                </Fragment>
+                </div>
               ) : (
                 <div className="flex col">
-                  <Dropzone data-test="dropzone" className="" onDrop={handleInput(index)}>
+                  <Dropzone data-test="dropzone" onDrop={handleInput(index)}>
                     {question ? (
                       <img src={question} alt={`question ${index + 1}`} />
                     ) : (

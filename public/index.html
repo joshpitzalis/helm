@@ -7,35 +7,97 @@
   <meta name="theme-color" content="#000000">
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
   <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="apple-mobile-web-app-title" content="Pal Poll">
+  <meta name="application-name" content="Pal Poll">
+  <meta name="msapplication-TileColor" content="#f3db96">
+  <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+  <meta name="theme-color" content="#f3db96">
   <title>Pal Poll</title>
-
+  <link rel="stylesheet" type="text/css" href="./addtohomescreen.css">
+  <script src="./addtohomescreen.min.js"></script>
+  <script>
+    addToHomescreen();
+  </script>
   <!-- start ConvertFox JS code-->
   <script async>
     (function (d, h, w) { var convertfox = w.convertfox = w.convertfox || []; convertfox.methods = ['trackPageView', 'identify', 'track', 'setAppId']; convertfox.factory = function (t) { return function () { var e = Array.prototype.slice.call(arguments); e.unshift(t); convertfox.push(e); return convertfox; } }; for (var i = 0; i < convertfox.methods.length; i++) { var c = convertfox.methods[i]; convertfox[c] = convertfox.factory(c) } s = d.createElement('script'), s.src = "//d3sjgucddk68ji.cloudfront.net/convertfox.min.js", s.async = !0, e = d.getElementsByTagName(h)[0], e.appendChild(s), s.addEventListener('load', function (e) { }, !1), convertfox.setAppId("kq6gyxpe"), convertfox.trackPageView() })(document, 'head', window);
   </script>
   <!-- end ConvertFox JS code-->
+  <style type="text/css">
+    body {
+      font-family: -apple-system, BlinkMacSystemFont,
+      'avenir next', avenir,
+      'helvetica neue', helvetica,
+      ubuntu,
+      roboto, noto,
+      'segoe ui', arial,
+      sans-serif;
+      color: #f5f4ef
+    }
 
+    .center {
+      margin: 50px auto;
+      text-align: center
+    }
+
+    .loader {
+      border-top: 16px solid #dfe7c1;
+      border-right: 16px solid #b3cfe0;
+      border-bottom: 16px solid #f5b152;
+      border-left: 16px solid #f3db96;
+      border-radius: 50%;
+      width: 120px;
+      height: 120px;
+      animation: spin 2s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
 </head>
 
 <body>
-  <script>
 
-  </script>
-  <noscript>
-    You need to enable JavaScript to run this app.
-  </noscript>
-  <div id="root"></div>
-  <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+  <div id="root">
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <!-- <h1 class="center">Pal Poll</h1> -->
+    <div class="loader"></div>
+    <h2 class="center">Quick & Easy Online Polls.</h2>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('firebase-messaging-sw.js').then(function (registration) { // Registration was successful
+            console.log('Registered!');
+          }, function (err) {
+            // registration failed :(
+            console.log('ServiceWorker registration failed: ', err);
+          }).catch(function (err) {
+            console.log(err);
+          });
+        });
+      } else {
+        console.log('service worker is not supported');
+      }
+    </script>
 </body>
 
 </html>

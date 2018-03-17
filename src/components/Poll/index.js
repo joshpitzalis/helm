@@ -26,16 +26,19 @@ class Poll extends Component {
     db
       .doc(`polls/${this.props.match.params.pollId}`)
       .get()
-      .then(poll =>
-        poll.exists &&
+      .then(
+        poll =>
+          poll.exists &&
           this.setState(
             {
               poll: poll.data(),
             },
             () =>
               getProfilePicture(this.state.poll.createdBy).then(res =>
-                this.setState({ createdBy: res })),
-          ));
+                this.setState({ createdBy: res }),
+              ),
+          ),
+      );
 
     this.props.user && markOnboardingStepComplete(this.props.user.providerData[0].uid, 'recieved');
   }
@@ -84,14 +87,14 @@ class Poll extends Component {
     }
 
     if (
-      (poll && poll.privacy == 'public') ||
+      (poll && poll.privacy === 'public') ||
       (poll &&
         poll.participants &&
         this.props.user &&
         Object.keys(poll.participants).includes(this.props.user.providerData[0].uid))
     ) {
       console.log("We've been expecting you.");
-    } else if (poll && this.props.user && poll.privacy == 'private') {
+    } else if (poll && this.props.user && poll.privacy === 'private') {
       this.setState({
         redirectTo: '/error',
       });
@@ -109,7 +112,7 @@ class Poll extends Component {
       <article className="pv5">
         <section className="mw6-ns w-100 center tc">
           {poll &&
-            poll.privacy == 'public' && (
+            poll.privacy === 'public' && (
               <img src={this.state.createdBy} alt="" className="br-100 h3 w3 dib ma0" />
             )}
           <header>
@@ -118,22 +121,31 @@ class Poll extends Component {
           </header>
           <hr className="dn" />
           <form className="mt3">
-            <div className="ma0 ">
+            <div className="ma0">
               {poll &&
                 poll.questions &&
                 poll.questions.map((question, index) => (
                   <div
                     key={index}
-                    className="pa2 ma0 roundfirstAndlast"
-                    style={{
-                      backgroundColor: {
-                        0: '#f7db8c',
-                        1: '#ffaf39',
-                        2: '#f37966',
-                        3: '#adcfe2',
-                        4: '#dce8bd',
-                      }[index < 5 ? index : Math.floor(Math.random() * 4) + 1],
-                    }}
+                    className="pa2 ma0 roundfirstAndlast bg-white"
+                    id={
+                      {
+                        0: 'yellow',
+                        1: 'orange',
+                        2: 'red',
+                        3: 'blue',
+                        4: 'green',
+                      }[index < 5 ? index : Math.floor(Math.random() * 4) + 1]
+                    }
+                    // style={{
+                    //   backgroundColor: {
+                    //     0: '#f7db8c',
+                    //     1: '#ffaf39',
+                    //     2: '#f37966',
+                    //     3: '#adcfe2',
+                    //     4: '#dce8bd',
+                    //   }[index < 5 ? index : Math.floor(Math.random() * 4) + 1],
+                    // }}
                   >
                     <label className="container tl ma0 relative ">
                       <input
@@ -169,9 +181,9 @@ class Poll extends Component {
               onClick={
                 Object.keys(this.state.responses).length === 0
                   ? (e) => {
-                      e.preventDefault();
-                      this.setState({ errors: 'You must select atleast one option to proceed.' });
-                    }
+                    e.preventDefault();
+                    this.setState({ errors: 'You must select atleast one option to proceed.' });
+                  }
                   : this.handleSubmit
               }
             />

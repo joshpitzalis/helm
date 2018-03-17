@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
 import { auth, db, facebookAuthProvider } from '../constants/firebase.js';
-import { BrowserRouter, Route, Link, withRouter } from 'react-router-dom';
+import { Route, Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import { withState } from 'recompose';
+import { Loading } from './Loading';
 
 export default class Landing extends Component {
   constructor(props) {
@@ -20,11 +20,11 @@ export default class Landing extends Component {
 
   getChildContext() {
     return {
-      redirectToCreatePage: this.pog,
+      redirectToCreatePage: this.redirectToCreatePage,
     };
   }
 
-  pog = id => {
+  redirectToCreatePage = id => {
     this.setState({ redirectTo: `/create/${id}` });
   };
 
@@ -109,14 +109,21 @@ class Child extends Component {
   render() {
     const { polls } = this.state;
     return (
-      <div className="pv4 w-100 grid grid3 gap1">
-        {polls &&
-          polls
-            .filter(poll => poll.category === (this.props.match.params.id || 'fun'))
-            .map((poll, index) => (
-              <Poll key={index} title={poll.title} id={poll.id} index={index} />
-            ))}
-      </div>
+      <Fragment>
+        {polls.length > 0 ? (
+          <div className="pv4 w-100 grid grid3 gap1">
+            {polls
+              .filter(poll => poll.category === (this.props.match.params.id || 'fun'))
+              .map((poll, index) => (
+                <Poll key={index} title={poll.title} id={poll.id} index={index} />
+              ))}
+          </div>
+        ) : (
+          <div className="w-100 tc">
+            <Loading />
+          </div>
+        )}
+      </Fragment>
     );
   }
 }
@@ -125,7 +132,7 @@ export class Poll extends Component {
   state = { show: false };
   static contextTypes = { redirectToCreatePage: PropTypes.func };
   render() {
-    const { title, index, id, context } = this.props;
+    const { title, index, id } = this.props;
     return (
       <div
         onClick={() => this.context.redirectToCreatePage(id)}
@@ -157,7 +164,8 @@ export class Poll extends Component {
           data-colour={
             index === 0 ? 'blue' : index === 1 ? 'red' : index === 2 ? 'orange' : 'green'
           }
-          className={`pointer fancyFont dib pa4 mv0 h5 flex aic ${(index === 1 && 'span2 brown') ||
+          className={` pointer fancyFont lh-copy f2-l f3 dib pa4 mv0 h5 flex aic ${(index === 1 &&
+            'span2 brown') ||
             (index === 2 && 'span2')} `}
         >
           {title}

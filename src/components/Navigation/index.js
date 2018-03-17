@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom';
 import React, { Component, Fragment } from 'react';
 import * as routes from '../../constants/routes';
 import Logo from '../../images/peerPlusLogo.png';
-import { compose, setDisplayName, setPropTypes, withState } from 'recompose';
+import { compose, setDisplayName, withState } from 'recompose';
 import PropTypes from 'prop-types';
-import { auth, facebookAuthProvider } from '../../constants/firebase';
+import { auth } from '../../constants/firebase';
 import AuthButtons from './AuthButtons';
 import Notifications from './Notifications';
 import { withPrivatePollData } from '../../hocs/withPollData';
@@ -137,6 +137,7 @@ const LoggedIn = ({ showPolls, setPollsVisible, user, polls, transition }) => {
                 height="50"
                 width="50"
                 onClick={() => setPollsVisible(x => !x)}
+                alt={user.displayName}
               />
             </div>
           )}

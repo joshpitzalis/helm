@@ -54,6 +54,7 @@ class Create extends Component {
         context: true,
       };
       this.setState({ showErrors: true, touched });
+      window.scrollTo(0, 0);
       return null;
     } else {
       // proceed to next step
@@ -82,6 +83,7 @@ class Create extends Component {
             errors={errors}
             touched={this.state.touched}
             placeholder="Type your poll question here..."
+            autoFocus={true}
           />
           <TextInput
             element="context"

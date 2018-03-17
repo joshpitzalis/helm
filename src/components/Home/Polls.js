@@ -3,7 +3,7 @@ import {
   compose,
   branch,
   renderComponent,
-  renderNothing,
+  // renderNothing,
   setDisplayName,
   setPropTypes,
 } from 'recompose';
@@ -39,23 +39,23 @@ const ListOfPolls = ({ polls, user }) => (
           data={
             poll.responses
               ? Object.values(poll.responses).map((response, index) => ({
-                  value: response,
-                  key: index,
-                  color: {
-                    0: '#f7db8c',
-                    1: '#adcfe2',
-                    2: '#f37966',
-                    3: '#dce8bd',
-                    4: '#ffaf39',
-                  }[index],
-                }))
+                value: response,
+                key: index,
+                color: {
+                  0: '#f7db8c',
+                  1: '#adcfe2',
+                  2: '#f37966',
+                  3: '#dce8bd',
+                  4: '#ffaf39',
+                }[index],
+              }))
               : [
-                  {
-                    value: 1,
-                    key: 0,
-                    color: '#dce8bd',
-                  },
-                ]
+                {
+                  value: 1,
+                  key: 0,
+                  color: '#dce8bd',
+                },
+              ]
           }
           className="h3 w3 dib top-1 relative ml2"
         />

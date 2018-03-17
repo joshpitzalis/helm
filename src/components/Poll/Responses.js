@@ -1,13 +1,14 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { db } from '../../constants/firebase';
 import { withUserData } from '../../hocs/withUserData';
 import { ErrorHandler } from '../../hocs/ErrorHandler';
 import { markOnboardingStepComplete } from '../Onboarding/helpers';
-import { withState, withHandlers } from 'recompose';
+import { withState } from 'recompose';
 import ClickToCopyPublicPoll from '../shared/clickToCopy';
 import ProgressiveImage from 'react-progressive-image';
 import Logo from '../../images/peerPlusLogo.png';
+import { Loading } from '../Loading';
 
 class Responses extends Component {
   state = {
@@ -126,7 +127,8 @@ class Responses extends Component {
                 );
               })
             ) : (
-              <p>No responses yet</p>
+              // <p>No responses yet</p>
+              <Loading />
             )}
           </ul>
           {user &&

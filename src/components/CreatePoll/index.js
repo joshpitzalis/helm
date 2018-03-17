@@ -3,7 +3,7 @@ import Create from './Create';
 import Questions from './Questions.jsx';
 import Friends from './Friends';
 import Congratulations from './Congratulations';
-import { db, storage } from '../../constants/firebase';
+import { db } from '../../constants/firebase';
 import { compose, setDisplayName, setPropTypes } from 'recompose';
 import { withUserData } from '../../hocs/withUserData';
 import PropTypes from 'prop-types';
@@ -30,6 +30,7 @@ class Polls extends Component {
   };
 
   componentDidMount() {
+    window.scrollTo(0, 0);
     if (this.props.match.params.pollId) {
       db
         .doc(`preparedPolls/${this.props.match.params.pollId}`)

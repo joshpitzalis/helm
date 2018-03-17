@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 export const LogoutButton = ({ color }) => (
   <button
     data-test="logout"
-    className={`tr bn underline f4 b pointer seethrough ${color}`}
+    className={`tr bn underline f4 b pointer seethrough ${color} small-caps`}
     onClick={() =>
       auth
         .signOut()
@@ -27,7 +27,7 @@ const showLogoutIfLoggedIn = branch(({ user }) => user, renderComponent(LogoutBu
 export const LoginButton = showLogoutIfLoggedIn(({ user }) => (
   <button
     data-test="login"
-    className="tr bn underline f4 b pointer seethrough ttc"
+    className="tr bn underline f4 b pointer seethrough ttc small-caps"
     style={{ textDecorationSkip: 'ink' }}
     onClick={() => auth.signInWithRedirect(facebookAuthProvider)}
   >

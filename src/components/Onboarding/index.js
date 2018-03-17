@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Logo from '../../images/peerPlusLogo.png';
+// import Logo from '../../images/peerPlusLogo.png';
 import { Link } from 'react-router-dom';
 import {
   Thunder,

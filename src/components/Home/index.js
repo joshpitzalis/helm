@@ -4,7 +4,13 @@ import { withUserData } from '../../hocs/withUserData';
 import { compose } from 'recompose';
 import CreatePollButton from './CreatePollButton';
 import Polls from './Polls';
-import { auth, db } from '../../constants/firebase';
+import { Loading } from '../Loading';
+
+// import { lifecycle } from 'recompose';
+import {
+  db,
+  // messaging
+} from '../../constants/firebase';
 import {
   Thunder,
   Invite,
@@ -18,6 +24,7 @@ import {
   Trash,
 } from '../Onboarding/Badges';
 import { Link } from 'react-router-dom';
+// import NotificationResource from '../../resources/NotificationResource';
 
 const Home = ({ user, polls }) => (
   <article className="pv5">
@@ -26,7 +33,7 @@ const Home = ({ user, polls }) => (
       <Badges user={user} />
       {user && (
         <WithMyPollData uid={user.providerData[0].uid}>
-          {polls => <Polls polls={polls} user={user} />}
+          {polls => (polls.length > 0 ? <Polls polls={polls} user={user} /> : <Loading />)}
         </WithMyPollData>
       )}
     </section>
@@ -43,6 +50,16 @@ class _Badges extends Component {
       .doc(`users/${this.props.user.providerData[0].uid}`)
       .get()
       .then(user => this.setState({ onboarding: user.data().onboarding }));
+
+    window.addEventListener('beforeinstallprompt', function(e) {
+      e.userChoice.then(function(choiceResult) {
+        if (choiceResult.outcome === 'dismissed') {
+          console.log('User cancelled home screen install');
+        } else {
+          console.log('User added to home screen');
+        }
+      });
+    });
   }
 
   render() {
@@ -205,4 +222,11 @@ const Badges = compose(withUserData)(_Badges);
 
 export { Badges };
 
-export default compose(withUserData)(Home);
+export default compose(
+  withUserData,
+  // lifecycle({
+  //   componentDidMount() {
+  //     this.notifications = new NotificationResource(messaging);
+  //   },
+  // }),
+)(Home);

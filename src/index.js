@@ -2,38 +2,30 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
-import Navigation from './components/Navigation/index.js';
-import LandingPage from './components/Landing';
-import HomePage from './components/Home';
-// import AccountPage from './components/Account';
-import Poll from './components/Poll';
-import Onboarding from './components/Onboarding/index.js';
-import Responses from './components/Poll/Responses';
-import CreatePoll from './components/CreatePoll';
-import Done from './components/Poll/Done';
-import Error from './components/Error';
-import AddTo from './components/Poll/AddSomeoneNew';
 import * as routes from './constants/routes';
-import 'normalize.css';
-import './style.css';
-import './grid.css';
-import Footer from './components/Footer.js';
-import { auth, db, messaging } from './constants/firebase';
+import { auth, db, messaging, database } from './constants/firebase';
 import PropTypes from 'prop-types';
 import {
   updateLastLogin,
   checkThatUserLoggedInLessThanAWeek,
 } from './components/Onboarding/helpers';
 import ReactGA from 'react-ga';
-import NotificationResource from './resources/NotificationResource.js';
+
 import messages from './messages';
 import { addLocaleData, IntlProvider } from 'react-intl';
 import en from 'react-intl/locale-data/en';
 import es from 'react-intl/locale-data/es';
 import fr from 'react-intl/locale-data/fr';
 import 'tachyons';
-// require('tachyons');
+import 'normalize.css';
+import './style.css';
+import './grid.css';
+import Navigation from './components/Navigation/index.js';
+import Footer from './components/Footer.js';
+import { Loading } from './components/Loading';
 
+// import NotificationResource from './resources/NotificationResource.js';
+import registerMessaging from './request-messaging-Permission.js';
 // translations...
 addLocaleData([...en, ...es, ...fr]);
 
@@ -51,6 +43,80 @@ ReactGA.pageview(window.location.pathname + window.location.search);
 
 // ...analytics
 
+// Dynamic Routes...
+
+class DynamicImport extends Component {
+  state = {
+    component: null,
+  };
+  componentWillMount() {
+    this.props.load().then(component => {
+      this.setState(() => ({
+        component: component.default ? component.default : component,
+      }));
+    });
+  }
+  render() {
+    return this.props.children(this.state.component);
+  }
+}
+
+const HomePage = props => (
+  <DynamicImport load={() => import('./components/Home')}>
+    {Component => (Component === null ? <Loading /> : <Component {...props} />)}
+  </DynamicImport>
+);
+
+const LandingPage = props => (
+  <DynamicImport load={() => import('./components/Landing')}>
+    {Component => (Component === null ? <Loading /> : <Component {...props} />)}
+  </DynamicImport>
+);
+
+const Poll = props => (
+  <DynamicImport load={() => import('./components/Poll')}>
+    {Component => (Component === null ? <Loading /> : <Component {...props} />)}
+  </DynamicImport>
+);
+
+const Onboarding = props => (
+  <DynamicImport load={() => import('./components/Onboarding/index.js')}>
+    {Component => (Component === null ? <Loading /> : <Component {...props} />)}
+  </DynamicImport>
+);
+
+const Responses = props => (
+  <DynamicImport load={() => import('./components/Poll/Responses')}>
+    {Component => (Component === null ? <Loading /> : <Component {...props} />)}
+  </DynamicImport>
+);
+
+const CreatePoll = props => (
+  <DynamicImport load={() => import('./components/CreatePoll')}>
+    {Component => (Component === null ? <Loading /> : <Component {...props} />)}
+  </DynamicImport>
+);
+
+const Done = props => (
+  <DynamicImport load={() => import('./components/Poll/Done')}>
+    {Component => (Component === null ? <Loading /> : <Component {...props} />)}
+  </DynamicImport>
+);
+
+const Error = props => (
+  <DynamicImport load={() => import('./components/Error')}>
+    {Component => (Component === null ? <Loading /> : <Component {...props} />)}
+  </DynamicImport>
+);
+
+const AddTo = props => (
+  <DynamicImport load={() => import('./components/Poll/AddSomeoneNew')}>
+    {Component => (Component === null ? <Loading /> : <Component {...props} />)}
+  </DynamicImport>
+);
+
+// ...Dynamic Routes
+
 export default class Routes extends Component {
   state = {
     authed: false,
@@ -66,18 +132,23 @@ export default class Routes extends Component {
   }
 
   componentDidMount() {
+    // this.notifications = new NotificationResource(messaging, database);
+
     // when logged in set auth to true so you can access private routes
     auth.onAuthStateChanged(user => {
-      user
-        ? this.setState({
-            authed: true,
-            user: user,
-          })
-        : this.setState({
-            authed: false,
-            user: null,
-          });
-
+      if (user) {
+        this.setState({
+          authed: true,
+          user: user,
+        });
+        // this.notifications.changeUser(user);
+        registerMessaging(user);
+      } else {
+        this.setState({
+          authed: false,
+          user: null,
+        });
+      }
       user && updateLastLogin(user.providerData[0].uid);
       user && checkThatUserLoggedInLessThanAWeek(user.providerData[0].uid);
     });
@@ -104,7 +175,6 @@ export default class Routes extends Component {
         );
       }
     });
-    this.notifications = new NotificationResource(messaging);
   }
 
   render() {
@@ -173,9 +243,9 @@ const renderMergedProps = (component, ...rest) => {
   return React.createElement(component, finalProps);
 };
 
-const PropsRoute = ({ component, ...rest }) => (
-  <Route {...rest} render={routeProps => renderMergedProps(component, routeProps, rest)} />
-);
+// const PropsRoute = ({ component, ...rest }) => (
+//   <Route {...rest} render={routeProps => renderMergedProps(component, routeProps, rest)} />
+// );
 
 const PrivateRoute = ({ component, authed, ...rest }) => (
   <Route
@@ -197,3 +267,7 @@ ReactDOM.render(
   document.getElementById('root'),
 );
 registerServiceWorker();
+
+messaging.onMessage(payload => {
+  console.log('payload', payload);
+});

@@ -10,6 +10,7 @@ export const TextInput = ({
   value,
   placeholder,
   label,
+  autoFocus,
 }) => (
   <div>
     <label htmlFor="name" className="f6 b db mb2 tl ttc">
@@ -23,6 +24,7 @@ export const TextInput = ({
       value={value}
       onBlur={handleBlur(element)}
       className="input-reset ba "
+      autoFocus={autoFocus}
     />
     <small data-error className="h1 f5">
       {errors[element] && touched[element] ? errors[element] : null}
@@ -38,6 +40,10 @@ TextInput.propTypes = {
   touched: PropTypes.object.isRequired,
   value: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
+};
+
+TextInput.defaultTypes = {
+  autoFocus: false,
 };
 
 export const RadioChoice = ({

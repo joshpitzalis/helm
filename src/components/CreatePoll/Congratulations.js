@@ -2,12 +2,12 @@ import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { markOnboardingStepComplete } from '../Onboarding/helpers';
 import ShareButton from 'react-social-share-buttons';
-import Logo from '../../images/peerPlusLogo.png';
-import copy from 'copy-to-clipboard';
+// import Logo from '../../images/peerPlusLogo.png';
+import ClickToCopyPublicPoll from '../shared/clickToCopy';
+import Confetti from 'react-dom-confetti';
 
 class Congratulations extends Component {
-  state = { copied: null };
-
+  state = {};
   componentDidMount() {
     if (this.props.type === 'image') {
       markOnboardingStepComplete(this.props.userId, 'photo');
@@ -20,47 +20,33 @@ class Congratulations extends Component {
     if (this.props.privacy === 'private') {
       markOnboardingStepComplete(this.props.userId, 'private');
     }
+    this.setState({ explosion: true });
   }
 
-  copyToClipboard = (e, url) => {
-    e.preventDefault();
-    copy(url);
-    this.setState({ copySuccess: 'Copied!' });
-  };
-
   render() {
-    const url = `https://peerplus-staging.firebaseapp.com/poll/${this.props.pollId}`;
-    const title = this.props.title;
+    // const title = this.props.title;
+    const config = {
+      angle: 70,
+      spread: 87,
+      startVelocity: 40,
+      elementCount: 250,
+      decay: 0.95,
+    };
     return (
       <Fragment>
-        <Link to={`/poll/${this.props.pollId}`}>
-          <h2 data-test="congratulations" className="f3 lh-title">
-            Poll is available at
-            <span data-test="newPollId">{`${this.props.pollId}`}</span>
-          </h2>
-        </Link>
-        {/* only displaying the copy-to-clipboard
-            button if the browser supports it */
-        document.queryCommandSupported('copy') && (
-          <div>
-            <button onClick={e => this.copyToClipboard(e, url)} className="seethrough pointer">
-              Copy to Clipboard
-            </button>
-            <div>{this.state.copySuccess}</div>
-            <br />
-            <br />
-          </div>
-        )}
-
-        {/* {this.props.privacy === 'public' && (
+        <div className="br3 pa4 bg-white">
+          <ClickToCopyPublicPoll pollId={this.props.pollId} />
+          <Confetti active={this.state.explosion} config={config} />
+          {/* {this.props.privacy === 'public' && (
           <div>
             <ShareButton compact socialMedia="facebook" url={url} media={Logo} text={title} />
             <br />
             <ShareButton compact socialMedia="twitter" url={url} media={Logo} text={title} />
           </div>
         )} */}
-
-        <Link to={`/home`}>
+        </div>
+        <br />
+        <Link to="/home">
           <button data-test="done">Done</button>
         </Link>
       </Fragment>

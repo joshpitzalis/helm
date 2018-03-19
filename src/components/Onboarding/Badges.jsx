@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export const Thunder = ({ color }) => (
   <svg
@@ -6,11 +6,11 @@ export const Thunder = ({ color }) => (
     width="36"
     height="50"
     viewBox="0 0 36 50"
-    className="dim"
+    className="dim fadeIn"
   >
     <path
       fill="none"
-      stroke={color || "#000"}
+      stroke={color || '#000'}
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth="1.5"
@@ -26,12 +26,12 @@ export const Invite = ({ color }) => (
     height="50"
     viewBox="0 0 11 14"
     xmlns="http://www.w3.org/2000/svg"
-    className="dim"
+    className="dim fadeIn"
   >
     <g
       id="Letter"
       transform="translate(-19.000000, -18.000000)"
-      stroke={color || "#000"}
+      stroke={color || '#000'}
       strokeWidth=".5"
     >
       <g id="Group-21" transform="translate(19.000000, 18.000000)">
@@ -52,7 +52,7 @@ export const Weekly = ({ color }) => (
     height="50"
     viewBox="0 0 11 14"
     xmlns="http://www.w3.org/2000/svg"
-    className="dim"
+    className="dim fadeIn"
   >
     <g
       id="Page-1"
@@ -66,7 +66,7 @@ export const Weekly = ({ color }) => (
       <g
         id="Popsicle"
         transform="translate(-20.000000, -18.000000)"
-        stroke={color || "#000"}
+        stroke={color || '#000'}
         strokeWidth="0.5"
       >
         <g id="Group-85" transform="translate(21.000000, 18.000000)">
@@ -94,7 +94,7 @@ export const First = ({ color }) => (
     viewBox="0 0 11 17"
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
-    className="dim"
+    className="dim fadeIn"
   >
     <g
       id="Page-1"
@@ -108,7 +108,7 @@ export const First = ({ color }) => (
       <g
         id="Upload"
         transform="translate(-20.000000, -17.000000)"
-        stroke={color || "#000"}
+        stroke={color || '#000'}
         strokeWidth="0.6"
       >
         <g id="Group-97" transform="translate(20.000000, 17.000000)">
@@ -120,14 +120,8 @@ export const First = ({ color }) => (
           <path d="M1.1893,3.9703 L4.4623,0.1523" id="Stroke-55" />
           <path d="M7.7794,6.6815 L4.4614,0.1525" id="Stroke-57" />
           <path d="M0.6695,10.0729 L0.6695,13.1279" id="Stroke-59" />
-          <polyline
-            id="Stroke-61"
-            points="8.2542 13.22 3.2282 11.137 0.6692 10.073"
-          />
-          <polyline
-            id="Stroke-63"
-            points="8.2542 16.3671 3.2282 14.2841 0.6692 13.2201"
-          />
+          <polyline id="Stroke-61" points="8.2542 13.22 3.2282 11.137 0.6692 10.073" />
+          <polyline id="Stroke-63" points="8.2542 16.3671 3.2282 14.2841 0.6692 13.2201" />
           <path d="M8.2542,13.22 L8.2542,16.367" id="Stroke-65" />
         </g>
       </g>
@@ -142,7 +136,7 @@ export const Picture = ({ color }) => (
     viewBox="0 0 18 17"
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
-    className="dim"
+    className="dim fadeIn"
   >
     <g
       id="Page-1"
@@ -156,7 +150,7 @@ export const Picture = ({ color }) => (
       <g
         id="Camera"
         transform="translate(-16.000000, -16.000000)"
-        stroke={color || "#000"}
+        stroke={color || '#000'}
         strokeWidth="0.7"
       >
         <g id="Group-8" transform="translate(17.000000, 16.000000)">
@@ -199,7 +193,7 @@ export const Picture = ({ color }) => (
 );
 
 export const Recieve = ({ color }) => (
-  <svg width="36" height="50" viewBox="0 0 11 18" className="dim">
+  <svg width="36" height="50" viewBox="0 0 11 18" className="dim fadeIn">
     <g
       id="Page-1"
       stroke="none"
@@ -212,7 +206,7 @@ export const Recieve = ({ color }) => (
       <g
         id="Download"
         transform="translate(-20.000000, -16.000000)"
-        stroke={color || "#000"}
+        stroke={color || '#000'}
         strokeWidth="0.6"
       >
         <g id="Group-98" transform="translate(20.000000, 16.000000)">
@@ -224,14 +218,8 @@ export const Recieve = ({ color }) => (
           <path d="M7.7794,6.7543 L4.5064,10.5723" id="Stroke-33" />
           <path d="M1.1893,4.0432 L4.5073,10.5722" id="Stroke-35" />
           <path d="M0.6695,11.5733 L0.6695,14.6283" id="Stroke-37" />
-          <polyline
-            id="Stroke-39"
-            points="8.2542 14.7204 3.2282 12.6374 0.6692 11.5734"
-          />
-          <polyline
-            id="Stroke-41"
-            points="8.2542 17.8675 3.2282 15.7845 0.6692 14.7205"
-          />
+          <polyline id="Stroke-39" points="8.2542 14.7204 3.2282 12.6374 0.6692 11.5734" />
+          <polyline id="Stroke-41" points="8.2542 17.8675 3.2282 15.7845 0.6692 14.7205" />
           <path d="M8.2542,14.7204 L8.2542,17.8674" id="Stroke-43" />
         </g>
       </g>
@@ -240,7 +228,7 @@ export const Recieve = ({ color }) => (
 );
 
 export const Add = ({ color }) => (
-  <svg width="36" height="50" viewBox="0 0 11 17" className="dim">
+  <svg width="36" height="50" viewBox="0 0 11 17" className="dim fadeIn">
     <g
       id="Page-1"
       stroke="none"
@@ -253,7 +241,7 @@ export const Add = ({ color }) => (
       <g
         id="Plus"
         transform="translate(-20.000000, -19.000000)"
-        stroke={color || "#000"}
+        stroke={color || '#000'}
         strokeWidth="0.6"
       >
         <g id="Group-99" transform="translate(20.000000, 19.000000)">
@@ -282,7 +270,7 @@ export const Add = ({ color }) => (
 );
 
 export const Person = ({ color }) => (
-  <svg width="36" height="50" viewBox="0 0 10 18" className="dim">
+  <svg width="36" height="50" viewBox="0 0 10 18" className="dim fadeIn">
     <g
       id="Page-1"
       stroke="none"
@@ -295,7 +283,7 @@ export const Person = ({ color }) => (
       <g
         id="Human"
         transform="translate(-21.000000, -16.000000)"
-        stroke={color || "#000"}
+        stroke={color || '#000'}
         strokeWidth="0.6"
       >
         <g id="Group-69" transform="translate(22.000000, 16.000000)">
@@ -350,7 +338,7 @@ export const Person = ({ color }) => (
 );
 
 export const Chart = ({ color }) => (
-  <svg width="36" height="50" viewBox="0 0 22 18" className="dim">
+  <svg width="36" height="50" viewBox="0 0 22 18" className="dim fadeIn">
     <g
       id="Page-1"
       stroke="none"
@@ -363,7 +351,7 @@ export const Chart = ({ color }) => (
       <g
         id="Bar-Graph"
         transform="translate(-16.000000, -13.000000)"
-        stroke={color || "#000"}
+        stroke={color || '#000'}
         strokeWidth="0.7"
       >
         <g id="Group-30" transform="translate(17.000000, 14.000000)">
@@ -395,7 +383,7 @@ export const Chart = ({ color }) => (
 );
 
 export const Trash = ({ color }) => (
-  <svg width="36" height="50" viewBox="0 0 18 18" className="dim">
+  <svg width="36" height="50" viewBox="0 0 18 18" className="dim fadeIn">
     <g
       id="Page-1"
       stroke="none"
@@ -408,7 +396,7 @@ export const Trash = ({ color }) => (
       <g
         id="Trash"
         transform="translate(-16.000000, -16.000000)"
-        stroke={color || "#000"}
+        stroke={color || '#000'}
         strokeWidth="0.6"
       >
         <g id="Group-14" transform="translate(16.000000, 16.000000)">
@@ -417,10 +405,7 @@ export const Trash = ({ color }) => (
             id="Stroke-1677"
             points="14.6954 7.1556 14.6954 15.1946 14.6954 15.2346 8.4624 17.8166 2.2284 15.2346 2.2284 15.1946 2.2284 7.1556"
           />
-          <polyline
-            id="Stroke-1679"
-            points="0.8652 3.8493 8.4622 6.9963 16.0582 3.8493"
-          />
+          <polyline id="Stroke-1679" points="0.8652 3.8493 8.4622 6.9963 16.0582 3.8493" />
           <path d="M8.4619,6.996 L8.4619,9.738" id="Stroke-1681" />
           <polygon
             id="Stroke-1683"

@@ -9,8 +9,13 @@ export const TextInput = ({
   touched,
   value,
   placeholder,
+  label,
+  autoFocus,
 }) => (
   <div>
+    <label htmlFor="name" className="f6 b db mb2 tl ttc">
+      {element}
+    </label>
     <input
       data-test={element}
       type="text"
@@ -18,10 +23,12 @@ export const TextInput = ({
       onChange={handleChange(element)}
       value={value}
       onBlur={handleBlur(element)}
+      className="input-reset ba "
+      autoFocus={autoFocus}
     />
-    <p data-error className="h1">
+    <small data-error className="h1 f5">
       {errors[element] && touched[element] ? errors[element] : null}
-    </p>
+    </small>
   </div>
 );
 
@@ -33,6 +40,10 @@ TextInput.propTypes = {
   touched: PropTypes.object.isRequired,
   value: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
+};
+
+TextInput.defaultTypes = {
+  autoFocus: false,
 };
 
 export const RadioChoice = ({
@@ -56,9 +67,9 @@ export const RadioChoice = ({
       value={value}
     />
     <span className="checkmark" />
-    <p data-error className="h1">
+    <small data-error className="h1 f5 pl3">
       {errors[group] && showErrors ? errors[group] : null}
-    </p>
+    </small>
   </label>
 );
 

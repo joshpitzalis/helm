@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
+// import { Link } from 'react-router-dom';
+// import PropTypes from 'prop-types';
 import { withUserData } from '../hocs/withUserData';
-import { LogoutButton } from './Navigation/AuthButtons';
+// import { LogoutButton } from './Navigation/AuthButtons';
 
 const Footer = ({ user }) => (
   <Fragment>
@@ -14,7 +14,7 @@ const Footer = ({ user }) => (
       <div data-colour="blue" />
     </div>
     <footer className="flex justify-between items-center ph5-ns ph3">
-      <p className="white f4">v 0.5.1</p>
+      <p className="white f4">v 0.5.31</p>
       <p className="white f4">Terms</p>
     </footer>
   </Fragment>

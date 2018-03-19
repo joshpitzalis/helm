@@ -44,7 +44,7 @@ describe('Time to completion shows on Homepage', () => {
   it('checks for time left', () => {
     cy.visit('/home');
     cy.url().should('contain', 'home');
-    cy.get("[data-test='response0']").should('contain', 'Ends in 1 day');
+    cy.get("[data-test='deadline']").should('contain', 'Ends in 1 day');
   });
 
   it('deletes the poll', () => {
@@ -53,8 +53,8 @@ describe('Time to completion shows on Homepage', () => {
     cy.wait(10000);
     cy
       .get("[data-test='response0']")
-      .children('a')
-      .click();
+      .parent()
+      .click({ force: true });
     cy.get("[data-test='delete']").click();
     cy.get("[data-test='delete']").click();
     cy.url().should('contain', 'home');
@@ -85,7 +85,7 @@ describe('Time to completion shows on Homepage', () => {
   it('checks for time left', () => {
     cy.visit('/home');
     cy.url().should('contain', 'home');
-    cy.get("[data-test='response0']").should('contain', 'Ends in 2 days');
+    cy.get("[data-test='deadline']").should('contain', 'Ends in 2 days');
   });
 
   it('deletes the poll', () => {
@@ -94,8 +94,8 @@ describe('Time to completion shows on Homepage', () => {
     cy.wait(10000);
     cy
       .get("[data-test='response0']")
-      .children('a')
-      .click();
+      .parent()
+      .click({ force: true });
     cy.get("[data-test='delete']").click();
     cy.get("[data-test='delete']").click();
     cy.url().should('contain', 'home');

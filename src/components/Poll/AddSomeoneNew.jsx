@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import { withFriendsData } from '../../hocs/withFriendsData';
-import { Loading } from '../Loading';
-import axios from 'axios';
-import { auth, db } from '../../constants/firebase';
-import PropTypes from 'prop-types';
+// import { Loading } from '../Loading';
+// import axios from 'axios';
+import { db } from '../../constants/firebase';
+// import PropTypes from 'prop-types';
 import { WithOnePollData } from '../../hocs/withPollData';
 import { Redirect } from 'react-router-dom';
 import { markOnboardingStepComplete } from '../Onboarding/helpers';

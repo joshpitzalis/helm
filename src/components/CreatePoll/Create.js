@@ -54,6 +54,7 @@ class Create extends Component {
         context: true,
       };
       this.setState({ showErrors: true, touched });
+      window.scrollTo(0, 0);
       return null;
     } else {
       // proceed to next step
@@ -73,106 +74,108 @@ class Create extends Component {
     return (
       <Fragment>
         <h2 className="f1">Create a Poll</h2>
-        <TextInput
-          element="title"
-          handleChange={this.props.handleChange}
-          handleBlur={this.handleBlur}
-          value={this.props.title}
-          errors={errors}
-          touched={this.state.touched}
-          placeholder="Type your poll question here..."
-        />
-        <TextInput
-          element="context"
-          handleChange={this.props.handleChange}
-          handleBlur={this.handleBlur}
-          value={this.props.context}
-          errors={errors}
-          touched={this.state.touched}
-          placeholder="Optional extra information goes here..."
-        />
-        <RadioChoice
-          handleChange={this.props.handleChange}
-          value="single"
-          group="choice"
-          errors={errors}
-          touched={this.state.touched}
-          choice={this.props.choice}
-          title="Single Choice"
-          showErrors={false}
-        />
-        <RadioChoice
-          handleChange={this.props.handleChange}
-          value="multi"
-          group="choice"
-          errors={errors}
-          touched={this.state.touched}
-          choice={this.props.choice}
-          title="Multiple Choice"
-          showErrors={this.state.showErrors}
-        />
-
-        <hr />
-
-        <RadioChoice
-          handleChange={this.props.handleChange}
-          value="text"
-          group="type"
-          errors={errors}
-          touched={this.state.touched}
-          choice={this.props.type}
-          title="Text Based"
-          showErrors={false}
-        />
-        <RadioChoice
-          handleChange={this.props.handleChange}
-          value="image"
-          group="type"
-          errors={errors}
-          touched={this.state.touched}
-          choice={this.props.type}
-          title="Image Based"
-          showErrors={this.state.showErrors}
-        />
-        <hr />
-
-        <RadioChoice
-          handleChange={this.props.handleChange}
-          value="private"
-          group="privacy"
-          errors={errors}
-          touched={this.state.touched}
-          choice={this.props.privacy}
-          title="Private"
-          showErrors={false}
-        />
-        <RadioChoice
-          handleChange={this.props.handleChange}
-          value="public"
-          group="privacy"
-          errors={errors}
-          touched={this.state.touched}
-          choice={this.props.privacy}
-          title="Public"
-          showErrors={this.state.showErrors}
-        />
-
-        <div>
-          <input
-            data-test="slider"
-            type="range"
-            min="24"
-            max="72"
-            onChange={this.props.handleChange('duration')}
-            value={this.props.duration}
+        <div className="br3 pa4 bg-white">
+          <TextInput
+            element="title"
+            handleChange={this.props.handleChange}
+            handleBlur={this.handleBlur}
+            value={this.props.title}
+            errors={errors}
+            touched={this.state.touched}
+            placeholder="Type your poll question here..."
+            autoFocus={true}
           />
-          <div>
-            The poll will end in <span data-test="duration">{this.props.duration}</span> hours.
-          </div>
+          <TextInput
+            element="context"
+            handleChange={this.props.handleChange}
+            handleBlur={this.handleBlur}
+            value={this.props.context}
+            errors={errors}
+            touched={this.state.touched}
+            placeholder="Optional extra information goes here..."
+          />
         </div>
+        <br />
+        <div className="br3 pa4 bg-white">
+          <RadioChoice
+            handleChange={this.props.handleChange}
+            value="single"
+            group="choice"
+            errors={errors}
+            touched={this.state.touched}
+            choice={this.props.choice}
+            title="Single Choice"
+            showErrors={false}
+          />
+          <RadioChoice
+            handleChange={this.props.handleChange}
+            value="multi"
+            group="choice"
+            errors={errors}
+            touched={this.state.touched}
+            choice={this.props.choice}
+            title="Multiple Choice"
+            showErrors={this.state.showErrors}
+          />
+        </div>
+        <div className="br3 pa4 bg-white">
+          <RadioChoice
+            handleChange={this.props.handleChange}
+            value="text"
+            group="type"
+            errors={errors}
+            touched={this.state.touched}
+            choice={this.props.type}
+            title="Text Based"
+            showErrors={false}
+          />
+          <RadioChoice
+            handleChange={this.props.handleChange}
+            value="image"
+            group="type"
+            errors={errors}
+            touched={this.state.touched}
+            choice={this.props.type}
+            title="Image Based"
+            showErrors={this.state.showErrors}
+          />
+        </div>
+        <div className="br3 pa4 bg-white">
+          <RadioChoice
+            handleChange={this.props.handleChange}
+            value="private"
+            group="privacy"
+            errors={errors}
+            touched={this.state.touched}
+            choice={this.props.privacy}
+            title="Private"
+            showErrors={false}
+          />
+          <RadioChoice
+            handleChange={this.props.handleChange}
+            value="public"
+            group="privacy"
+            errors={errors}
+            touched={this.state.touched}
+            choice={this.props.privacy}
+            title="Public"
+            showErrors={this.state.showErrors}
+          />
+        </div>
+        <div className="br3 pa4 bg-white">
+          <div>
+            <Slider
+              handleChange={this.props.handleChange('duration')}
+              duration={this.props.duration}
+            />
+            <div>
+              The poll will end in <span data-test="duration">{this.props.duration}</span> hours.
+            </div>
+          </div>
 
-        {errors.base ? <p data-error>{errors.base}</p> : null}
-
+          {errors.base ? <p data-error>{errors.base}</p> : null}
+        </div>
+        <br />
         <button
           onClick={this.handleSubmit}
           type="submit"
@@ -188,3 +191,22 @@ class Create extends Component {
 }
 
 export default Create;
+
+export const Slider = ({ duration, handleChange }) => {
+  return (
+    <input
+      data-test="slider"
+      type="range"
+      min="24"
+      max="72"
+      className="outline-transparent"
+      onChange={handleChange}
+      value={duration}
+    />
+  );
+};
+
+Slider.propTypes = {
+  duration: PropTypes.number.isRequired,
+  handleChange: PropTypes.func.isRequired,
+};

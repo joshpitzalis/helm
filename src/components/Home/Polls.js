@@ -3,7 +3,7 @@ import {
   compose,
   branch,
   renderComponent,
-  renderNothing,
+  // renderNothing,
   setDisplayName,
   setPropTypes,
 } from 'recompose';
@@ -14,8 +14,13 @@ import { markOnboardingStepComplete } from '../Onboarding/helpers';
 import PieChart from 'react-minimal-pie-chart';
 import addHours from 'date-fns/add_hours';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
+import { FormattedMessage } from 'react-intl';
 
-const NoPollsAvailable = () => <p>No Polls available.</p>;
+const NoPollsAvailable = () => (
+  <p>
+    <FormattedMessage id="home.noPolls" />
+  </p>
+);
 
 const onlyShowIfPollsAvailable = branch(
   ({ polls }) => polls && polls.length === 0,
@@ -34,31 +39,27 @@ const ListOfPolls = ({ polls, user }) => (
           data={
             poll.responses
               ? Object.values(poll.responses).map((response, index) => ({
-                  value: response,
-                  key: index,
-                  color: {
-                    0: '#f7db8c',
-                    1: '#adcfe2',
-                    2: '#f37966',
-                    3: '#dce8bd',
-                    4: '#ffaf39',
-                  }[index],
-                }))
+                value: response,
+                key: index,
+                color: {
+                  0: '#f7db8c',
+                  1: '#adcfe2',
+                  2: '#f37966',
+                  3: '#dce8bd',
+                  4: '#ffaf39',
+                }[index],
+              }))
               : [
-                  {
-                    value: 1,
-                    key: 0,
-                    color: '#dce8bd',
-                  },
-                ]
+                {
+                  value: 1,
+                  key: 0,
+                  color: '#dce8bd',
+                },
+              ]
           }
           className="h3 w3 dib top-1 relative ml2"
         />
-        <li
-          data-colour="green"
-          className="ph3 pv3 mv3 grow dib h3 w-100 mh3"
-          data-test={`response${index}`}
-        >
+        <li data-colour="green" className="ph3 pv3 mv3 grow dib h3 w-100 mh3">
           <Link
             to={`/responses/${poll.id}`}
             onClick={() => markOnboardingStepComplete(user.providerData[0].uid, 'response')}
@@ -69,9 +70,11 @@ const ListOfPolls = ({ polls, user }) => (
                 Object.keys(poll.participants).length,
                 poll.completedBy.length,
               )}%`}
-            <p className="pa0 ma0 ttu">{poll.title}</p>
+            <p className="pa0 ma0 ttu" data-test={`response${index}`}>
+              {poll.title}
+            </p>
             <p className="pa0 ma0" data-test="deadline">
-              Ends{' '}
+              <FormattedMessage id="home.endsAt" />{' '}
               {distanceInWordsToNow(addHours(poll.createdAt, poll.duration), { addSuffix: true })}
             </p>
           </Link>

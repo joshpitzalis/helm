@@ -1,4 +1,4 @@
-import { lifecycle, compose } from 'recompose';
+import { lifecycle } from 'recompose';
 import { auth, db } from '../constants/firebase';
 import React, { Component, Fragment } from 'react';
 
@@ -16,7 +16,8 @@ export const withPrivatePollData = lifecycle({
             });
           });
       } else {
-        console.error('You not be logged in, matey.');
+        return;
+        // console.error('You not be logged in, matey.');
       }
     });
   },

@@ -5,7 +5,7 @@ import AuthButtons from './AuthButtons';
 import { markNotificationAsSeen, markResultsAsSeen } from './helpers';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-const PollBox = ({ polls, close, user }) => (
+const PollBox = ({ polls, close, user, handleShowDeleteModal }) => (
   <ReactCSSTransitionGroup
     transitionName="navbar"
     transitionAppear
@@ -32,9 +32,9 @@ const PollBox = ({ polls, close, user }) => (
                 data-test={`poll${index}`}
                 key={poll.id}
                 onClick={() =>
-                  (poll.ended
+                  poll.ended
                     ? markResultsAsSeen(poll.id, user.providerData[0].uid)
-                    : markNotificationAsSeen(poll.id, user.providerData[0].uid))
+                    : markNotificationAsSeen(poll.id, user.providerData[0].uid)
                 }
               >
                 {poll.ended ? (
@@ -50,7 +50,7 @@ const PollBox = ({ polls, close, user }) => (
             ))}
         </ul>
         <div data-colour="green" className="f5 ph5 pv3 ma0 tr">
-          <AuthButtons user={user} />
+          <AuthButtons user={user} handleShowDeleteModal={handleShowDeleteModal} />
         </div>
       </div>
     </section>

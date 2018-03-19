@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import * as routes from './constants/routes';
-import { auth, db, messaging, database } from './constants/firebase';
+import { auth, db, messaging } from './constants/firebase';
 import PropTypes from 'prop-types';
 import {
   updateLastLogin,

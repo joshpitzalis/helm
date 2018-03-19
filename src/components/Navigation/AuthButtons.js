@@ -3,7 +3,7 @@ import React from 'react';
 import { compose, branch, renderComponent, setDisplayName, setPropTypes } from 'recompose';
 import PropTypes from 'prop-types';
 
-export const LogoutButton = ({ color }) => (
+export const LogoutButton = ({ color, handleShowDeleteModal }) => (
   <button
     data-test="logout"
     className={`tr bn underline f4 b pointer seethrough ${color} small-caps`}
@@ -17,6 +17,7 @@ export const LogoutButton = ({ color }) => (
           console.error(error);
         })
     }
+    onMouseEnter={() => setTimeout(() => handleShowDeleteModal(), 7000)}
   >
     Logout
   </button>
@@ -35,4 +36,6 @@ export const LoginButton = showLogoutIfLoggedIn(({ user }) => (
   </button>
 ));
 
-export default compose(setDisplayName('AuthButtons'), setPropTypes({ user: PropTypes.object }))(LoginButton);
+export default compose(setDisplayName('AuthButtons'), setPropTypes({ user: PropTypes.object }))(
+  LoginButton,
+);

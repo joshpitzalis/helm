@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { withFriendsData } from '../../hocs/withFriendsData';
-import { Loading } from '../Loading';
-import axios from 'axios';
-import { auth, db } from '../../constants/firebase';
-import PropTypes from 'prop-types';
+// import { Loading } from '../Loading';
+// import axios from 'axios';
+// import { auth, db } from '../../constants/firebase';
+// import PropTypes from 'prop-types';
+import { Trash } from '../Onboarding/Badges';
 
 class Friends extends Component {
   render() {
@@ -20,30 +21,42 @@ class Friends extends Component {
         <header>
           <h2 className="f1">Send to</h2>
         </header>
-        <ul>
-          {sendTo &&
-            sendTo.map((friend, index) => (
-              <li key={index}>
-                <img src={friend.photo} alt={`${friend.name}`} />
-                {friend.name}
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleRemoveFriend(friend.id);
-                  }}
-                >
-                  X
-                </button>
-              </li>
-            ))}
-        </ul>
-        {/* <button onClick={() => auth.signInWithRedirect(facebookAuthProvider)}>
+
+        {sendTo.length > 0 && (
+          <div className="br3 pa4 bg-white grid col3">
+            {sendTo &&
+              sendTo.map((friend, index) => (
+                <div key={index} className="grid col aic jcc ma0">
+                  <div className="w-100 tc">
+                    <img
+                      src={friend.photo}
+                      alt={`${friend.name}`}
+                      className="br-100 h3 w3 dib ma0"
+                    />
+                  </div>
+                  {friend.name}
+                  <div className="w-100 tc ma0">
+                    <Trash
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleRemoveFriend(friend.id);
+                      }}
+                    />
+                  </div>
+                </div>
+              ))}
+          </div>
+        )}
+
+        <div className="br3 pa4 bg-white grid col3">
+          {/* <button onClick={() => auth.signInWithRedirect(facebookAuthProvider)}>
             Sync friends
           </button> */}
-        {/* <p>Last synced ...</p> */}
-        <ul>
+          {/* <p>Last synced ...</p> */}
+
           <FriendList friends={friends} handleAddFriend={handleAddFriend} />
-        </ul>
+        </div>
+        <br />
         <button onClick={goToPrev} type="submit" className="seethrough ">
           Back
         </button>
@@ -64,8 +77,14 @@ class Friends extends Component {
 const FriendList = ({ friends, handleAddFriend }) => (
   <Fragment>
     {friends.map(friend => (
-      <li key={friend.id} data-friend>
-        <img src={friend.picture.data.url} alt={`${friend.name}`} />
+      <div key={friend.id} data-friend className="grid col aic jcc ma0">
+        <div className="w-100 tc">
+          <img
+            src={friend.picture.data.url}
+            alt={`${friend.name}`}
+            className="br-100 h3 w3 dib ma0"
+          />
+        </div>
         {friend.name}
         <button
           data-addfriend
@@ -76,7 +95,7 @@ const FriendList = ({ friends, handleAddFriend }) => (
         >
           Add Friend
         </button>
-      </li>
+      </div>
     ))}
   </Fragment>
 );

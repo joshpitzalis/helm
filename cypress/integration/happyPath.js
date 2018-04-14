@@ -13,7 +13,7 @@ describe('Single choice text poll', () => {
       return false;
     });
   });
-  it('creates a single choice poll', () => {
+  it.only('creates a single choice poll', () => {
     cy.get("[data-test='create']").click();
     cy.url().should('contain', 'create');
     cy.get("[data-test='title']").type('test question');

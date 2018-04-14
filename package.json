@@ -5,10 +5,10 @@
   "dependencies": {
     "axios": "^0.17.1",
     "copy-to-clipboard": "^3.0.8",
-    "cypress": "2.1.0",
     "date-fns": "^1.29.0",
     "fb-react-sdk": "^1.0.4",
     "firebase": "^4.8.1",
+    "node-forge": "^0.7.5",
     "normalize.css": "^7.0.0",
     "prop-types": "^15.6.0",
     "react": "^16.3.1",

@@ -1,16 +1,29 @@
+# language: node_js
+# node_js:
+# - 6
+# install:
+# - npm install
+# - npm install -g cypress-cli
+# before_script:
+# - npm start -- --silent &
+# script:
+# - npm run cypress run
+# notifications:
+#   email: false
+# cache:
+#   yarn: true
+#   directories:
+#   - node_modules
+
+
 language: node_js
 node_js:
-- 6
-install:
-- npm install
-- npm install -g cypress-cli
-before_script:
-- npm start -- --silent &
-script:
-- npm run cypress run
-notifications:
-  email: false
+  - 6
 cache:
-  yarn: true
   directories:
-  - node_modules
+    - ~/.npm
+    - node_modules
+install:
+  - npm install
+script:
+  - $(npm bin)/cypress run --record

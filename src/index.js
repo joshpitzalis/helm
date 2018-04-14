@@ -23,9 +23,9 @@ import './grid.css';
 import Navigation from './components/Navigation/index.js';
 import Footer from './components/Footer.js';
 import { Loading } from './components/Loading';
-
 // import NotificationResource from './resources/NotificationResource.js';
 import registerMessaging from './request-messaging-Permission.js';
+
 // translations...
 addLocaleData([...en, ...es, ...fr]);
 

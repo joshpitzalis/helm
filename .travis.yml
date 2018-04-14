@@ -1,14 +1,16 @@
 language: node_js
 node_js:
-- 8
-install:
-- npm install -g npm@2
+  - 6
+  - 7
+
+cache: yarn
+
+before_install:
+  - npm install
+
 before_script:
-- npm start 
+  - yarn build
+  - yarn start
+
 script:
-- npm run test
-notifications:
-  email: false
-cache:
-  directories:
-  - node_modules
+  - yarn test

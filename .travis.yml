@@ -1,19 +1,19 @@
-language: node_js
-node_js:
-- 6
-install:
-- npm install
-- npm install -g cypress-cli
-before_script:
-- npm start -- --silent &
-script:
-- npm run cypress
-notifications:
-  email: false
-cache:
-  yarn: true
-  directories:
-  - node_modules
+# language: node_js
+# node_js:
+# - 6
+# install:
+# - npm install
+# - npm install -g cypress-cli
+# before_script:
+# - npm start -- --silent &
+# script:
+# - npm run cypress
+# notifications:
+#   email: false
+# cache:
+#   yarn: true
+#   directories:
+#   - node_modules
 
 
 # language: node_js
@@ -27,3 +27,29 @@ cache:
 #   - npm install
 # script:
 #   - $(npm bin)/cypress run --record
+
+
+
+## our React TodoMVC app is written
+## in node so thats what we select.
+## Cypress is agnostic to your apps
+## backend language though.
+language: node_js
+
+node_js:
+  - 6
+  
+cache:
+  directories:
+    - ~/.npm
+    - node_modules
+
+install:
+  - npm install
+
+before_script:
+  - npm start -- --silent &
+
+script:
+  - npm run cypress:run
+

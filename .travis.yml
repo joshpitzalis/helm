@@ -46,5 +46,5 @@ before_script:
   - npm start -- --silent &
 
 script:
-  - travis_wait cypress run --record
+  - cypress run --record
 

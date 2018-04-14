@@ -9,8 +9,6 @@ cache:  yarn: true
 before_install:
   - yarn install
 
-before_script:
-  - yarn start
-
 script:
+  - yarn start
   - yarn test

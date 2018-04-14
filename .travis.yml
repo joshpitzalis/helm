@@ -1,16 +1,14 @@
 language: node_js
-
 node_js:
-- '8'
-
-cache:
-  directories:
-    - node_modules
-
-before_script:
+- 8
+install:
 - npm install
-- npm run start
-
+before_script:
+- npm start -- --silent &
 script:
 - npm run test
-
+notifications:
+  email: false
+cache:
+  directories:
+  - node_modules

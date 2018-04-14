@@ -5,8 +5,8 @@ node_js:
 
 before_script:
 - yarn
-- yarn start
+- yarn run start
 
 script:
-- yarn test
+- yarn run test
 

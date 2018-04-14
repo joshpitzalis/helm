@@ -7,7 +7,7 @@ cache: yarn
 before_install:
   - yarn install
 
-before_script:x
+before_script:
   - yarn start
 
 script:

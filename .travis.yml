@@ -10,8 +10,8 @@ cache:
 
 before_script:
 - yarn
-- yarn run start
+- yarn start
 
 script:
-- yarn run test
+- yarn test
 

@@ -3,7 +3,10 @@ language: node_js
 node_js:
 - '8'
 
-script:
+before_script:
 - yarn
+- yarn start
+
+script:
 - yarn test
 

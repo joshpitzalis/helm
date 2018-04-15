@@ -26,7 +26,7 @@ beforeAll(async () => {
     width: 500,
     height: 2400,
   });
-});
+}, 16000);
 
 describe('on page load', () => {
   test(

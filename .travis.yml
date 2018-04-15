@@ -16,4 +16,6 @@ before_script:
   - yarn start --silent &
 script:
   - yarn test
+  - yarn run coverage
+  - yarn run cypress
 

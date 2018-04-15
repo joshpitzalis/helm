@@ -9,7 +9,6 @@
     "fb-react-sdk": "^1.0.4",
     "firebase": "^4.8.1",
     "normalize.css": "^7.0.0",
-    "prop-types": "^15.6.0",
     "react": "^16.3.1",
     "react-addons-css-transition-group": "^15.6.2",
     "react-dom": "^16.3.1",
@@ -60,7 +59,8 @@
     "jest-cli": "20.0.4",
     "puppeteer": "^1.3.0",
     "storybook-router": "^0.3.2",
-    "tachyons": "^4.9.1"
+    "tachyons": "^4.9.1",
+    "prop-types": "^15.6.0"
   },
   "standard": {
     "parser": "babel-eslint"

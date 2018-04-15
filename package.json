@@ -30,7 +30,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "start-server": "npm start",
-    "ci": "start-server-and-test http://localhost:3000",
+    "ci": "start-server-and-test http-get://localhost:3000",
     "debug": "NODE_ENV=debug npm jest --watch",
     "eject": "react-scripts eject",
     "cypress": "cypress open",

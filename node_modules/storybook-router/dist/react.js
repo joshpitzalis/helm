@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.StoryRouter = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -80,7 +81,7 @@ if (typeof _reactRouter.MemoryRouter !== 'undefined') {
     routerProps: _propTypes2.default.object
   };
 
-  StoryRouter = _storyRouter;
+  exports.StoryRouter = StoryRouter = _storyRouter;
 } else {
   // react-router V3 specific components
   var _innerComponent2 = function _innerComponent2(props) {
@@ -151,7 +152,7 @@ if (typeof _reactRouter.MemoryRouter !== 'undefined') {
     routerProps: _propTypes2.default.object
   };
 
-  StoryRouter = _storyRouter2;
+  exports.StoryRouter = StoryRouter = _storyRouter2;
 }
 
 // Common components
@@ -228,4 +229,5 @@ var storyRouterDecorator = function storyRouterDecorator(links, routerProps) {
   return s;
 };
 
+exports.StoryRouter = StoryRouter;
 exports.default = storyRouterDecorator;

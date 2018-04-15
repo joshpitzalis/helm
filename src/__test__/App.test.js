@@ -18,7 +18,7 @@ let page;
 
 beforeAll(async () => {
   //   browser = await puppeteer.launch({});
-  browser = await puppeteer.launch({ args: ['--no-sandbox'] });
+  browser = await puppeteer.launch({ args: ['--no-sandbox'], timeout: 300000 });
   page = await browser.newPage();
   await page.goto('http://localhost:3000/fun');
   page.viewport({

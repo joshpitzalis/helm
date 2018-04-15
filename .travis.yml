@@ -13,7 +13,7 @@ before_install:
 install:
   - yarn
 before_script:
-  - yarn start -- --silent &
+  - yarn start --silent &
 script:
   - yarn test
 

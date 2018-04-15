@@ -10,6 +10,6 @@ before_install:
   - "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --headless --disable-gpu --remote-debugging-port=9222 http://localhost &"
  
 script:
-  - npm start | npm test
+  - npm start && npm test
 
 

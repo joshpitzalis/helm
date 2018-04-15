@@ -31,8 +31,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest --watch NODE_ENV=production",
-    "debug": "NODE_ENV=debug npm test",
+    "test": "react-scripts test --env=jsdom",
+    "debug": "NODE_ENV=debug npm jest --watch",
     "eject": "react-scripts eject",
     "cypress": "cypress open",
     "storybook": "start-storybook -p 9009 -s public",

@@ -1,8 +1,9 @@
 language: node_js
 node_js:
-  - "stable"
+  - 6
 cache:
   directories:
+    - ~/.npm
     - node_modules
 addons:
   chrome: beta
@@ -12,4 +13,6 @@ install:
   - npm install
 script:
   - npm run test
+
+
 

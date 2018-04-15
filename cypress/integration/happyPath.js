@@ -14,7 +14,7 @@ describe('Single choice text poll', () => {
     });
   });
   it.only('creates a single choice poll', () => {
-    cy.get("[data-test='create']").click();
+    cy.get("[data-test='create']").click({ force: true });
     cy.url().should('contain', 'create');
     cy.get("[data-test='title']").type('test question');
     cy.get("[data-test='context']").type('some context');

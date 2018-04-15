@@ -10,6 +10,7 @@
     "fb-react-sdk": "^1.0.4",
     "firebase": "^4.8.1",
     "normalize.css": "^7.0.0",
+    "raven-js": "^3.24.1",
     "react": "^16.3.1",
     "react-addons-css-transition-group": "^15.6.2",
     "react-dom": "^16.3.1",
@@ -35,6 +36,7 @@
     "cypress": "cypress open",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
+    "cypress:run": "cypress run",
     "coverage": "yarn run test --coverage && cat ./coverage/lcov.info | codacy-coverage"
   },
   "devDependencies": {

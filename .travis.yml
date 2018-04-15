@@ -17,5 +17,5 @@ before_script:
 script:
   - yarn test
   - yarn run coverage
-  - yarn run cypress
+  - yarn run cypress:run
 

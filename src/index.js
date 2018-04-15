@@ -26,6 +26,11 @@ import { Loading } from './components/Loading';
 // import NotificationResource from './resources/NotificationResource.js';
 import registerMessaging from './request-messaging-Permission.js';
 
+import Raven from 'raven-js';
+import { sentryURL } from './constants/sentry';
+
+Raven.config(sentryURL).install();
+
 // translations...
 addLocaleData([...en, ...es, ...fr]);
 

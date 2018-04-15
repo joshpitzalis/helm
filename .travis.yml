@@ -15,6 +15,7 @@ install:
 before_script:
   - yarn start --silent &
 script:
+  - yarn run cypress:run
   - yarn test
   - yarn run coverage
 

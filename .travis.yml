@@ -7,7 +7,8 @@ cache:
 addons:
   chrome: beta
 before_install:
+  - npm install -g npm@latest
   - "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --headless --disable-gpu --remote-debugging-port=9222 http://localhost &"
-
-
+script:
+  - npm test
 

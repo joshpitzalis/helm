@@ -133,6 +133,10 @@ button:focus {
   color: var(--danger);
 }
 
+.light {
+  color: var(--white);
+}
+
 .bg-brown {
   background-color: var(--brown);
 }

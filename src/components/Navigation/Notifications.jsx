@@ -3,7 +3,7 @@ import { compose, setDisplayName, setPropTypes } from 'recompose';
 import { withUserData } from '../../hocs/withUserData';
 import PropTypes from 'prop-types';
 
-const Notifications = ({ pollcount, user }) =>
+export const Notifications = ({ pollcount, user }) =>
   user && (
     <p
       data-colour="orange"

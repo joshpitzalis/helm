@@ -13,7 +13,7 @@ describe('Single choice text poll', () => {
       return false;
     });
   });
-  it.only('creates a single choice poll', () => {
+  it('creates a single choice poll', () => {
     cy.get("[data-test='create']").click({ force: true });
     cy.url().should('contain', 'create');
     cy.get("[data-test='title']").type('test question');
@@ -21,7 +21,9 @@ describe('Single choice text poll', () => {
     cy.get("[data-test='single']").check();
     cy.get("[data-test='text']").check();
     cy.get('[data-test="public"]').check();
+
     cy.get("[data-test='submit']").click();
+
     cy.get("[data-test='question0']").type('option 1');
     cy.get("[data-test='add']").click();
     cy.get("[data-test='question1']").type('option 2');

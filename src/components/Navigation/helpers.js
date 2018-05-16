@@ -14,3 +14,8 @@ export const markResultsAsSeen = (pollId, userId) => {
     seenBy: { [userId]: false },
   });
 };
+
+export const clearAllNotifications = (polls, userId) =>
+  polls.map(
+    poll => (poll.ended ? markResultsAsSeen(poll.id, userId) : markResultsAsSeen(poll.id, userId)),
+  );

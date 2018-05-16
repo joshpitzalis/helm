@@ -10,7 +10,6 @@ import {
   checkThatUserLoggedInLessThanAWeek,
 } from './components/Onboarding/helpers';
 import ReactGA from 'react-ga';
-
 import messages from './messages';
 import { addLocaleData, IntlProvider } from 'react-intl';
 import en from 'react-intl/locale-data/en';
@@ -29,7 +28,14 @@ import registerMessaging from './request-messaging-Permission.js';
 import Raven from 'raven-js';
 import { sentryURL } from './constants/sentry';
 
-Raven.config(sentryURL).install();
+if (process.env.NODE_ENV === 'production') {
+  // Error tracking...
+  Raven.config(sentryURL).install();
+
+  // analytics...
+  ReactGA.initialize('UA-000000-01');
+  ReactGA.pageview(window.location.pathname + window.location.search);
+}
 
 // translations...
 addLocaleData([...en, ...es, ...fr]);
@@ -39,14 +45,6 @@ let locale =
   navigator.language ||
   navigator.userLanguage ||
   'en-US';
-// ...translations
-
-// analytics...
-
-ReactGA.initialize('UA-000000-01');
-ReactGA.pageview(window.location.pathname + window.location.search);
-
-// ...analytics
 
 // Dynamic Routes...
 
@@ -120,8 +118,6 @@ const AddTo = props => (
   </DynamicImport>
 );
 
-// ...Dynamic Routes
-
 export default class Routes extends Component {
   state = {
     authed: false,
@@ -172,7 +168,6 @@ export default class Routes extends Component {
             uid,
             token,
             id,
-
             name,
             photo,
           },

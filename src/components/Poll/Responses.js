@@ -9,6 +9,8 @@ import ClickToCopyPublicPoll from '../shared/clickToCopy';
 import ProgressiveImage from 'react-progressive-image';
 import Logo from '../../images/peerPlusLogo.png';
 import { Loading } from '../Loading';
+import isAfter from 'date-fns/is_after';
+import addHours from 'date-fns/add_hours';
 
 class Responses extends Component {
   state = {
@@ -56,6 +58,7 @@ class Responses extends Component {
     const user = this.props.user.providerData[0].uid || null;
     const creator = poll.createdBy;
 
+    console.log('is after', isAfter(addHours(poll.createdAt, poll.duration), new Date()));
     return (
       <article className="pv5">
         <section className="mw6-ns w-100 center tc">
@@ -131,18 +134,7 @@ class Responses extends Component {
               <Loading />
             )}
           </ul>
-          {user &&
-            user === creator &&
-            poll.completedBy &&
-            poll.completedBy.length > 2 && (
-              <button
-                data-test="deleteEarly"
-                onClick={this.handleEndPollEarly}
-                className="seethrough"
-              >
-                End the poll early
-              </button>
-            )}
+
           <button
             onClick={() =>
               this.setState({
@@ -152,7 +144,26 @@ class Responses extends Component {
           >
             Back
           </button>
-          {user && user === creator && <DeleteButton handleDelete={this.handleDelete} />}
+
+          {user &&
+            user === creator && (
+              <div>
+                {/* poll.completedBy && poll.completedBy.length > 2 */}
+                {!poll.ended ||
+                (poll.ended === false &&
+                  isAfter(addHours(poll.createdAt, poll.duration), new Date())) ? (
+                  <button
+                    data-test="deleteEarly"
+                    onClick={this.handleEndPollEarly}
+                    className="seethrough"
+                  >
+                    End the poll early
+                  </button>
+                ) : (
+                  <DeleteButton handleDelete={this.handleDelete} />
+                )}
+              </div>
+            )}
         </section>
       </article>
     );

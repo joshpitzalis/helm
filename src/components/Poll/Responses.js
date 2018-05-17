@@ -58,7 +58,6 @@ class Responses extends Component {
     const user = this.props.user.providerData[0].uid || null;
     const creator = poll.createdBy;
 
-    console.log('is after', isAfter(addHours(poll.createdAt, poll.duration), new Date()));
     return (
       <article className="pv5">
         <section className="mw6-ns w-100 center tc">
@@ -78,63 +77,7 @@ class Responses extends Component {
               <ClickToCopyPublicPoll pollId={this.props.match.params.pollId} />
             </div>
           )}
-          <ul className="list pl0 ml0 center mw6 br2 ">
-            {poll.responses ? (
-              Object.keys(poll.responses).map((response, index) => {
-                let randomColor = {
-                  0: '#f7db8c',
-                  1: '#ffaf39',
-                  2: '#f37966',
-                  3: '#adcfe2',
-                  4: '#dce8bd',
-                }[index < 5 ? index : Math.floor(Math.random() * 4) + 1];
-                let percentage = Math.floor(
-                  poll.responses[response] /
-                    Object.values(poll.responses).reduce((a, b) => a + b, 0) *
-                    100,
-                );
-                return (
-                  <div
-                    key={index}
-                    className="pa2 ma0 roundfirstAndlast"
-                    style={{
-                      background: `linear-gradient(to right, ${randomColor} 0% ,${randomColor} ${percentage}% , ${randomColor}8C ${percentage}% ,${randomColor}8C 100%
-                      )`,
-                    }}
-                  >
-                    <li className={`pa2 ma0 ${poll.type === 'text' ? 'flex' : 'db'}`}>
-                      <Percentage
-                        value={poll.responses[response]}
-                        index={index}
-                        total={poll.responses}
-                      />
-
-                      {poll.type === 'text' ? (
-                        <p>
-                          <strong>{response}</strong>
-                        </p>
-                      ) : (
-                        <ProgressiveImage src={response} placeholder={Logo}>
-                          {(src, loading) => (
-                            <img
-                              className="br3"
-                              src={src}
-                              style={{ opacity: loading ? 0.5 : 1 }}
-                              alt={`option ${index + 1}`}
-                            />
-                          )}
-                        </ProgressiveImage>
-                      )}
-                    </li>
-                  </div>
-                );
-              })
-            ) : (
-              // <p>No responses yet</p>
-              <Loading />
-            )}
-          </ul>
-
+          <Results responses={poll && poll.responses} type={poll.type} />
           <button
             onClick={() =>
               this.setState({
@@ -170,6 +113,63 @@ class Responses extends Component {
   }
 }
 
+// import React from 'react'
+
+const Results = ({ responses, type }) => {
+  return (
+    <ul className="list pl0 ml0 center mw6 br2 ">
+      {responses ? (
+        Object.keys(responses).map((response, index) => {
+          let randomColor = {
+            0: '#f7db8c',
+            1: '#ffaf39',
+            2: '#f37966',
+            3: '#adcfe2',
+            4: '#dce8bd',
+          }[index < 5 ? index : Math.floor(Math.random() * 4) + 1];
+          let percentage = Math.floor(
+            responses[response] / Object.values(responses).reduce((a, b) => a + b, 0) * 100,
+          );
+          return (
+            <div
+              key={index}
+              className="pa2 ma0 roundfirstAndlast"
+              style={{
+                background: `linear-gradient(to right, ${randomColor} 0% ,${randomColor} ${percentage}% , ${randomColor}8C ${percentage}% ,${randomColor}8C 100%
+                      )`,
+              }}
+            >
+              <div className={`pa2 ma0 w-100 ${type === 'text' && 'tl h3'}`}>
+                <Percentage value={responses[response]} index={index} total={responses} />
+
+                {type === 'text' ? (
+                  <p className="dib">{response}</p>
+                ) : (
+                  <ProgressiveImage src={response} placeholder={Logo}>
+                    {(src, loading) => (
+                      <img
+                        className="br3"
+                        src={src}
+                        style={{ opacity: loading ? 0.5 : 1 }}
+                        alt={`option ${index + 1}`}
+                      />
+                    )}
+                  </ProgressiveImage>
+                )}
+              </div>
+            </div>
+          );
+        })
+      ) : (
+        // <p>No responses yet</p>
+        <Loading />
+      )}
+    </ul>
+  );
+};
+
+// export default Results
+
 const DeleteButton = withState('confirmVisible', 'setConfirmVisible', false)(
   ({ handleDelete, text, confirmVisible, setConfirmVisible }) =>
     confirmVisible ? (
@@ -197,7 +197,7 @@ const DeleteButton = withState('confirmVisible', 'setConfirmVisible', false)(
 );
 
 const Percentage = ({ value, index, total }) => (
-  <p className="w-25 center" data-test={`count${index}`}>
+  <p className="w-25 dib tc" data-test={`count${index}`}>
     {Math.floor(value / Object.values(total).reduce((a, b) => a + b, 0) * 100)} %
   </p>
 );

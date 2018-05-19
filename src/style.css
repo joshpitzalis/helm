@@ -137,6 +137,10 @@ button:focus {
   color: var(--white);
 }
 
+.dark {
+  color: var(--black);
+}
+
 .bg-brown {
   background-color: var(--brown);
 }

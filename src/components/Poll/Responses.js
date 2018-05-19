@@ -8,15 +8,17 @@ import { withState } from 'recompose';
 import ClickToCopyPublicPoll from '../shared/clickToCopy';
 import ProgressiveImage from 'react-progressive-image';
 import Logo from '../../images/peerPlusLogo.png';
-import { Loading } from '../Loading';
-import isAfter from 'date-fns/is_after';
-import addHours from 'date-fns/add_hours';
+import { formatDistance, addHours, isAfter, isBefore } from 'date-fns';
+import TimeLeft from '../shared/TimeLeft';
 
 class Responses extends Component {
-  state = {
-    poll: {},
-    redirectTo: null,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      poll: {},
+      redirectTo: null,
+    };
+  }
 
   componentDidMount() {
     db
@@ -77,6 +79,10 @@ class Responses extends Component {
               <ClickToCopyPublicPoll pollId={this.props.match.params.pollId} />
             </div>
           )}
+          {isAfter(addHours(poll.createdAt, poll.duration), new Date()) && (
+            <TimeLeft time={formatDistance(addHours(poll.createdAt, poll.duration), new Date())} />
+          )}
+
           <Results responses={poll && poll.responses} type={poll.type} />
           <button
             onClick={() =>
@@ -92,9 +98,8 @@ class Responses extends Component {
             user === creator && (
               <div>
                 {/* poll.completedBy && poll.completedBy.length > 2 */}
-                {!poll.ended ||
-                (poll.ended === false &&
-                  isAfter(addHours(poll.createdAt, poll.duration), new Date())) ? (
+                {(!poll.ended || poll.ended === false) &&
+                isAfter(addHours(poll.createdAt, poll.duration), new Date()) ? (
                   <button
                     data-test="deleteEarly"
                     onClick={this.handleEndPollEarly}
@@ -114,7 +119,6 @@ class Responses extends Component {
 }
 
 // import React from 'react'
-
 const Results = ({ responses, type }) => {
   return (
     <ul className="list pl0 ml0 center mw6 br2 ">
@@ -161,8 +165,7 @@ const Results = ({ responses, type }) => {
           );
         })
       ) : (
-        // <p>No responses yet</p>
-        <Loading />
+        <p>No responses yet...</p>
       )}
     </ul>
   );

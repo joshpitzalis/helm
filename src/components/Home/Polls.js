@@ -14,7 +14,7 @@ import { addHours, formatDistance, isAfter } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { Loading } from '../Loading';
 import { markOnboardingStepComplete } from '../Onboarding/helpers';
-
+import { Chevron } from '../../images/svg';
 const NoPollsAvailable = () => (
   <p>
     <FormattedMessage id="home.noPolls" />
@@ -68,11 +68,11 @@ const ListOfPolls = ({ polls, user }) => (
               ? 'green'
               : 'red'
           }
-          className={'ph3 pv3 mv3 grow dib h3 w-100 mh3'}
+          className={'ph3 mv3 grow dib h3 w-100 mh3 flex aic'}
         >
           <Link
             to={`/responses/${poll.id}`}
-            className="link flex aic"
+            className="link flex aic jcb w-100 h-100"
             onClick={() =>
               markOnboardingStepComplete(user.providerData[0].uid, 'response')
             }
@@ -94,7 +94,7 @@ const ListOfPolls = ({ polls, user }) => (
                   : '0%'}
               </span>
             )}
-            <span className="pa0 ma0">
+            <span className="pa0 ma0 w-100">
               <p
                 className={`pa0 ma0 ttu ${
                   (!poll.ended || poll.ended === false) &&
@@ -125,6 +125,16 @@ const ListOfPolls = ({ polls, user }) => (
                 )}
               </p>
             </span>
+            <p
+              className={`f3 ${
+                (!poll.ended || poll.ended === false) &&
+                isAfter(addHours(poll.createdAt, poll.duration), new Date())
+                  ? 'dark'
+                  : 'light'
+              }`}
+            >
+              <Chevron size={36} className="pt2" />
+            </p>
           </Link>
         </li>
       </div>

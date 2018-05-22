@@ -8,7 +8,7 @@ import { withState } from 'recompose';
 import ClickToCopyPublicPoll from '../shared/clickToCopy';
 import ProgressiveImage from 'react-progressive-image';
 import Logo from '../../images/peerPlusLogo.png';
-import { formatDistance, addHours, isAfter, isBefore } from 'date-fns';
+import { formatDistance, addHours, isAfter } from 'date-fns';
 import TimeLeft from '../shared/TimeLeft';
 
 class Responses extends Component {
@@ -16,7 +16,7 @@ class Responses extends Component {
     super(props);
     this.state = {
       poll: {},
-      redirectTo: null,
+      redirectTo: null
     };
   }
 
@@ -28,8 +28,8 @@ class Responses extends Component {
         poll =>
           poll.exists &&
           this.setState({
-            poll: poll.data(),
-          }),
+            poll: poll.data()
+          })
       );
   }
 
@@ -37,17 +37,17 @@ class Responses extends Component {
     db.doc(`polls/${this.props.match.params.pollId}`).delete();
     markOnboardingStepComplete(this.props.user.providerData[0].uid, 'delete');
     this.setState({
-      redirectTo: `/home`,
+      redirectTo: `/home`
     });
   };
 
   handleEndPollEarly = () => {
     db.doc(`polls/${this.props.match.params.pollId}`).update({
       ended: true,
-      endsAt: Date.now(),
+      endsAt: Date.now()
     });
     this.setState({
-      redirectTo: `/home`,
+      redirectTo: `/home`
     });
   };
 
@@ -71,7 +71,9 @@ class Responses extends Component {
             <Participants
               sentTo={poll.sendTo}
               redirect={() =>
-                this.setState({ redirectTo: `/addTo/${this.props.match.params.pollId}` })
+                this.setState({
+                  redirectTo: `/addTo/${this.props.match.params.pollId}`
+                })
               }
             />
           ) : (
@@ -80,14 +82,19 @@ class Responses extends Component {
             </div>
           )}
           {isAfter(addHours(poll.createdAt, poll.duration), new Date()) && (
-            <TimeLeft time={formatDistance(addHours(poll.createdAt, poll.duration), new Date())} />
+            <TimeLeft
+              time={formatDistance(
+                addHours(poll.createdAt, poll.duration),
+                new Date()
+              )}
+            />
           )}
 
           <Results responses={poll && poll.responses} type={poll.type} />
           <button
             onClick={() =>
               this.setState({
-                redirectTo: `/home`,
+                redirectTo: `/home`
               })
             }
           >
@@ -129,10 +136,12 @@ const Results = ({ responses, type }) => {
             1: '#ffaf39',
             2: '#f37966',
             3: '#adcfe2',
-            4: '#dce8bd',
+            4: '#dce8bd'
           }[index < 5 ? index : Math.floor(Math.random() * 4) + 1];
           let percentage = Math.floor(
-            responses[response] / Object.values(responses).reduce((a, b) => a + b, 0) * 100,
+            responses[response] /
+              Object.values(responses).reduce((a, b) => a + b, 0) *
+              100
           );
           return (
             <div
@@ -140,11 +149,15 @@ const Results = ({ responses, type }) => {
               className="pa2 ma0 roundfirstAndlast"
               style={{
                 background: `linear-gradient(to right, ${randomColor} 0% ,${randomColor} ${percentage}% , ${randomColor}8C ${percentage}% ,${randomColor}8C 100%
-                      )`,
+                      )`
               }}
             >
               <div className={`pa2 ma0 w-100 ${type === 'text' && 'tl h3'}`}>
-                <Percentage value={responses[response]} index={index} total={responses} />
+                <Percentage
+                  value={responses[response]}
+                  index={index}
+                  total={responses}
+                />
 
                 {type === 'text' ? (
                   <p className="dib">{response}</p>
@@ -178,10 +191,17 @@ const DeleteButton = withState('confirmVisible', 'setConfirmVisible', false)(
     confirmVisible ? (
       <div>
         <p>Are you Sure?</p>
-        <button data-test="delete" className="seethrough pointer red" onClick={handleDelete}>
+        <button
+          data-test="delete"
+          className="seethrough pointer red"
+          onClick={handleDelete}
+        >
           Yes
         </button>
-        <button className="seethrough pointer" onClick={() => setConfirmVisible(false)}>
+        <button
+          className="seethrough pointer"
+          onClick={() => setConfirmVisible(false)}
+        >
           No
         </button>
       </div>
@@ -196,12 +216,13 @@ const DeleteButton = withState('confirmVisible', 'setConfirmVisible', false)(
           Delete this Poll
         </button>
       </div>
-    ),
+    )
 );
 
 const Percentage = ({ value, index, total }) => (
   <p className="w-25 dib tc" data-test={`count${index}`}>
-    {Math.floor(value / Object.values(total).reduce((a, b) => a + b, 0) * 100)} %
+    {Math.floor(value / Object.values(total).reduce((a, b) => a + b, 0) * 100)}{' '}
+    %
   </p>
 );
 

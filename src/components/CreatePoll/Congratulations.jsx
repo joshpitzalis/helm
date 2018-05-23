@@ -1,13 +1,19 @@
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
-import { markOnboardingStepComplete } from '../Onboarding/helpers';
+import Confetti from 'react-dom-confetti';
 import ShareButton from 'react-social-share-buttons';
+import { markOnboardingStepComplete } from '../Onboarding/helpers';
 import Logo from '../../images/peerPlusLogo.png';
 import ClickToCopyPublicPoll from '../shared/clickToCopy';
-import Confetti from 'react-dom-confetti';
 
 class Congratulations extends Component {
-  state = {};
+  constructor(props, context) {
+    super(props, context);
+    this.state = {};
+  }
+
   componentDidMount() {
     if (this.props.type === 'image') {
       markOnboardingStepComplete(this.props.userId, 'photo');
@@ -59,11 +65,20 @@ class Congratulations extends Component {
         </div>
         <br />
         <Link to="/home">
-          <button data-test="done">Done</button>
+          <button data-test="done">
+            <FormattedMessage id="create.complete.done" />
+          </button>
         </Link>
       </Fragment>
     );
   }
 }
+
+Congratulations.propTypes = {
+  user: PropTypes.shape({
+    providerData: PropTypes.array.isRequired,
+  }).isRequired,
+  polls: PropTypes.shape({}).isRequired,
+};
 
 export default Congratulations;

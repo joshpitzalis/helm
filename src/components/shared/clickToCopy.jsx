@@ -6,11 +6,11 @@ import copy from 'copy-to-clipboard';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-class ClickToCopyPublicPoll extends Component {
+export default class ClickToCopyPublicPoll extends Component {
   state = {};
 
   static PropTypes = {
-    pollId: PropTypes.string.isRequired,
+    pollId: PropTypes.string.isRequired
     // @param	poll id to display and copy
   };
 
@@ -22,7 +22,9 @@ class ClickToCopyPublicPoll extends Component {
 
   render() {
     const { pollId } = this.props;
-    const url = `https://peerplus-staging.firebaseapp.com/poll/${this.props.pollId}`;
+    const url = `https://peerplus-staging.firebaseapp.com/poll/${
+      this.props.pollId
+    }`;
     return (
       <div>
         <h2
@@ -43,7 +45,10 @@ class ClickToCopyPublicPoll extends Component {
             button if the browser supports it */
         document.queryCommandSupported('copy') && (
           <div>
-            <button onClick={e => this.copyToClipboard(e, url)} className="seethrough pointer">
+            <button
+              onClick={e => this.copyToClipboard(e, url)}
+              className="seethrough pointer"
+            >
               Click here to copy to clipboard.
             </button>
             <div style={{ color: 'green' }}>{this.state.copySuccess}</div>
@@ -55,6 +60,3 @@ class ClickToCopyPublicPoll extends Component {
     );
   }
 }
-
-export default ClickToCopyPublicPoll;
-// @dev	Explain to a developer any extra details

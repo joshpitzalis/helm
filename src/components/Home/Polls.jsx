@@ -1,13 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  compose,
-  branch,
-  renderComponent,
-  // renderNothing,
-  setDisplayName,
-  setPropTypes,
-} from 'recompose';
+import { compose, branch, renderComponent, setDisplayName, setPropTypes } from 'recompose';
 import PieChart from 'react-minimal-pie-chart';
 import { FormattedMessage } from 'react-intl';
 import { addHours, formatDistance, isAfter } from 'date-fns';
@@ -29,16 +22,19 @@ const onlyShowIfPollsAvailable = branch(
 
 const showSpinnerWhileLoading = branch(({ polls }) => !polls, renderComponent(Loading));
 
-// const onlyShowIfAuthenticated = branch(({ user }) => !user, renderNothing);
+export const calculatePercentageComplete = (participants, completedBy) => {
+  const avg = completedBy / participants;
+  return Math.floor(avg * 100);
+};
 
 const ListOfPolls = ({ polls, user }) => (
   <ul className="list pl0 ml0 center mw6 br2 tl ">
     {polls.map((poll, index) => (
-      <div className="flex jcc" key={index}>
+      <div className="flex jcc" key={poll.id}>
         <PieChart
           data={
             poll.responses
-              ? Object.values(poll.responses).map((response, index) => ({
+              ? Object.values(poll.responses).map((response, indexx) => ({
                 value: response,
                 key: index,
                 color: {
@@ -47,7 +43,7 @@ const ListOfPolls = ({ polls, user }) => (
                   2: '#f37966',
                   3: '#dce8bd',
                   4: '#ffaf39',
-                }[index],
+                }[indexx],
               }))
               : [
                 {
@@ -130,6 +126,13 @@ const ListOfPolls = ({ polls, user }) => (
   </ul>
 );
 
+ListOfPolls.propTypes = {
+  user: PropTypes.shape({
+    providerData: PropTypes.array.isRequired,
+  }).isRequired,
+  polls: PropTypes.shape({}).isRequired,
+};
+
 export default compose(
   setDisplayName('Polls'),
   setPropTypes({
@@ -139,6 +142,3 @@ export default compose(
   onlyShowIfPollsAvailable,
   showSpinnerWhileLoading,
 )(ListOfPolls);
-
-export const calculatePercentageComplete = (participants, completedBy) =>
-  Math.floor(completedBy / participants * 100);

@@ -27,10 +27,10 @@ describe("Users who havn't signed up get an invitation to join after they comple
     cy.contains('Options');
     cy.get("[data-test='submit']").click();
     cy.contains('Options');
-    cy.get('[data-error]').contains('You need to add atleast two questions to proceed');
-    cy.get("[data-test='question0']").type('test question');
+    // cy.contains('You need to add atleast two questions to proceed');
+    cy.get("[data-test='question0']").type('test question 1');
     cy.get('[data-test="add"]').click();
-    cy.get("[data-test='question1']").type('test question');
+    cy.get("[data-test='question1']").type('test question 2');
     cy.get("[data-test='submit']").click();
     cy
       .get('[data-test="newPollId"]')
@@ -39,8 +39,13 @@ describe("Users who havn't signed up get an invitation to join after they comple
     cy.get('[data-test="congratulations"]');
   });
 
-  it('complete the new poll', function () {
-    cy.visit(`/poll/${this.pollId}`);
+  it.skip('stops me from submitting with less than two opitons');
+  it.skip('stops me from submitting with  two opitons that are the same');
+
+  it.only('complete the new poll', () => {
+    // const pollPath = this.pollId && this.pollId.trim();
+    const testPath = 'poll/bsJRbszxoHHWnnVD2F9O';
+    cy.visit(`${testPath}`);
     cy.get("[data-test='response0']").check();
     cy.get("[data-test='submit']").click();
     cy.url().should('contain', 'done');

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 export const LogoutButton = ({ color, handleShowDeleteModal }) => (
   <button
     data-test="logout"
-    className={`tr bn underline f4 b pointer seethrough ${color} small-caps`}
+    className={`tr bn underline f4 b pointer seethrough ${color} small-caps pa0`}
     onClick={() =>
       auth
         .signOut()

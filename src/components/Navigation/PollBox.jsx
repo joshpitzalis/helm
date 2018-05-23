@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import AuthButtons from './AuthButtons';
-import { markNotificationAsSeen, markResultsAsSeen } from './helpers';
+import { markNotificationAsSeen, markResultsAsSeen, clearAllNotifications } from './helpers';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import { Cancel } from '../../images/svg';
 
 const PollBox = ({ polls, close, user, handleShowDeleteModal }) => (
   <ReactCSSTransitionGroup
@@ -15,6 +16,18 @@ const PollBox = ({ polls, close, user, handleShowDeleteModal }) => (
   >
     <section className="w-100 db" onMouseLeave={close}>
       <div>
+        {polls &&
+          polls.length > 0 && (
+            <div data-colour="red" className="f5 ph5 pv3 ma0 tr light">
+              <div
+                className="flex jce dim"
+                onClick={() => clearAllNotifications(polls, user.providerData[0].uid)}
+              >
+                <p className="ma0 pa0 light pointer ttu">Clear All Notifications</p>
+                <Cancel size={20} />
+              </div>
+            </div>
+          )}
         <ul className="list pl0 ma0 w-100">
           {polls &&
             polls.map((poll, index) => (
@@ -49,6 +62,7 @@ const PollBox = ({ polls, close, user, handleShowDeleteModal }) => (
               </li>
             ))}
         </ul>
+
         <div data-colour="green" className="f5 ph5 pv3 ma0 tr">
           <AuthButtons user={user} handleShowDeleteModal={handleShowDeleteModal} />
         </div>

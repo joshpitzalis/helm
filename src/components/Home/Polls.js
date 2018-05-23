@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   compose,
   branch,
@@ -7,14 +8,13 @@ import {
   setDisplayName,
   setPropTypes,
 } from 'recompose';
+import PieChart from 'react-minimal-pie-chart';
+import { FormattedMessage } from 'react-intl';
+import { addHours, formatDistance, isAfter } from 'date-fns';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { Loading } from '../Loading';
 import { markOnboardingStepComplete } from '../Onboarding/helpers';
-import PieChart from 'react-minimal-pie-chart';
-import addHours from 'date-fns/add_hours';
-import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
-import { FormattedMessage } from 'react-intl';
+import { Chevron } from '../../images/svg';
 
 const NoPollsAvailable = () => (
   <p>
@@ -59,26 +59,72 @@ const ListOfPolls = ({ polls, user }) => (
           }
           className="h3 w3 dib top-1 relative ml2"
         />
-        <li data-colour="green" className="ph3 pv3 mv3 grow dib h3 w-100 mh3">
-          <Link
-            to={`/responses/${poll.id}`}
-            onClick={() => markOnboardingStepComplete(user.providerData[0].uid, 'response')}
-          >
-            {Object.keys(poll.participants).length > 0 &&
-              poll.completedBy &&
-              `${calculatePercentageComplete(
-                Object.keys(poll.participants).length,
-                poll.completedBy.length,
-              )}%`}
-            <p className="pa0 ma0 ttu" data-test={`response${index}`}>
+        <Link
+          data-colour={
+            (!poll.ended || poll.ended === false) &&
+            isAfter(addHours(poll.createdAt, poll.duration), new Date())
+              ? 'green'
+              : 'red'
+          }
+          to={`/responses/${poll.id}`}
+          className="link flex aic jcb w-100 h3 ph3 dim ml3"
+          onClick={() => markOnboardingStepComplete(user.providerData[0].uid, 'response')}
+        >
+          {poll.privacy === 'private' && (
+            <span
+              className={`f3 mr3 ${
+                (!poll.ended || poll.ended === false) &&
+                isAfter(addHours(poll.createdAt, poll.duration), new Date())
+                  ? 'dark'
+                  : 'light'
+              }`}
+            >
+              {Object.keys(poll.participants).length > 0 && poll.completedBy
+                ? `${calculatePercentageComplete(
+                    Object.keys(poll.participants).length,
+                    poll.completedBy.length,
+                  )}%`
+                : '0%'}
+            </span>
+          )}
+          <span className="pa0 ma0 w-100">
+            <p
+              className={`pa0 ma0 ttu ${
+                (!poll.ended || poll.ended === false) &&
+                isAfter(addHours(poll.createdAt, poll.duration), new Date())
+                  ? 'dark'
+                  : 'light'
+              }`}
+              data-test={`response${index}`}
+            >
               {poll.title}
             </p>
-            <p className="pa0 ma0" data-test="deadline">
+            <p
+              className={`pa0 ma0 ${
+                (!poll.ended || poll.ended === false) &&
+                isAfter(addHours(poll.createdAt, poll.duration), new Date())
+                  ? 'dark'
+                  : 'light'
+              }`}
+              data-test="deadline"
+            >
               <FormattedMessage id="home.endsAt" />{' '}
-              {distanceInWordsToNow(addHours(poll.createdAt, poll.duration), { addSuffix: true })}
+              {formatDistance(addHours(poll.createdAt, poll.duration), new Date(), {
+                addSuffix: true,
+              })}
             </p>
-          </Link>
-        </li>
+          </span>
+          <p
+            className={`f3 ${
+              (!poll.ended || poll.ended === false) &&
+              isAfter(addHours(poll.createdAt, poll.duration), new Date())
+                ? 'dark'
+                : 'light'
+            }`}
+          >
+            <Chevron size={36} className="pt2" />
+          </p>
+        </Link>
       </div>
     ))}
   </ul>

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { markOnboardingStepComplete } from '../Onboarding/helpers';
 import ShareButton from 'react-social-share-buttons';
-// import Logo from '../../images/peerPlusLogo.png';
+import Logo from '../../images/peerPlusLogo.png';
 import ClickToCopyPublicPoll from '../shared/clickToCopy';
 import Confetti from 'react-dom-confetti';
 
@@ -24,7 +24,7 @@ class Congratulations extends Component {
   }
 
   render() {
-    // const title = this.props.title;
+    const title = this.props.title;
     const config = {
       angle: 70,
       spread: 87,
@@ -37,13 +37,25 @@ class Congratulations extends Component {
         <div className="br3 pa4 bg-white">
           <ClickToCopyPublicPoll pollId={this.props.pollId} />
           <Confetti active={this.state.explosion} config={config} />
-          {/* {this.props.privacy === 'public' && (
-          <div>
-            <ShareButton compact socialMedia="facebook" url={url} media={Logo} text={title} />
-            <br />
-            <ShareButton compact socialMedia="twitter" url={url} media={Logo} text={title} />
-          </div>
-        )} */}
+          {this.props.privacy === 'public' && (
+            <div>
+              <ShareButton
+                compact
+                socialMedia="facebook"
+                url={this.props.pollId}
+                media={Logo}
+                text={title}
+              />
+              <br />
+              <ShareButton
+                compact
+                socialMedia="twitter"
+                url={this.props.pollId}
+                media={Logo}
+                text={title}
+              />
+            </div>
+          )}
         </div>
         <br />
         <Link to="/home">

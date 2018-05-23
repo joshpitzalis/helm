@@ -41,7 +41,7 @@ export default class Landing extends Component {
     return (
       <Fragment>
         <article className="ph5-ns pv4-ns pa3 tl-ns tc">
-          <h1 className="lh-title f1-ns f2 tl-ns tc">
+          <h1 className="lh-title f1-ns f2 tl-ns tc" data-test="title">
             Quick & Easy <br /> Online Polls.
           </h1>
           <button onClick={() => auth.signInWithRedirect(facebookAuthProvider)}>Get Started</button>

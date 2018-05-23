@@ -1,16 +1,23 @@
 language: node_js
 node_js:
-- 6
-install:
-- npm install
-- npm install -g cypress-cli
-before_script:
-- npm start -- --silent &
-script:
-- npm run cypress run
-notifications:
-  email: false
+  - 8
 cache:
   yarn: true
   directories:
-  - node_modules
+    - ~/.npm
+    - node_modules
+addons:
+  chrome: beta
+before_install:
+  - "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --headless --disable-gpu --remote-debugging-port=9222 http://localhost &"
+install:
+  - yarn
+before_script:
+  - yarn start --silent &
+script:
+  - yarn run cypress:run
+  - yarn test
+  - yarn run coverage
+notifications:
+  email: false
+

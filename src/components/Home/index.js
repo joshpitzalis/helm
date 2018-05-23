@@ -5,10 +5,9 @@ import { compose } from 'recompose';
 import CreatePollButton from './CreatePollButton';
 import Polls from './Polls';
 import { Loading } from '../Loading';
-
 // import { lifecycle } from 'recompose';
 import {
-  db,
+  db
   // messaging
 } from '../../constants/firebase';
 import {
@@ -21,7 +20,7 @@ import {
   Add,
   Person,
   Chart,
-  Trash,
+  Trash
 } from '../Onboarding/Badges';
 import { Link } from 'react-router-dom';
 // import NotificationResource from '../../resources/NotificationResource';
@@ -33,7 +32,9 @@ const Home = ({ user, polls }) => (
       <Badges user={user} />
       {user && (
         <WithMyPollData uid={user.providerData[0].uid}>
-          {polls => (polls.length > 0 ? <Polls polls={polls} user={user} /> : <Loading />)}
+          {polls =>
+            polls.length > 0 ? <Polls polls={polls} user={user} /> : <Loading />
+          }
         </WithMyPollData>
       )}
     </section>
@@ -42,7 +43,7 @@ const Home = ({ user, polls }) => (
 
 class _Badges extends Component {
   state = {
-    onboarding: [],
+    onboarding: []
   };
 
   componentDidMount() {
@@ -73,7 +74,7 @@ class _Badges extends Component {
                 1: '#ffaf39',
                 2: '#f37966',
                 3: '#adcfe2',
-                4: '#dce8bd',
+                4: '#dce8bd'
               }[Math.floor(Math.random() * 4) + 1]
             }
           />
@@ -88,7 +89,7 @@ class _Badges extends Component {
                 1: '#ffaf39',
                 2: '#f37966',
                 3: '#adcfe2',
-                4: '#dce8bd',
+                4: '#dce8bd'
               }[Math.floor(Math.random() * 4) + 1]
             }
           />
@@ -103,7 +104,7 @@ class _Badges extends Component {
                 1: '#ffaf39',
                 2: '#f37966',
                 3: '#adcfe2',
-                4: '#dce8bd',
+                4: '#dce8bd'
               }[Math.floor(Math.random() * 4) + 1]
             }
           />
@@ -118,7 +119,7 @@ class _Badges extends Component {
                 1: '#ffaf39',
                 2: '#f37966',
                 3: '#adcfe2',
-                4: '#dce8bd',
+                4: '#dce8bd'
               }[Math.floor(Math.random() * 4) + 1]
             }
           />
@@ -133,7 +134,7 @@ class _Badges extends Component {
                 1: '#ffaf39',
                 2: '#f37966',
                 3: '#adcfe2',
-                4: '#dce8bd',
+                4: '#dce8bd'
               }[Math.floor(Math.random() * 4) + 1]
             }
           />
@@ -148,7 +149,7 @@ class _Badges extends Component {
                 1: '#ffaf39',
                 2: '#f37966',
                 3: '#adcfe2',
-                4: '#dce8bd',
+                4: '#dce8bd'
               }[Math.floor(Math.random() * 4) + 1]
             }
           />
@@ -163,7 +164,7 @@ class _Badges extends Component {
                 1: '#ffaf39',
                 2: '#f37966',
                 3: '#adcfe2',
-                4: '#dce8bd',
+                4: '#dce8bd'
               }[Math.floor(Math.random() * 4) + 1]
             }
           />
@@ -178,7 +179,7 @@ class _Badges extends Component {
                 1: '#ffaf39',
                 2: '#f37966',
                 3: '#adcfe2',
-                4: '#dce8bd',
+                4: '#dce8bd'
               }[Math.floor(Math.random() * 4) + 1]
             }
           />
@@ -193,7 +194,7 @@ class _Badges extends Component {
                 1: '#ffaf39',
                 2: '#f37966',
                 3: '#adcfe2',
-                4: '#dce8bd',
+                4: '#dce8bd'
               }[Math.floor(Math.random() * 4) + 1]
             }
           />
@@ -208,7 +209,7 @@ class _Badges extends Component {
                 1: '#ffaf39',
                 2: '#f37966',
                 3: '#adcfe2',
-                4: '#dce8bd',
+                4: '#dce8bd'
               }[Math.floor(Math.random() * 4) + 1]
             }
           />
@@ -223,7 +224,7 @@ const Badges = compose(withUserData)(_Badges);
 export { Badges };
 
 export default compose(
-  withUserData,
+  withUserData
   // lifecycle({
   //   componentDidMount() {
   //     this.notifications = new NotificationResource(messaging);

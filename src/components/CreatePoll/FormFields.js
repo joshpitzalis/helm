@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 
 export const TextInput = ({
   handleChange,
@@ -10,14 +11,15 @@ export const TextInput = ({
   value,
   placeholder,
   label,
-  autoFocus,
+  autoFocus
 }) => (
   <div>
-    <label htmlFor="name" className="f6 b db mb2 tl ttc">
-      {element}
+    <label htmlFor={element} className="f6 b db mb2 tl ttc">
+      <FormattedMessage id={element} />
     </label>
     <input
       data-test={element}
+      id={element}
       type="text"
       placeholder={placeholder}
       onChange={handleChange(element)}
@@ -39,11 +41,11 @@ TextInput.propTypes = {
   errors: PropTypes.object.isRequired,
   touched: PropTypes.object.isRequired,
   value: PropTypes.string.isRequired,
-  placeholder: PropTypes.string.isRequired,
+  placeholder: PropTypes.string.isRequired
 };
 
 TextInput.defaultTypes = {
-  autoFocus: false,
+  autoFocus: false
 };
 
 export const RadioChoice = ({
@@ -54,7 +56,7 @@ export const RadioChoice = ({
   choice,
   group,
   title,
-  showErrors,
+  showErrors
 }) => (
   <label className="container">
     {title}
@@ -80,7 +82,7 @@ RadioChoice.propTypes = {
   value: PropTypes.string.isRequired,
   choice: PropTypes.string,
   group: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired
 };
 
 export const required = value => value && value.length > 0;
@@ -90,7 +92,7 @@ export const longerThan = (min, value) => value.length > min;
 //   return value.indexOf('@') !== -1
 // }
 
-export const isValidText = (value) => {
+export const isValidText = value => {
   const regExp = /^[A-Za-z0-9 .,!"']+$/;
   return value ? value.match(regExp) : true;
 };

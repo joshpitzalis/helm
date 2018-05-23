@@ -14,8 +14,12 @@ const Footer = ({ user }) => (
       <div data-colour="blue" />
     </div>
     <footer className="flex justify-between items-center ph5-ns ph3">
-      <p className="white f4">v 0.5.31</p>
-      <p className="white f4">Terms</p>
+      <p className="white f4">
+        &copy; 2018
+        {new Date().getFullYear() > 2018 && '-' + new Date().getFullYear()}
+        Palpoll.
+      </p>
+      <p className="white f4">hello@palpoll.com</p>
     </footer>
   </Fragment>
 );

@@ -42,7 +42,7 @@ export const LoggedIn = ({ showPolls, setPollsVisible, user, polls, handleShowDe
           {user && (
             <div className="flex x">
               <img
-                src={user.photoURL}
+                src={user.providerData[0].photoURL}
                 className="br-100 dib ma0 pointer grow"
                 height="50"
                 width="50"

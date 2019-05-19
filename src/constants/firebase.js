@@ -1,15 +1,16 @@
-import firebase from 'firebase';
+import firebase from "firebase";
 
 // global.XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
-require('firebase/firestore');
+require("firebase/firestore");
 
 const config = {
-  apiKey: 'AIzaSyC8cNQvlurWl_10dixHAzDRhuefpCtiXWo',
-  authDomain: 'peerplus-staging.firebaseapp.com',
-  databaseURL: 'https://peerplus-staging.firebaseio.com',
-  projectId: 'peerplus-staging',
-  storageBucket: 'peerplus-staging.appspot.com',
-  messagingSenderId: '972618418370',
+  apiKey: "AIzaSyD0_c1V4vvrHVwVD941n_KLnbj55f0c5gI",
+  authDomain: "decision-dev.firebaseapp.com",
+  databaseURL: "https://decision-dev.firebaseio.com",
+  projectId: "decision-dev",
+  storageBucket: "decision-dev.appspot.com",
+  messagingSenderId: "1006893299756",
+  appId: "1:1006893299756:web:0581850d4e51ba77"
 };
 
 firebase.initializeApp(config);
@@ -38,5 +39,5 @@ export const database = firebase.database();
 export const storage = firebase.storage();
 export const auth = firebase.auth();
 export const messaging = firebase.messaging();
-export const facebookAuthProvider = new firebase.auth.FacebookAuthProvider();
-facebookAuthProvider.addScope('user_friends');
+export const facebookAuthProvider = new firebase.auth.GoogleAuthProvider();
+// facebookAuthProvider.addScope("user_friends");

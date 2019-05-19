@@ -1,25 +1,34 @@
-import React, { Fragment } from 'react';
-import PollBox from './PollBox';
-import Notifications from './Notifications';
-import AuthButtons from './AuthButtons';
-import Logo from '../../images/peerPlusLogo.png';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import * as routes from '../../constants/routes';
+import PropTypes from "prop-types";
+import React, { Fragment } from "react";
+import { Link } from "react-router-dom";
+import * as routes from "../../constants/routes";
+import AuthButtons from "./AuthButtons";
+import Notifications from "./Notifications";
+import PollBox from "./PollBox";
 
-export const LoggedIn = ({ showPolls, setPollsVisible, user, polls, handleShowDeleteModal }) => {
+export const LoggedIn = ({
+  showPolls,
+  setPollsVisible,
+  user,
+  polls,
+  handleShowDeleteModal
+}) => {
   const PollsForMe =
     (polls &&
       user &&
       polls.filter(
-        poll => !poll.seenBy || !Object.keys(poll.seenBy).includes(user.providerData[0].uid),
+        poll =>
+          !poll.seenBy ||
+          !Object.keys(poll.seenBy).includes(user.providerData[0].uid)
       )) ||
     [];
 
   const ResultsForMe =
     (polls &&
       user &&
-      polls.filter(poll => poll.ended && poll.seenBy[user.providerData[0].uid] === true)) ||
+      polls.filter(
+        poll => poll.ended && poll.seenBy[user.providerData[0].uid] === true
+      )) ||
     [];
 
   const pollsAndResults = [...ResultsForMe, ...PollsForMe];
@@ -28,15 +37,17 @@ export const LoggedIn = ({ showPolls, setPollsVisible, user, polls, handleShowDe
     <Fragment>
       <nav className="flex justify-between items-center ph5-ns ph3">
         <Link to={routes.HOME}>
-          <img src={Logo} alt="Peer Plus" height="50" width="50" className="grow dib mv2" />
+          {/* <img src={Logo} alt="Peer Plus" height="50" width="50" className="grow dib mv2" /> */}
+          <p className="f2 small-caps b">db</p>
         </Link>
         <div className="flex">
           <button
             onClick={() => setPollsVisible(x => !x)}
             className="grow seethrough no-no-underline mt1"
           >
-            {pollsAndResults &&
-              pollsAndResults.length > 0 && <Notifications pollcount={pollsAndResults.length} />}
+            {pollsAndResults && pollsAndResults.length > 0 && (
+              <Notifications pollcount={pollsAndResults.length} />
+            )}
           </button>
           {!user && <AuthButtons user={user} />}
           {user && (
@@ -70,5 +81,5 @@ LoggedIn.propTypes = {
   polls: PropTypes.array,
   showPolls: PropTypes.bool.isRequired,
   setPollsVisible: PropTypes.func.isRequired,
-  handleShowDeleteModal: PropTypes.func.isRequired,
+  handleShowDeleteModal: PropTypes.func.isRequired
 };

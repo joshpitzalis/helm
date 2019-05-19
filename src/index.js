@@ -1,41 +1,49 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import registerServiceWorker from './registerServiceWorker';
-import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
-import * as routes from './constants/routes';
-import { auth, db, messaging } from './constants/firebase';
-import PropTypes from 'prop-types';
+import "normalize.css";
+import PropTypes from "prop-types";
+// import Raven from "raven-js";
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
+// import ReactGA from "react-ga";
+import { addLocaleData, IntlProvider } from "react-intl";
+import en from "react-intl/locale-data/en";
+import es from "react-intl/locale-data/es";
+import fr from "react-intl/locale-data/fr";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import "tachyons";
+import Footer from "./components/Footer.js";
+import Navigation from "./components/Navigation/index.js";
 import {
-  updateLastLogin,
   checkThatUserLoggedInLessThanAWeek,
-} from './components/Onboarding/helpers';
-import ReactGA from 'react-ga';
-import messages from './messages';
-import { addLocaleData, IntlProvider } from 'react-intl';
-import en from 'react-intl/locale-data/en';
-import es from 'react-intl/locale-data/es';
-import fr from 'react-intl/locale-data/fr';
-import 'tachyons';
-import 'normalize.css';
-import './style.css';
-import './grid.css';
-import Navigation from './components/Navigation/index.js';
-import Footer from './components/Footer.js';
-import { Loading } from './components/Loading';
+  updateLastLogin
+} from "./components/Onboarding/helpers";
+import { auth, db, messaging } from "./constants/firebase";
+import * as routes from "./constants/routes";
+import "./grid.css";
+import messages from "./messages";
+import registerServiceWorker from "./registerServiceWorker";
 // import NotificationResource from './resources/NotificationResource.js';
-import registerMessaging from './request-messaging-Permission.js';
+import registerMessaging from "./request-messaging-Permission.js";
+import {
+  AddTo,
+  CreatePoll,
+  Done,
+  Error,
+  HomePage,
+  LandingPage,
+  Onboarding,
+  Poll,
+  Responses
+} from "./Routes";
+import "./style.css";
 
-import Raven from 'raven-js';
-import { sentryURL } from './constants/sentry';
+// if (process.env.NODE_ENV === "production") {
+//   // Error tracking...
+//   Raven.config(sentryURL).install();
 
-if (process.env.NODE_ENV === 'production') {
-  // Error tracking...
-  Raven.config(sentryURL).install();
-
-  // analytics...
-  ReactGA.initialize('UA-000000-01');
-  ReactGA.pageview(window.location.pathname + window.location.search);
-}
+//   // analytics...
+//   ReactGA.initialize("UA-000000-01");
+//   ReactGA.pageview(window.location.pathname + window.location.search);
+// }
 
 // translations...
 addLocaleData([...en, ...es, ...fr]);
@@ -44,18 +52,18 @@ let locale =
   (navigator.language && navigator.languages[0]) ||
   navigator.language ||
   navigator.userLanguage ||
-  'en-US';
+  "en-US";
 
 // Dynamic Routes...
 
-class DynamicImport extends Component {
+export class DynamicImport extends Component {
   state = {
-    component: null,
+    component: null
   };
   componentWillMount() {
     this.props.load().then(component => {
       this.setState(() => ({
-        component: component.default ? component.default : component,
+        component: component.default ? component.default : component
       }));
     });
   }
@@ -64,68 +72,14 @@ class DynamicImport extends Component {
   }
 }
 
-const HomePage = props => (
-  <DynamicImport load={() => import('./components/Home')}>
-    {Component => (Component === null ? <Loading /> : <Component {...props} />)}
-  </DynamicImport>
-);
-
-const LandingPage = props => (
-  <DynamicImport load={() => import('./components/Landing')}>
-    {Component => (Component === null ? <Loading /> : <Component {...props} />)}
-  </DynamicImport>
-);
-
-const Poll = props => (
-  <DynamicImport load={() => import('./components/Poll')}>
-    {Component => (Component === null ? <Loading /> : <Component {...props} />)}
-  </DynamicImport>
-);
-
-const Onboarding = props => (
-  <DynamicImport load={() => import('./components/Onboarding/index.js')}>
-    {Component => (Component === null ? <Loading /> : <Component {...props} />)}
-  </DynamicImport>
-);
-
-const Responses = props => (
-  <DynamicImport load={() => import('./components/Poll/Responses')}>
-    {Component => (Component === null ? <Loading /> : <Component {...props} />)}
-  </DynamicImport>
-);
-
-const CreatePoll = props => (
-  <DynamicImport load={() => import('./components/CreatePoll')}>
-    {Component => (Component === null ? <Loading /> : <Component {...props} />)}
-  </DynamicImport>
-);
-
-const Done = props => (
-  <DynamicImport load={() => import('./components/Poll/Done')}>
-    {Component => (Component === null ? <Loading /> : <Component {...props} />)}
-  </DynamicImport>
-);
-
-const Error = props => (
-  <DynamicImport load={() => import('./components/Error')}>
-    {Component => (Component === null ? <Loading /> : <Component {...props} />)}
-  </DynamicImport>
-);
-
-const AddTo = props => (
-  <DynamicImport load={() => import('./components/Poll/AddSomeoneNew')}>
-    {Component => (Component === null ? <Loading /> : <Component {...props} />)}
-  </DynamicImport>
-);
-
 export default class Routes extends Component {
   state = {
     authed: false,
-    user: null,
+    user: null
   };
 
   static childContextTypes = {
-    user: PropTypes.object,
+    user: PropTypes.object
   };
 
   getChildContext() {
@@ -140,14 +94,14 @@ export default class Routes extends Component {
       if (user) {
         this.setState({
           authed: true,
-          user: user,
+          user: user
         });
         // this.notifications.changeUser(user);
         registerMessaging(user);
       } else {
         this.setState({
           authed: false,
-          user: null,
+          user: null
         });
       }
       user && updateLastLogin(user.providerData[0].uid);
@@ -161,17 +115,20 @@ export default class Routes extends Component {
         const token = result.credential.accessToken;
         const uid = auth.currentUser.uid;
         const { name, id } = result.additionalUserInfo.profile;
-        const photo = result.additionalUserInfo.profile.picture.data.url;
+        // const photo = result.additionalUserInfo.profile.picture.data.url;
+        const photo = result.additionalUserInfo.photoURL;
 
-        db.doc(`users/${id}`).set(
+        console.log("user info", result.additionalUserInfo);
+
+        db.doc(`users/${uid}`).set(
           {
             uid,
             token,
             id,
             name,
-            photo,
+            photo
           },
-          { merge: true },
+          { merge: true }
         );
       }
     });
@@ -184,7 +141,11 @@ export default class Routes extends Component {
           <Navigation />
           <main>
             <Switch>
-              <Route exact path={routes.LANDING} render={props => <LandingPage {...props} />} />
+              <Route
+                exact
+                path={routes.LANDING}
+                render={props => <LandingPage {...props} />}
+              />
               <PrivateRoute
                 exact
                 path={routes.HOME}
@@ -204,7 +165,11 @@ export default class Routes extends Component {
                 component={CreatePoll}
               />
 
-              <Route exact path={`${routes.CREATE}/:pollId`} component={CreatePoll} />
+              <Route
+                exact
+                path={`${routes.CREATE}/:pollId`}
+                component={CreatePoll}
+              />
               <Route exact path={`${routes.POLL}/:pollId`} component={Poll} />
               <PrivateRoute
                 exact
@@ -254,7 +219,9 @@ const PrivateRoute = ({ component, authed, ...rest }) => (
       authed === true ? (
         renderMergedProps(component, routeProps, rest)
       ) : (
-        <Redirect to={{ pathname: '/', state: { from: routeProps.location } }} />
+        <Redirect
+          to={{ pathname: "/", state: { from: routeProps.location } }}
+        />
       )
     }
   />
@@ -264,10 +231,10 @@ ReactDOM.render(
   <IntlProvider locale={locale} messages={messages[locale]}>
     <Routes />
   </IntlProvider>,
-  document.getElementById('root'),
+  document.getElementById("root")
 );
 registerServiceWorker();
 
 messaging.onMessage(payload => {
-  console.log('payload', payload);
+  console.log("payload", payload);
 });

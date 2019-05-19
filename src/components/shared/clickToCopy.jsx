@@ -1,23 +1,22 @@
 // @title	A component that takes a poll id, displays the poll and lets people click to copy
 // @author	Josh
 
-import React, { Component } from 'react';
-import copy from 'copy-to-clipboard';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import copy from "copy-to-clipboard";
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 export default class ClickToCopyPublicPoll extends Component {
   state = {};
 
-  static PropTypes = {
-    pollId: PropTypes.string.isRequired
-    // @param	poll id to display and copy
-  };
+  // @param	poll id to display and copy
+  // static PropTypes = {
+  //   pollId: PropTypes.string.isRequired
+  // };
 
   copyToClipboard = (e, url) => {
     e.preventDefault();
     copy(url);
-    this.setState({ copySuccess: 'Copied!' });
+    this.setState({ copySuccess: "Copied!" });
   };
 
   render() {
@@ -35,15 +34,15 @@ export default class ClickToCopyPublicPoll extends Component {
           Poll is available at
           <Link to={`/poll/${pollId}`}>
             <span data-test="newPollId" className="f3 lh-title">
-              {' '}
+              {" "}
               {`poll/${pollId}`}
-            </span>{' '}
+            </span>{" "}
           </Link>
         </h2>
 
         {/* @notice only displaying the copy-to-clipboard
             button if the browser supports it */
-        document.queryCommandSupported('copy') && (
+        document.queryCommandSupported("copy") && (
           <div>
             <button
               onClick={e => this.copyToClipboard(e, url)}
@@ -51,7 +50,7 @@ export default class ClickToCopyPublicPoll extends Component {
             >
               Click here to copy to clipboard.
             </button>
-            <div style={{ color: 'green' }}>{this.state.copySuccess}</div>
+            <div style={{ color: "green" }}>{this.state.copySuccess}</div>
             <br />
             <br />
           </div>

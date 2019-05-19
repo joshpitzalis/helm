@@ -1,37 +1,35 @@
-import { Link } from 'react-router-dom';
-import React, { Component, Fragment } from 'react';
-import * as routes from '../../constants/routes';
-import Logo from '../../images/peerPlusLogo.png';
-import { compose, setDisplayName, withState } from 'recompose';
-import { auth } from '../../constants/firebase';
-import AuthButtons from './AuthButtons';
-import { withPrivatePollData } from '../../hocs/withPollData';
-import { withUserData } from '../../hocs/withUserData';
-import { LoggedIn } from './LoggedIn.jsx';
-import { DeleteAccount } from './DeleteAccount.jsx';
+import React, { Component, Fragment } from "react";
+import { Link } from "react-router-dom";
+import { compose, setDisplayName, withState } from "recompose";
+import { auth } from "../../constants/firebase";
+import * as routes from "../../constants/routes";
+import { withPrivatePollData } from "../../hocs/withPollData";
+import { withUserData } from "../../hocs/withUserData";
+import AuthButtons from "./AuthButtons";
+import { DeleteAccount } from "./DeleteAccount.jsx";
+import { LoggedIn } from "./LoggedIn.jsx";
 
 const navMachine = {
   // loading: {},
   loggedIn: {
-    LOGOUT: 'loggedOut',
+    LOGOUT: "loggedOut"
   },
   loggedOut: {
-    LOGIN: 'loggedIn',
-  },
+    LOGIN: "loggedIn"
+  }
 };
 
 export class Navbar extends Component {
   state = {
-    now: 'loggedOut',
-    deleteAccount: false,
+    now: "loggedOut",
+    deleteAccount: false
   };
 
   componentDidMount() {
-    auth.onAuthStateChanged(
-      user =>
-        user
-          ? (this.setState({ user }), this.transition({ type: 'LOGIN' }))
-          : this.transition({ type: 'LOGOUT' }),
+    auth.onAuthStateChanged(user =>
+      user
+        ? (this.setState({ user }), this.transition({ type: "LOGIN" }))
+        : this.transition({ type: "LOGOUT" })
     );
   }
 
@@ -53,7 +51,7 @@ export class Navbar extends Component {
 
       this.setState({
         now: nextState,
-        ...sideEffects,
+        ...sideEffects
       });
     }
   };
@@ -87,7 +85,9 @@ export class Navbar extends Component {
       <div>
         {
           {
-            loggedOut: <LoggedOut {...this.props} transition={this.transition} />,
+            loggedOut: (
+              <LoggedOut {...this.props} transition={this.transition} />
+            ),
             loggedIn: (
               <LoggedIn
                 {...this.props}
@@ -95,7 +95,7 @@ export class Navbar extends Component {
                 handleShowDeleteModal={this.handleShowDeleteModal}
                 handleCloseDeleteModal={this.handleCloseDeleteModal}
               />
-            ),
+            )
           }[this.state.now]
         }
       </div>
@@ -104,10 +104,10 @@ export class Navbar extends Component {
 }
 
 export default compose(
-  setDisplayName('Navigation'),
-  withState('showPolls', 'setPollsVisible', false),
+  setDisplayName("Navigation"),
+  withState("showPolls", "setPollsVisible", false),
   withUserData,
-  withPrivatePollData,
+  withPrivatePollData
 )(Navbar);
 
 const LoggedOut = ({ transition }) => {
@@ -115,7 +115,14 @@ const LoggedOut = ({ transition }) => {
     <Fragment>
       <nav className="flex justify-between items-center ph5-ns ph3 bg-brown">
         <Link to={routes.HOME}>
-          <img src={Logo} alt="Peer Plus" height="50" width="50" className="grow dib mv2" />
+          {/* <img
+            src={Logo}
+            alt="Peer Plus"
+            height="50"
+            width="50"
+            className="grow dib mv2"
+          /> */}
+          <p className="f2 small-caps b">db</p>
         </Link>
         <div className="flex">
           <AuthButtons />

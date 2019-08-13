@@ -1,0 +1,6 @@
+@import "./shame/style.css";
+
+.rf-checkmark + div {
+  background-color: white;
+  border-color: currentColor;
+}

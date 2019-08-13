@@ -1,6 +1,12 @@
 import React from "react";
 import PieChart from 'react-minimal-pie-chart';
-
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Redirect,
+  withRouter
+} from "react-router-dom";
 import PropTypes from 'prop-types';
 const propTypes = {};
 
@@ -8,12 +14,17 @@ const defaultProps = {};
 
 export default function Decisions(props) {
   return (
-    <section className="ecommerce_16 bg-light pt-100 pb-70">
+    <section className="ecommerce_16 bg-light  pb-70">
+        <div className='flex justify-center mv6'>
+          <a  class="self-center mt-15 btn action-1 lg border-transparent-white">
+            + New Decision
+          </a>
+        </div>
       <div className="container px-xl-0">
-        <div className="row">
-          <div className="col-lg-3" />
-          <div className="col-xl-8 col-lg-9 d-flex flex-wrap justify-content-end align-items-baseline">
-            
+    
+
+        
+          <div className="flex justify-center mb4 color-heading">
             <div className="sort_by">
               {/* <span className="color-heading f-14 semibold text-uppercase sp-20">
                 Sort by{" "}
@@ -30,18 +41,20 @@ export default function Decisions(props) {
                   Ending Soonest
                 </a>
                 
-              </div>
+         
             </div>
           </div>
         </div>
 
-        <div className="row">
-          <Meetings/>
+        <div className="flex justify-center">
+          
           
           <div className="mt-20 col-xl-8 col-lg-9 products">
             <div className="row">
               {[1].map(item => (
-                <div className=" pb3 mb-30 mx-auto col-md-12 d-flex flex-wrap align-items-stretch justify-content-between product pointer ">
+
+<Link to="/decision"className="dark-blue pb3 mb-30 mx-auto col-md-12 d-flex flex-wrap align-items-stretch justify-content-between product pointer ">
+           
                   {/* <img
                     srcset="i/ecommerce_16_product_1@2x.jpg 2x"
                     src="i/ecommerce_16_product_1.jpg"
@@ -60,9 +73,7 @@ export default function Decisions(props) {
                     <div className="top">
                       <div className="d-flex flex-column-reverse flex-md-row align-items-baseline justify-content-between">
                         <h4 className="f-32 bold">Name of Active Decision</h4>
-                        <div className="ml-15 flex-shrink-0 f-14 sp-20 semibold action-2 price">
-                         3 Days 2h
-                        </div>
+                        
                       </div>
                       <div className="col-lg-7">
         <img
@@ -85,21 +96,26 @@ export default function Decisions(props) {
       </div>
                     </div>
                     <div className="d-flex flex-wrap align-items-center bottom mt3">
-                      <a href="#" className="mr-20 btn sm action-1 f-16 medium">
+                      {/* <a href="#" className="mr-20 btn sm action-1 f-16 medium">
                         Vote
-                      </a>
+                      </a> */}
+                      <div className="ml-15 flex-shrink-0 f-14 sp-20 semibold action-2 price">
+                         Deadline in 3 Days 2 hours.
+                        </div>
+
                       {/* <a href="#" className="link color-heading f-18 medium">
                         Abstain
                       </a> */}
                     </div>
                   </div>
-                </div>
+              
+                </Link>
               ))}
 
 
 
 {[1, 2, 3].map(item => (
-                <div className="mb-30 mx-auto col-md-12 d-flex flex-wrap align-items-stretch justify-content-between product pointer dim mv4">
+  <Link to="/decision"className="dark-blue mb-30 mx-auto col-md-12 d-flex flex-wrap align-items-stretch justify-content-between product pointer  mv4">
                   <dl className="db dib-l w-auto-l lh-title  center">
       
                  
@@ -119,14 +135,14 @@ export default function Decisions(props) {
                     </div>
                     
                   </div>
-                </div>
+               </Link>
               ))}
 
-<div className='w-100 center'>
-          <a  class="self-center mt-15 btn action-1 lg border-transparent-white">
-            + New Decision
-          </a>
-        </div>
+<p className="color-heading f-14 semibold text-uppercase sp-20 total center w-100 tc measure">
+              See Past Decisions
+            </p>
+
+        {/* <Meetings/> */}
             </div>
           </div>
         </div>
@@ -147,26 +163,26 @@ const MeetDefaultProps = {};
 
 const Meetings = (props) => {
   return (
-    <div className="mt-15 mb-30 mb-lg-0 col-lg-3 f-18 medium text-center text-lg-left categories">
+    <div className="mt-15 mb-30 mb-lg-0 col-lg-3 f-18 medium text-center   w-100">
             
         
-        <div className="color-heading f-14 semibold text-uppercase sp-20 total">
-              Upcoming Meetings
+        <div className="color-heading f-14 semibold text-uppercase sp-20 total center">
+              Show Past Decisions
             </div>
-            {[1,2].map(item =>
+            {/* {[1,2].map(item =>
               <div className="mv4  d-inline-block d-lg-block category">
                 <time className='db'>21st Jul</time>    
               <a  className="link color-heading lh-30 db o-50">
-                  This is the name of an upcoming meeting
+                  This is the name of past decision.
               </a>
             </div>
-             )}
+             )} */}
 
 
 
              
              
-            <div>
+            {/* <div>
           <a href="#" class=" mt-15 btn action-3 lg border-transparent-white">
             Call A Meeting
           </a>
@@ -175,7 +191,7 @@ const Meetings = (props) => {
         <div className="mv5 color-heading f-14 semibold text-uppercase sp-20 total">
               Seel All Past Meetings
             </div>
-            
+             */}
             
           </div>
           

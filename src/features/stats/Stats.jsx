@@ -5,7 +5,7 @@ const defaultProps = {};
 const Stats = () => {
   return (
     <header className="bg-light pt-165 pb-95 header_15">
-      <Nav />
+    
 
       <div className="container px-xl-0 text-center">
         <Title />
@@ -76,44 +76,6 @@ export const TeamStats = ({ data, title, updated, count }) => (
     </dl>
   </section>
 );
-
-const Nav = ({}) => {
-  return (
-    <nav className="header_menu_15 pt-35 pb-30">
-      <div className="container px-xl-0">
-        <div className="row justify-content-center">
-          <div className="col-xl-10">
-            <div className="row justify-content-between align-items-baseline">
-              <div className="col-xl-3 logo">Decisionboard</div>
-              <div className="col-xl-6 d-flex justify-content-center align-items-baseline medium">
-                <a href="#" className="mx-15 link color-heading  ">
-                  Our Project
-                </a>
-                <a href="#" className="mx-15 link color-heading o-50">
-                  Rubbish Project
-                </a>
-                <a href="#" className="mx-15 link color-heading o-50">
-                  Suzies
-                </a>
-                <a href="#" className="mx-15 link color-heading o-50">
-                  + New
-                </a>
-              </div>
-              <div className="col-xl-3 d-flex justify-content-end align-items-baseline">
-                <a href="#" className="mx-15 link medium action-1">
-                  Logout
-                </a>
-                <a href="#" className="ml-15 btn sm action-1">
-                  Josh
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
-  );
-};
 
 function Title({}) {
   return (

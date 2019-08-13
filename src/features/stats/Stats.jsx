@@ -119,8 +119,8 @@ function Title({}) {
   return (
     <div className="row justify-content-center">
       <div className="col-lg-8">
-        <div className="mb-3 logo d-block d-xl-none logo_mobile">Startup 3</div>
-        <h1 className="mb-25">Our Project</h1>
+      
+        <h1 className="mb-25 mt5 mt0-ns">Our Project</h1>
       </div>
       <div className="col-lg-7">
         <img

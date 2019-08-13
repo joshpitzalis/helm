@@ -1,172 +1,132 @@
 import React from "react";
+import PieChart from 'react-minimal-pie-chart';
 
+import PropTypes from 'prop-types';
 const propTypes = {};
 
 const defaultProps = {};
 
 export default function Decisions(props) {
   return (
-    <section class="ecommerce_16 bg-light pt-100 pb-70">
-      <div class="container px-xl-0">
-        <div class="row">
-          <div class="col-lg-3" />
-          <div class="col-xl-8 col-lg-9 d-flex flex-wrap justify-content-between align-items-baseline">
-            <div class="color-heading f-14 semibold text-uppercase sp-20 total">
-              3 Items
-            </div>
-            <div class="sort_by">
-              <span class="color-heading f-14 semibold text-uppercase sp-20">
+    <section className="ecommerce_16 bg-light pt-100 pb-70">
+      <div className="container px-xl-0">
+        <div className="row">
+          <div className="col-lg-3" />
+          <div className="col-xl-8 col-lg-9 d-flex flex-wrap justify-content-end align-items-baseline">
+            
+            <div className="sort_by">
+              {/* <span className="color-heading f-14 semibold text-uppercase sp-20">
                 Sort by{" "}
-              </span>
-              <div class="d-inline-block dropdown">
+              </span> */}
+              <div className="d-inline-block dropdown">
                 <a
-                  href="#"
-                  class="link color-main f-14 semibold text-uppercase sp-20 dropdown-toggle"
+                 
+                  className="link color-main f-14 semibold text-uppercase sp-20 dropdown-toggle"
                   id="ecommerce_16_dropdown"
                   data-toggle="dropdown"
                   aria-haspopup="true"
                   aria-expanded="false"
                 >
-                  New arrival
+                  Ending Soonest
                 </a>
-                <div
-                  class="ml-0 bg-light px-0 pt-15 pb-15 radius16 dropdown-menu dropdown-menu-right"
-                  aria-labelledby="ecommerce_16_dropdown"
-                >
-                  <div class="py-1 px-15 link_holder">
-                    <a href="#" class="link color-heading">
-                      New arrival
-                    </a>
-                  </div>
-                  <div class="py-1 px-15 link_holder">
-                    <a href="#" class="link color-heading">
-                      Size
-                    </a>
-                  </div>
-                  <div class="py-1 px-15 link_holder">
-                    <a href="#" class="link color-heading">
-                      Price Up
-                    </a>
-                  </div>
-                  <div class="py-1 px-15 link_holder">
-                    <a href="#" class="link color-heading">
-                      Price Down
-                    </a>
-                  </div>
-                </div>
+                
               </div>
             </div>
           </div>
         </div>
-        {/* meetingse */}
-        <div class="row">
-          <div class="mt-15 mb-30 mb-lg-0 col-lg-3 f-18 medium text-center text-lg-left categories">
-            <div class="mt-10 d-inline-block d-lg-block category">
-              <a href="#" class="link color-heading lh-30">
-                Jackets &amp; Coats
-              </a>
-            </div>
-            <div class="mt-10 d-inline-block d-lg-block category">
-              <a href="#" class="link color-heading lh-30">
-                Hoodies
-              </a>
-            </div>
-            <div class="mt-10 d-inline-block d-lg-block category">
-              <a href="#" class="link color-heading lh-30">
-                T-shirts &amp; Vests
-              </a>
-            </div>
-            <div class="mt-10 d-inline-block d-lg-block category">
-              <a href="#" class="link color-heading lh-30">
-                Shirts
-              </a>
-            </div>
-            <div class="mt-10 d-inline-block d-lg-block category">
-              <a href="#" class="link color-heading lh-30">
-                Blazers &amp; Suits
-              </a>
-            </div>
-            <div class="mt-10 d-inline-block d-lg-block category">
-              <a href="#" class="link color-heading lh-30">
-                Jeans
-              </a>
-            </div>
-            <div class="mt-10 d-inline-block d-lg-block category">
-              <a href="#" class="link color-heading lh-30">
-                Trousers
-              </a>
-            </div>
-            <div class="mt-10 d-inline-block d-lg-block category">
-              <a href="#" class="link color-heading lh-30">
-                Shorts
-              </a>
-            </div>
-            <div class="mt-10 d-inline-block d-lg-block category">
-              <a href="#" class="link color-heading lh-30">
-                Underwear
-              </a>
-            </div>
-            <div class="mt-10 d-inline-block d-lg-block category">
-              <a href="#" class="link color-heading lh-30">
-                Gift Sets
-              </a>
-            </div>
-          </div>
-          <div class="mt-20 col-xl-8 col-lg-9 products">
-            <div class="row">
-              {[1, 2, 3, 4].map(item => (
-                <div class="mb-30 mx-auto col-md-12 d-flex flex-wrap align-items-stretch justify-content-between product">
-                  <img
+
+        <div className="row">
+          <Meetings/>
+          
+          <div className="mt-20 col-xl-8 col-lg-9 products">
+            <div className="row">
+              {[1].map(item => (
+                <div className=" pb3 mb-30 mx-auto col-md-12 d-flex flex-wrap align-items-stretch justify-content-between product pointer ">
+                  {/* <img
                     srcset="i/ecommerce_16_product_1@2x.jpg 2x"
                     src="i/ecommerce_16_product_1.jpg"
                     alt=""
-                    class="align-self-start flex-shrink-0 img-fluid radius10 img"
-                  />
-                  <div class="ml-30 w-470 pt-10 pb-10 d-flex flex-column justify-content-between inner">
-                    <div class="top">
-                      <div class="d-flex flex-column-reverse flex-md-row align-items-baseline justify-content-between">
-                        <h4 class="f-32 bold">Slim Fit Denim Shorts</h4>
-                        <div class="ml-15 flex-shrink-0 f-14 sp-20 semibold action-2 price">
-                          $12.99
+                  /> */}
+                  <PieChart
+                  data={[
+                    { title: 'One', value: 10, color: '#E38627' },
+                    { title: 'Two', value: 15, color: '#C13C37' },
+                    { title: 'Three', value: 20, color: '#6A2135' },
+                  ]}
+
+                                      className="dib w4 center"
+                                      />
+                  <div className="ml-30 w-470 pt-10 pb-10 d-flex flex-column justify-content-start inner">
+                    <div className="top">
+                      <div className="d-flex flex-column-reverse flex-md-row align-items-baseline justify-content-between">
+                        <h4 className="f-32 bold">Name of Active Decision</h4>
+                        <div className="ml-15 flex-shrink-0 f-14 sp-20 semibold action-2 price">
+                         3 Days 2h
                         </div>
                       </div>
-                      <div class="mt-10 color-heading text-adaptive">
-                        Regular waist, zip fly with button, and slim legs with
-                        sewn cuffs at hemsz
-                      </div>
+                      <div className="col-lg-7">
+        <img
+          src="http://tachyons.io/img/avatar_1.jpg"
+          class="br-100 h3 w3 dib ba bw2 b--white"
+          title="Photo of a kitty staring at you"
+        />
+
+        <img
+          src="http://tachyons.io/img/avatar_1.jpg"
+          class="br-100 h3 w3 dib ba bw2 b--white relative right-1"
+          title="Photo of a kitty staring at you"
+        />
+
+        <img
+          src="http://tachyons.io/img/avatar_1.jpg"
+          class="br-100 h3 w3 dib ba bw2 b--white relative right-2"
+          title="Photo of a kitty staring at you"
+        />
+      </div>
                     </div>
-                    <div class="my-4 d-flex flex-wrap color_size middle">
-                      <div class="mr-25">
-                        <div class="f-14 semibold text-uppercase sp-20 color-heading">
-                          Color
-                        </div>
-                      </div>
-                      <div>
-                        <div class="pl-3 f-14 semibold text-uppercase sp-20 color-heading">
-                          Size
-                        </div>
-                        <select
-                          name="sizes"
-                          class="pl-3 pr-5 input sm border-gray medium"
-                        >
-                          <option>31</option>
-                          <option>32</option>
-                          <option>33</option>
-                          <option>34</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="d-flex flex-wrap align-items-center bottom">
-                      <a href="#" class="mr-20 btn sm action-1 f-16 medium">
-                        Add to bag
+                    <div className="d-flex flex-wrap align-items-center bottom mt3">
+                      <a href="#" className="mr-20 btn sm action-1 f-16 medium">
+                        Vote
                       </a>
-                      <a href="#" class="link color-heading f-18 medium">
-                        Add to Wishlist
-                      </a>
+                      {/* <a href="#" className="link color-heading f-18 medium">
+                        Abstain
+                      </a> */}
                     </div>
                   </div>
                 </div>
               ))}
+
+
+
+{[1, 2, 3].map(item => (
+                <div className="mb-30 mx-auto col-md-12 d-flex flex-wrap align-items-stretch justify-content-between product pointer dim mv4">
+                  <dl className="db dib-l w-auto-l lh-title  center">
+      
+                 
+      <dd className="f2 f-headline-l fw6 ml0">3</dd>
+      <dd className="f6 fw4 ml0">Options</dd>
+
+    </dl>
+                  <div className="ml-30 w-470 pt-10 pb-10 d-flex flex-column justify-content-start inner">
+                    <div className="top">
+                      <div className="d-flex flex-column-reverse flex-md-row align-items-baseline justify-content-between">
+                        <h4 className="f-32 bold">Name of Open Decision</h4>
+                        
+                      </div>
+                      <div class="mt-10 color-heading text-adaptive">
+                        A little filler to explain what the decision is about or what the problem is, I'm not sure, something more useful could probably go here.
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+              ))}
+
+<div className='w-100 center'>
+          <a  class="self-center mt-15 btn action-1 lg border-transparent-white">
+            + New Decision
+          </a>
+        </div>
             </div>
           </div>
         </div>
@@ -177,3 +137,50 @@ export default function Decisions(props) {
 
 Decisions.propTypes = propTypes;
 Decisions.defaultProps = defaultProps;
+
+
+
+
+const MeetPropTypes = {};
+
+const MeetDefaultProps = {};
+
+const Meetings = (props) => {
+  return (
+    <div className="mt-15 mb-30 mb-lg-0 col-lg-3 f-18 medium text-center text-lg-left categories">
+            
+        
+        <div className="color-heading f-14 semibold text-uppercase sp-20 total">
+              Upcoming Meetings
+            </div>
+            {[1,2].map(item =>
+              <div className="mv4  d-inline-block d-lg-block category">
+                <time className='db'>21st Jul</time>    
+              <a  className="link color-heading lh-30 db o-50">
+                  This is the name of an upcoming meeting
+              </a>
+            </div>
+             )}
+
+
+
+             
+             
+            <div>
+          <a href="#" class=" mt-15 btn action-3 lg border-transparent-white">
+            Call A Meeting
+          </a>
+        </div>
+
+        <div className="mv5 color-heading f-14 semibold text-uppercase sp-20 total">
+              Seel All Past Meetings
+            </div>
+            
+            
+          </div>
+          
+  );
+}
+
+Decisions.propTypes = MeetPropTypes;
+Decisions.defaultProps = MeetDefaultProps;

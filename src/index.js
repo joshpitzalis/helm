@@ -9,12 +9,12 @@ import {
   Link,
 } from "react-router-dom";
 import Decision from './pages/Decision'
+import Auth from './pages/Auth'
 
 
 
 
-
-const Nav = ({}) => {
+const Nav = () => {
 	return (
 	  <nav className="header_menu_15 pt-35 pb-30">
 		<div className="container px-xl-0">
@@ -111,7 +111,8 @@ const Nav = ({}) => {
         <BrowserRouter>
         <div>
         <Nav	/>
-          <Route exact path="/" component={Project} />
+          <Route exact path="/" component={Auth} />
+          <Route exact path="/dashboard" component={Project} />
           <Route exact path="/decision" component={Decision} />
           <Footer     />
         </div>

@@ -1,240 +1,204 @@
-import "normalize.css";
-import PropTypes from "prop-types";
-// import Raven from "raven-js";
-import React, { Component } from "react";
-import ReactDOM from "react-dom";
-// import ReactGA from "react-ga";
-import { addLocaleData, IntlProvider } from "react-intl";
-import en from "react-intl/locale-data/en";
-import es from "react-intl/locale-data/es";
-import fr from "react-intl/locale-data/fr";
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
-import "tachyons";
-import Footer from "./components/Footer.js";
-import Navigation from "./components/Navigation/index.js";
-import {
-  checkThatUserLoggedInLessThanAWeek,
-  updateLastLogin
-} from "./components/Onboarding/helpers";
-import { auth, db, messaging } from "./constants/firebase";
-import * as routes from "./constants/routes";
-import "./grid.css";
-import messages from "./messages";
-import registerServiceWorker from "./registerServiceWorker";
-// import NotificationResource from './resources/NotificationResource.js';
-import registerMessaging from "./request-messaging-Permission.js";
-import {
-  AddTo,
-  CreatePoll,
-  Done,
-  Error,
-  HomePage,
-  LandingPage,
-  Onboarding,
-  Poll,
-  Responses
-} from "./Routes";
-import "./style.css";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter, Route, Link } from 'react-router-dom';
+import Project from './pages/Project';
+import * as serviceWorker from './serviceWorker';
+import './styles/index.css';
 
-// if (process.env.NODE_ENV === "production") {
-//   // Error tracking...
-//   Raven.config(sentryURL).install();
+import Decision from './pages/Decision';
+import Auth from './pages/Auth';
 
-//   // analytics...
-//   ReactGA.initialize("UA-000000-01");
-//   ReactGA.pageview(window.location.pathname + window.location.search);
-// }
+const Nav = () => (
+  <nav className="header_menu_15 pt-35 pb-30">
+    <div className="container px-xl-0">
+      <div className="row justify-content-center">
+        <div className="col-xl-10">
+          <div className="row justify-content-between align-items-baseline">
+            <div className="col-xl-3 logo">Decisionboard</div>
+            <div className="col-xl-6 d-flex justify-content-center align-items-baseline medium">
+              <Link to="/" className="mx-15 link color-heading underline ">
+                {' '}
+                Meetbox
+              </Link>
 
-// translations...
-addLocaleData([...en, ...es, ...fr]);
-
-let locale =
-  (navigator.language && navigator.languages[0]) ||
-  navigator.language ||
-  navigator.userLanguage ||
-  "en-US";
-
-// Dynamic Routes...
-
-export class DynamicImport extends Component {
-  state = {
-    component: null
-  };
-  componentWillMount() {
-    this.props.load().then(component => {
-      this.setState(() => ({
-        component: component.default ? component.default : component
-      }));
-    });
-  }
-  render() {
-    return this.props.children(this.state.component);
-  }
-}
-
-export default class Routes extends Component {
-  state = {
-    authed: false,
-    user: null
-  };
-
-  static childContextTypes = {
-    user: PropTypes.object
-  };
-
-  getChildContext() {
-    return { user: this.state.user };
-  }
-
-  componentDidMount() {
-    // this.notifications = new NotificationResource(messaging, database);
-
-    // when logged in set auth to true so you can access private routes
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        this.setState({
-          authed: true,
-          user: user
-        });
-        // this.notifications.changeUser(user);
-        registerMessaging(user);
-      } else {
-        this.setState({
-          authed: false,
-          user: null
-        });
-      }
-      user && updateLastLogin(user.providerData[0].uid);
-      user && checkThatUserLoggedInLessThanAWeek(user.providerData[0].uid);
-    });
-    // create a user on firebase when you signup and then update it every time
-    // you login so that you have a fresh access token to resync your friends
-    // list when you create a private poll.
-    auth.getRedirectResult().then(result => {
-      if (result.credential) {
-        const token = result.credential.accessToken;
-        const uid = auth.currentUser.uid;
-        const { name, id } = result.additionalUserInfo.profile;
-        // const photo = result.additionalUserInfo.profile.picture.data.url;
-        const photo = result.additionalUserInfo.photoURL;
-
-        console.log("user info", result.additionalUserInfo);
-
-        db.doc(`users/${uid}`).set(
-          {
-            uid,
-            token,
-            id,
-            name,
-            photo
-          },
-          { merge: true }
-        );
-      }
-    });
-  }
-
-  render() {
-    return (
-      <BrowserRouter>
-        <div>
-          <Navigation />
-          <main>
-            <Switch>
-              <Route
-                exact
-                path={routes.LANDING}
-                render={props => <LandingPage {...props} />}
-              />
-              <PrivateRoute
-                exact
-                path={routes.HOME}
-                authed={this.state.authed}
-                component={HomePage}
-              />
-              {/* <PrivateRoute
-              exact
-              path={`${routes.ACCOUNT}/:userId`}
-              authed={this.state.authed}
-              component={AccountPage}
-            /> */}
-              <PrivateRoute
-                exact
-                path={routes.CREATE}
-                authed={this.state.authed}
-                component={CreatePoll}
-              />
-
-              <Route
-                exact
-                path={`${routes.CREATE}/:pollId`}
-                component={CreatePoll}
-              />
-              <Route exact path={`${routes.POLL}/:pollId`} component={Poll} />
-              <PrivateRoute
-                exact
-                path={`${routes.RESPONSES}/:pollId`}
-                authed={this.state.authed}
-                component={Responses}
-              />
-              <PrivateRoute
-                exact
-                path={`/addTo/:pollId`}
-                authed={this.state.authed}
-                component={AddTo}
-              />
-              <PrivateRoute
-                exact
-                path={`${routes.ONBOARDING}/:userId`}
-                authed={this.state.authed}
-                component={Onboarding}
-              />
-              <Route exact path={`${routes.DONE}/:pollId`} component={Done} />
-              <Route exact path={routes.ERROR} component={Error} />
-              {/* <Redirect exact from="/fun" to="/" /> */}
-              <Route component={LandingPage} />
-            </Switch>
-          </main>
-          <Footer />
+              <Link to="/" className="mx-15 link color-heading o-50 ">
+                Rubbish Project
+              </Link>
+              <Link to="/" className="mx-15 link color-heading o-50 ">
+                Suzies
+              </Link>
+              <Link to="/" className="mx-15 link color-heading o-50 ">
+                + New
+              </Link>
+            </div>
+            <div className="col-xl-3 d-flex justify-content-end align-items-baseline">
+              <a href="#" className="mx-15 link medium action-1">
+                Logout
+              </a>
+              <a href="#" className="ml-15 btn sm action-1">
+                Josh
+              </a>
+            </div>
+          </div>
         </div>
-      </BrowserRouter>
-    );
-  }
-}
-
-// These hoc components allow you to pass props into a route component
-const renderMergedProps = (component, ...rest) => {
-  const finalProps = Object.assign({}, ...rest);
-  return React.createElement(component, finalProps);
-};
-
-// const PropsRoute = ({ component, ...rest }) => (
-//   <Route {...rest} render={routeProps => renderMergedProps(component, routeProps, rest)} />
-// );
-
-const PrivateRoute = ({ component, authed, ...rest }) => (
-  <Route
-    {...rest}
-    render={routeProps =>
-      authed === true ? (
-        renderMergedProps(component, routeProps, rest)
-      ) : (
-        <Redirect
-          to={{ pathname: "/", state: { from: routeProps.location } }}
-        />
-      )
-    }
-  />
+      </div>
+    </div>
+  </nav>
 );
 
-ReactDOM.render(
-  <IntlProvider locale={locale} messages={messages[locale]}>
-    <Routes />
-  </IntlProvider>,
-  document.getElementById("root")
-);
-registerServiceWorker();
+const Footer = () => (
+  <footer className="footer_10 bg-dark pt-95 pb-135 color-white">
+    <div className="container px-xl-0">
+      <div className="flex justify-center">
+        <div className="col-lg-1"></div>
+        <div
+          className="mb-50 mb-lg-0 col-lg-3 tc"
+          data-aos-duration="600"
+          data-aos="fade-down"
+          data-aos-delay="0"
+        >
+          <a href="#" className="mb-35 logo link color-white">
+            Decisionboard
+          </a>
+          <div className="text-adaptive">
+            Helping small teams stay on top of important decisions.
+          </div>
+          <div className="mt-35 socials">
+            <a href="#" className="f-18 link color-white mr-15">
+              <i className="fab fa-twitter"></i>
+            </a>
+          </div>
+        </div>
+        {/* <div class="mb-50 mb-sm-0 col-lg-2 col-sm-3 col-6" data-aos-duration="600" data-aos="fade-down" data-aos-delay="300">
+				<div class="mb-35 f-18 medium title">Product</div>
+				<div class="mb-10"><a href="#" class="link color-white">Features</a></div>
+				<div class="mb-10"><a href="#" class="link color-white">Pricing</a></div>
+				<div class="mb-10"><a href="#" class="link color-white">Tour</a></div>
+			</div>
+			<div class="mb-50 mb-sm-0 col-lg-2 col-sm-3 col-6" data-aos-duration="600" data-aos="fade-down" data-aos-delay="600">
+				<div class="mb-35 f-18 medium title">How To</div>
+				<div class="mb-10"><a href="#" class="link color-white">Track a Metric</a></div>
+				<div class="mb-10"><a href="#" class="link color-white">Call a Meeting</a></div>
+				<div class="mb-10"><a href="#" class="link color-white">Make a Decision</a></div>
+			</div>
 
-messaging.onMessage(payload => {
-  console.log("payload", payload);
-});
+      <div class="mb-50 mb-sm-0 col-lg-2 col-sm-3 col-6" data-aos-duration="600" data-aos="fade-down" data-aos-delay="600">
+				<div class="mb-35 f-18 medium title">Learn</div>
+				<div class="mb-10"><a href="#" class="link color-white">Meeting Hygiene</a></div>
+				<div class="mb-10"><a href="#" class="link color-white">Productivity Hacks</a></div>
+				<div class="mb-10"><a href="#" class="link color-white">Critical Thinking</a></div>
+			</div>
+
+			<div class="col-lg-2 col-sm-3 col-6" data-aos-duration="600" data-aos="fade-down" data-aos-delay="900">
+				<div class="mb-35 f-18 medium title">Stuff</div>
+				<div class="mb-10"><a href="#" class="link color-white">Privacy</a></div>
+				<div class="mb-10"><a href="#" class="link color-white">Support</a></div>
+				<div class="mb-10"><a href="#" class="link color-white">Help Desk</a></div>
+				<div class="mb-10"><a href="#" class="link color-white">FAQ</a></div>
+			</div>
+			 */}
+      </div>
+    </div>
+  </footer>
+);
+
+const App = () => (
+  <BrowserRouter>
+    <div>
+      <Nav />
+      <Route exact path="/" component={Auth} />
+      <Route exact path="/dashboard" component={Project} />
+      <Route exact path="/decision" component={Decision} />
+      <Footer />
+    </div>
+  </BrowserRouter>
+);
+
+ReactDOM.render(<App />, document.getElementById('root'));
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://bit.ly/CRA-PWA
+serviceWorker.unregister();
+
+// mobile navigation
+
+// <div className="navigation_mobile bg-dark type1 opened">
+//   <a href="#" className="close_menu color-white">
+//     <i className="fas fa-times" />
+//   </a>
+//   <div className="px-40 pt-60 pb-60 inner">
+//     <div className="logo color-white mb-30">Startup 3</div>
+//     <div>
+//       <a href="#" className="f-heading f-22 link color-white mb-20">
+//         Home
+//       </a>
+//     </div>
+//     <div>
+//       <a href="#" className="f-heading f-22 link color-white mb-20">
+//         Tour
+//       </a>
+//     </div>
+//     <div>
+//       <a href="#" className="f-heading f-22 link color-white mb-20">
+//         Mobile Apps
+//       </a>
+//     </div>
+//     <div>
+//       <a href="#" className="f-heading f-22 link color-white mb-20">
+//         Pricing
+//       </a>
+//     </div>
+//     <div>
+//       <a href="#" className="f-heading f-22 link color-white mb-20">
+//         Development
+//       </a>
+//     </div>
+//     <div>
+//       <a href="#" className="link color-white op-3 mb-15">
+//         Help
+//       </a>
+//     </div>
+//     <div>
+//       <a href="#" className="link color-white op-3 mb-15">
+//         F.A.Q.
+//       </a>
+//     </div>
+//     <div>
+//       <a href="#" className="link color-white op-3 mb-15">
+//         Support
+//       </a>
+//     </div>
+//     <div>
+//       <a href="#" className="link color-white op-3 mb-15">
+//         About Us
+//       </a>
+//     </div>
+//     <div>
+//       <a href="#" className="link color-white op-3 mb-15">
+//         Blog
+//       </a>
+//     </div>
+//     <div>
+//       <a href="#" className="link color-white op-3 mb-15">
+//         Careers
+//       </a>
+//     </div>
+
+//     <div className="socials mt-40">
+//       <a href="#" target="_blank" className="link color-white f-18 mr-20">
+//         <i className="fab fa-twitter" />
+//       </a>
+//       <a href="#" target="_blank" className="link color-white f-18 mr-20">
+//         <i className="fab fa-facebook" />
+//       </a>
+//       <a href="#" target="_blank" className="link color-white f-18 mr-20">
+//         <i className="fab fa-google-plus-g" />
+//       </a>
+//     </div>
+
+//     <div className="mt-50 f-14 light color-white op-3 copy">
+//       &copy; 2019 Designmodo. All rights reserved.
+//     </div>
+//   </div>
+// </div>;

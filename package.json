@@ -70,6 +70,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
+    "deploy": "firebase deploy --only hosting",
     "build:testConfig": "cypress-firebase createTestEnvFile",
     "test:open": "npm run build:testConfig && cypress open",
     "cypress": "start-server-and-test start http://localhost:3000 test:open"

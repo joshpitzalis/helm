@@ -136,8 +136,8 @@ const App = () => {
   return (
     <BrowserRouter>
       <div>
-        <Banner />
         <Nav avatar={user && user.photoURL} />
+        <Banner />
         <Switch>
           <Route
             exact

@@ -1,19 +1,29 @@
-import { lorem } from 'faker';
+// import { lorem } from 'faker';
 
 describe('auth', () => {
   it('lets me sign up', () => {
     cy.visit('/')
-      .getByText(/get started/i)
-      .click();
+      .getByTestId('authPage')
+      .getByText(/signup or login/i)
+      .login()
+      .getByTestId('dashboardPage');
   });
-  it.skip('an auth error throws a toast notification', () => {
+
+  it('redirect you when logged in and lets you logout', () => {
     cy.visit('/')
-      .getByText(/get started/i)
-      .click();
+      .getByTestId('dashboardPage')
+      .logout()
+      .getByTestId('authPage')
+      .getByText(/signup or login/i);
   });
-  it.skip('logout', () => {
-    cy.visit('/')
-      .getByText(/get started/i)
-      .click();
+
+  it('protected pages are protected', () => {
+    cy.visit('/dashboard/123')
+      .getByTestId('authPage')
+      .getByText(/signup or login/i);
+  });
+
+  it('non existant pages have a no-match page', () => {
+    cy.visit('/dash/123').getByTestId('noMatchPage');
   });
 });

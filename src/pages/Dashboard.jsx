@@ -17,7 +17,8 @@ const Dashboard = ({user}) => {
 
   return (
 
-    <section className="ecommerce_16 bg-light mt5 pb-70">
+    <section className="ecommerce_16 bg-light mt5 pb-70"
+    data-testid='dashboardPage'>
       <Edit projectId={projectId} setProjectId={setProjectId} />
       <div className="container px-xl-0">
 

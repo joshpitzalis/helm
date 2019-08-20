@@ -30,48 +30,26 @@ export default function Auth({ user }) {
       });
   };
 
-  // const onSignup = _email =>
-  //   firebase
-  //     .auth()
-  //     .sendSignInLinkToEmail(_email, {
-  //       // URL you want to redirect back to. The domain (www.example.com) for this
-  //       // URL must be whitelisted in the Firebase Console.
-  //       url: 'https://www.example.com/finishSignUp?cartId=1234',
-  //       // This must be true.
-  //       handleCodeInApp: true,
-  //     })
-  //     .then(() => {
-  //       // The link was successfully sent. Inform the user.
-  //       // Save the email locally so you don't need to ask the user for it again
-  //       // if they open the link on the same device.
-  //       window.localStorage.setItem('emailForSignIn', _email);
-  //     })
-  //     .catch(error => {
-  //       // Some error occurred, you can inspect the code: error.code
-  //       console.log(error);
-  //     });
-
   if (user) {
     return <Redirect to={`/dashboard/${user.uid}`} />;
   }
 
   return (
-    <React.Fragment>
-      <section className=" pt-120 pb-120">
-        <div className="container px-xl-0">
-          <form
-            onSubmit={e => onSignup(e)}
-            className="bg-light mx-auto mw-430 radius10 pt-40 px-50 pb-30"
+    <section className=" pt-120 pb-120" data-testid="authPage">
+      <div className="container px-xl-0">
+        <form
+          onSubmit={e => onSignup(e)}
+          className="bg-light mx-auto mw-430 radius10 pt-40 px-50 pb-30"
+        >
+          <h2
+            className="mb-40 small text-center"
+            data-aos-duration="600"
+            data-aos="fade-down"
+            data-aos-delay="0"
           >
-            <h2
-              className="mb-40 small text-center"
-              data-aos-duration="600"
-              data-aos="fade-down"
-              data-aos-delay="0"
-            >
-              Join Helm
-            </h2>
-            {/* <div
+            Join Helm
+          </h2>
+          {/* <div
               className="mb-20 input_holder"
               data-aos-duration="600"
               data-aos="fade-down"
@@ -86,7 +64,7 @@ export default function Auth({ user }) {
                 className="input border-gray focus-action-1 color-heading placeholder-heading w-full"
               />
             </div> */}
-            {/* <div
+          {/* <div
               className="mb-20 input_holder"
               data-aos-duration="600"
               data-aos="fade-down"
@@ -102,7 +80,7 @@ export default function Auth({ user }) {
               />
             </div> */}
 
-            {/* <div
+          {/* <div
               data-aos-duration="600"
               data-aos="fade-down"
               data-aos-delay="450"
@@ -122,27 +100,27 @@ export default function Auth({ user }) {
                 />
               </label>
             </div> */}
-            <div
-              data-aos-duration="600"
-              data-aos="fade-down"
-              data-aos-delay="600"
-            >
-              <button type="submit" className="mt-25 btn action-1 w-full">
-                <Icon
-                  type="google"
-                  style={{ fontSize: '24px' }}
-                  className="pt0"
-                />{' '}
-                <span className="pt2 pl2">Signup or Login</span>
-              </button>
-            </div>
-            {/* <div
+          <div
+            data-aos-duration="600"
+            data-aos="fade-down"
+            data-aos-delay="600"
+          >
+            <button type="submit" className="mt-25 btn action-1 w-full">
+              <Icon
+                type="google"
+                style={{ fontSize: '24px' }}
+                className="pt0"
+              />{' '}
+              <span className="pt2 pl2">Signup or Login</span>
+            </button>
+          </div>
+          {/* <div
               className="mt-50 hr bg-gray h-1"
               data-aos-duration="600"
               data-aos="fade-down"
               data-aos-delay="750"
             ></div> */}
-            {/* <div
+          {/* <div
               className="mt-25 f-18 medium color-heading text-center"
               data-aos-duration="600"
               data-aos="fade-down"
@@ -153,67 +131,75 @@ export default function Auth({ user }) {
                 Sign In
               </a>{' '}
             </div> */}
-          </form>
-        </div>
-      </section>
-      {/* <div
-        className="alert alert-success alert-dismissible alert-form-success"
-        role="alert"
-      >
-        <button
-          type="button"
-          className="close"
-          data-dismiss="alert"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-        Thanks for your message!
-      </div> */}
-      {/* <div
-        className="alert alert-warning alert-dismissible alert-form-check-fields"
-        role="alert"
-      >
-        <button
-          type="button"
-          className="close"
-          data-dismiss="alert"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-        Please, fill in required fields.
-      </div> */}
-      {/* <div
-        className="alert alert-danger alert-dismissible alert-form-error"
-        role="alert"
-      >
-        <button
-          type="button"
-          className="close"
-          data-dismiss="alert"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-        An error occurred while sending data :(
-      </div> */}
-
-      {/* <div className="overlay"></div>
-
-      <div className="video_popup">
-        <a className="close">
-          <img
-            srcSet="i/close_white@2x.png 2x"
-            src="i/close_white.png"
-            alt=""
-          />
-        </a>
-        <div className="d-flex align-items-center justify-content-center w-full h-full iframe_container"></div>
-      </div> */}
-    </React.Fragment>
+        </form>
+      </div>
+    </section>
   );
 }
 
 Auth.propTypes = propTypes;
 Auth.defaultProps = defaultProps;
+
+// {
+//   /* <div
+//         className="alert alert-success alert-dismissible alert-form-success"
+//         role="alert"
+//       >
+//         <button
+//           type="button"
+//           className="close"
+//           data-dismiss="alert"
+//           aria-label="Close"
+//         >
+//           <span aria-hidden="true">&times;</span>
+//         </button>
+//         Thanks for your message!
+//       </div> */
+// }
+// {
+//   /* <div
+//         className="alert alert-warning alert-dismissible alert-form-check-fields"
+//         role="alert"
+//       >
+//         <button
+//           type="button"
+//           className="close"
+//           data-dismiss="alert"
+//           aria-label="Close"
+//         >
+//           <span aria-hidden="true">&times;</span>
+//         </button>
+//         Please, fill in required fields.
+//       </div> */
+// }
+// {
+//   /* <div
+//         className="alert alert-danger alert-dismissible alert-form-error"
+//         role="alert"
+//       >
+//         <button
+//           type="button"
+//           className="close"
+//           data-dismiss="alert"
+//           aria-label="Close"
+//         >
+//           <span aria-hidden="true">&times;</span>
+//         </button>
+//         An error occurred while sending data :(
+//       </div> */
+// }
+
+// {
+//   /* <div className="overlay"></div>
+
+//       <div className="video_popup">
+//         <a className="close">
+//           <img
+//             srcSet="i/close_white@2x.png 2x"
+//             src="i/close_white.png"
+//             alt=""
+//           />
+//         </a>
+//         <div className="d-flex align-items-center justify-content-center w-full h-full iframe_container"></div>
+//       </div> */
+// }

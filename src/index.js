@@ -1,50 +1,72 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Link } from 'react-router-dom';
-import Project from './pages/Project';
+import { BrowserRouter, Route, Switch, Redirect, Link } from 'react-router-dom';
+import ReactRouterPropTypes from 'react-router-prop-types';
+import PropTypes from 'prop-types';
+
+import { Avatar } from 'antd';
+import { useAuth } from './features/auth/helpers';
+import Dashboard from './pages/Dashboard';
 import * as serviceWorker from './serviceWorker';
 import './styles/index.css';
-
-import Decision from './pages/Decision';
+import HelmLogo from './styles/svg/helmLogo';
 import Auth from './pages/Auth';
+import Banner from './features/toast/toast';
+import firebase from './utils/firebase';
 
-const Nav = () => (
+const Nav = ({ avatar }) => (
   <nav className="header_menu_15 pt-35 pb-30">
     <div className="container px-xl-0">
       <div className="row justify-content-center">
         <div className="col-xl-10">
           <div className="row justify-content-between align-items-baseline">
-            <div className="col-xl-3 logo">Decisionboard</div>
-            <div className="col-xl-6 d-flex justify-content-center align-items-baseline medium">
-              <Link to="/" className="mx-15 link color-heading underline ">
-                {' '}
-                Meetbox
-              </Link>
+            <div className="col-xl-3 logo">
+              <HelmLogo /> Helm
+            </div>
+            {avatar && (
+              <div className="col-xl-6 d-flex justify-content-center align-items-baseline medium">
+                <Link to="/" className="mx-15 link color-heading underline ">
+                  {' '}
+                  Meetbox
+                </Link>
 
-              <Link to="/" className="mx-15 link color-heading o-50 ">
-                Rubbish Project
-              </Link>
-              <Link to="/" className="mx-15 link color-heading o-50 ">
-                Suzies
-              </Link>
-              <Link to="/" className="mx-15 link color-heading o-50 ">
-                + New
-              </Link>
-            </div>
-            <div className="col-xl-3 d-flex justify-content-end align-items-baseline">
-              <a href="#" className="mx-15 link medium action-1">
-                Logout
-              </a>
-              <a href="#" className="ml-15 btn sm action-1">
-                Josh
-              </a>
-            </div>
+                <Link to="/" className="mx-15 link color-heading o-50 ">
+                  Rubbish Project
+                </Link>
+                <Link to="/" className="mx-15 link color-heading o-50 ">
+                  Suzies
+                </Link>
+                <Link to="/" className="mx-15 link color-heading o-50 ">
+                  + New
+                </Link>
+              </div>
+            )}
+            {avatar && (
+              <div className="col-xl-3 d-flex justify-content-end align-items-center">
+                <button
+                  type="button"
+                  className="mx-15 link medium action-1"
+                  onClick={() => firebase.auth().signOut()}
+                >
+                  Logout
+                </button>
+
+                <Avatar src={avatar} size="large" />
+              </div>
+            )}
           </div>
         </div>
       </div>
     </div>
   </nav>
 );
+
+Nav.propTypes = {
+  avatar: PropTypes.string,
+};
+Nav.defaultProps = {
+  avatar: '',
+};
 
 const Footer = () => (
   <footer className="footer_10 bg-dark pt-95 pb-135 color-white">
@@ -58,16 +80,16 @@ const Footer = () => (
           data-aos-delay="0"
         >
           <a href="#" className="mb-35 logo link color-white">
-            Decisionboard
+            <HelmLogo color="white" /> Helm
           </a>
           <div className="text-adaptive">
-            Helping small teams stay on top of important decisions.
+            Helping small teams understand their objectives.
           </div>
-          <div className="mt-35 socials">
+          {/* <div className="mt-35 socials">
             <a href="#" className="f-18 link color-white mr-15">
               <i className="fab fa-twitter"></i>
             </a>
-          </div>
+          </div> */}
         </div>
         {/* <div class="mb-50 mb-sm-0 col-lg-2 col-sm-3 col-6" data-aos-duration="600" data-aos="fade-down" data-aos-delay="300">
 				<div class="mb-35 f-18 medium title">Product</div>
@@ -102,17 +124,71 @@ const Footer = () => (
   </footer>
 );
 
-const App = () => (
-  <BrowserRouter>
-    <div>
-      <Nav />
-      <Route exact path="/" component={Auth} />
-      <Route exact path="/dashboard" component={Project} />
-      <Route exact path="/decision" component={Decision} />
-      <Footer />
-    </div>
-  </BrowserRouter>
+const NoMatch = () => (
+  <section data-testid="noMatchPage">
+    <p>Sorry. No Match For this Page</p>
+  </section>
 );
+
+const App = () => {
+  const user = useAuth();
+
+  return (
+    <BrowserRouter>
+      <div>
+        <Banner />
+        <Nav avatar={user && user.photoURL} />
+        <Switch>
+          <Route
+            exact
+            path="/"
+            component={props => <Auth user={user} {...props} />}
+          />
+          <PrivateRoute
+            path="/dashboard/:userId"
+            component={props => <Dashboard user={user} {...props} />}
+          />
+          <PrivateRoute path="/project" component={Dashboard} />
+          <PrivateRoute path="/decision" component={Dashboard} />
+          <Route component={NoMatch} />
+        </Switch>
+
+        <Footer />
+      </div>
+    </BrowserRouter>
+  );
+};
+
+function PrivateRoute({ component: Component, user, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={props =>
+        true ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/',
+              state: { from: props.location },
+            }}
+          />
+        )
+      }
+    />
+  );
+}
+
+PrivateRoute.propTypes = {
+  component: PropTypes.element.isRequired,
+  location: ReactRouterPropTypes.location.isRequired,
+  user: PropTypes.shape({
+    uid: PropTypes.string.isRequired,
+  }),
+};
+PrivateRoute.defaultProps = {
+  user: null,
+};
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

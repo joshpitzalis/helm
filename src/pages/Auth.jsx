@@ -1,42 +1,66 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import firebase from '../utils/firebase';
+import { Icon } from 'antd';
+import { Redirect } from 'react-router-dom';
+import firebase, { googleProvider } from '../utils/firebase';
+import { toast$ } from '../features/toast/toast.jsx';
 
-const propTypes = {};
+const propTypes = {
+  user: PropTypes.shape({
+    uid: PropTypes.string.isRequired,
+  }),
+};
 
-const defaultProps = {};
+const defaultProps = {
+  user: null,
+};
 
-export default function Auth() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const onSignup = _email =>
+export default function Auth({ user }) {
+  const onSignup = e => {
+    e.preventDefault();
     firebase
       .auth()
-      .sendSignInLinkToEmail(_email, {
-        // URL you want to redirect back to. The domain (www.example.com) for this
-        // URL must be whitelisted in the Firebase Console.
-        url: 'https://www.example.com/finishSignUp?cartId=1234',
-        // This must be true.
-        handleCodeInApp: true,
-      })
-      .then(() => {
-        // The link was successfully sent. Inform the user.
-        // Save the email locally so you don't need to ask the user for it again
-        // if they open the link on the same device.
-        window.localStorage.setItem('emailForSignIn', _email);
-      })
+      .signInWithPopup(googleProvider)
       .catch(error => {
-        // Some error occurred, you can inspect the code: error.code
-        console.log(error);
+        const message = error.message || error;
+        toast$.next({
+          type: 'ERROR',
+          message,
+        });
       });
+  };
+
+  // const onSignup = _email =>
+  //   firebase
+  //     .auth()
+  //     .sendSignInLinkToEmail(_email, {
+  //       // URL you want to redirect back to. The domain (www.example.com) for this
+  //       // URL must be whitelisted in the Firebase Console.
+  //       url: 'https://www.example.com/finishSignUp?cartId=1234',
+  //       // This must be true.
+  //       handleCodeInApp: true,
+  //     })
+  //     .then(() => {
+  //       // The link was successfully sent. Inform the user.
+  //       // Save the email locally so you don't need to ask the user for it again
+  //       // if they open the link on the same device.
+  //       window.localStorage.setItem('emailForSignIn', _email);
+  //     })
+  //     .catch(error => {
+  //       // Some error occurred, you can inspect the code: error.code
+  //       console.log(error);
+  //     });
+
+  if (user) {
+    return <Redirect to={`/dashboard/${user.uid}`} />;
+  }
 
   return (
     <React.Fragment>
       <section className=" pt-120 pb-120">
         <div className="container px-xl-0">
           <form
-            action="form-handler.php"
-            method="post"
+            onSubmit={e => onSignup(e)}
             className="bg-light mx-auto mw-430 radius10 pt-40 px-50 pb-30"
           >
             <h2
@@ -45,9 +69,9 @@ export default function Auth() {
               data-aos="fade-down"
               data-aos-delay="0"
             >
-              Sign Up Now
+              Join Helm
             </h2>
-            <div
+            {/* <div
               className="mb-20 input_holder"
               data-aos-duration="600"
               data-aos="fade-down"
@@ -61,8 +85,8 @@ export default function Auth() {
                 onChange={e => setEmail(e.target.value)}
                 className="input border-gray focus-action-1 color-heading placeholder-heading w-full"
               />
-            </div>
-            <div
+            </div> */}
+            {/* <div
               className="mb-20 input_holder"
               data-aos-duration="600"
               data-aos="fade-down"
@@ -76,7 +100,8 @@ export default function Auth() {
                 placeholder="Your password"
                 className="input border-gray focus-action-1 color-heading placeholder-heading w-full"
               />
-            </div>
+            </div> */}
+
             {/* <div
               data-aos-duration="600"
               data-aos="fade-down"
@@ -102,19 +127,22 @@ export default function Auth() {
               data-aos="fade-down"
               data-aos-delay="600"
             >
-              <input
-                type="submit"
-                title="Create an Account"
-                className="mt-25 btn action-1 w-full"
-              />
+              <button type="submit" className="mt-25 btn action-1 w-full">
+                <Icon
+                  type="google"
+                  style={{ fontSize: '24px' }}
+                  className="pt0"
+                />{' '}
+                <span className="pt2 pl2">Signup or Login</span>
+              </button>
             </div>
-            <div
+            {/* <div
               className="mt-50 hr bg-gray h-1"
               data-aos-duration="600"
               data-aos="fade-down"
               data-aos-delay="750"
-            ></div>
-            <div
+            ></div> */}
+            {/* <div
               className="mt-25 f-18 medium color-heading text-center"
               data-aos-duration="600"
               data-aos="fade-down"
@@ -124,11 +152,11 @@ export default function Auth() {
               <a href="#" className="link action-1">
                 Sign In
               </a>{' '}
-            </div>
+            </div> */}
           </form>
         </div>
       </section>
-      <div
+      {/* <div
         className="alert alert-success alert-dismissible alert-form-success"
         role="alert"
       >
@@ -141,8 +169,8 @@ export default function Auth() {
           <span aria-hidden="true">&times;</span>
         </button>
         Thanks for your message!
-      </div>
-      <div
+      </div> */}
+      {/* <div
         className="alert alert-warning alert-dismissible alert-form-check-fields"
         role="alert"
       >
@@ -155,8 +183,8 @@ export default function Auth() {
           <span aria-hidden="true">&times;</span>
         </button>
         Please, fill in required fields.
-      </div>
-      <div
+      </div> */}
+      {/* <div
         className="alert alert-danger alert-dismissible alert-form-error"
         role="alert"
       >
@@ -169,9 +197,9 @@ export default function Auth() {
           <span aria-hidden="true">&times;</span>
         </button>
         An error occurred while sending data :(
-      </div>
+      </div> */}
 
-      <div className="overlay"></div>
+      {/* <div className="overlay"></div>
 
       <div className="video_popup">
         <a className="close">
@@ -182,7 +210,7 @@ export default function Auth() {
           />
         </a>
         <div className="d-flex align-items-center justify-content-center w-full h-full iframe_container"></div>
-      </div>
+      </div> */}
     </React.Fragment>
   );
 }

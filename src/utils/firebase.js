@@ -42,3 +42,5 @@ firebase
   });
 
 export default firebase;
+
+export const googleProvider = new firebase.auth.GoogleAuthProvider();

@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch, Redirect, Link } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import PropTypes from 'prop-types';
-
 import { Avatar } from 'antd';
 import { useAuth } from './features/auth/helpers';
 import Dashboard from './pages/Dashboard';
@@ -11,7 +10,7 @@ import * as serviceWorker from './serviceWorker';
 import './styles/index.css';
 import HelmLogo from './styles/svg/helmLogo';
 import Auth from './pages/Auth';
-import Banner from './features/toast/toast';
+import Banner, { toast$ } from './features/toast/toast';
 import firebase from './utils/firebase';
 
 const Nav = ({ avatar }) => (
@@ -23,7 +22,7 @@ const Nav = ({ avatar }) => (
             <div className="col-xl-3 logo">
               <HelmLogo /> Helm
             </div>
-            {avatar && (
+            {/* {avatar && (
               <div className="col-xl-6 d-flex justify-content-center align-items-baseline medium">
                 <Link to="/" className="mx-15 link color-heading underline ">
                   {' '}
@@ -40,7 +39,7 @@ const Nav = ({ avatar }) => (
                   + New
                 </Link>
               </div>
-            )}
+            )} */}
             {avatar && (
               <div className="col-xl-3 d-flex justify-content-end align-items-center">
                 <button
@@ -73,18 +72,14 @@ const Footer = () => (
     <div className="container px-xl-0">
       <div className="flex justify-center">
         <div className="col-lg-1"></div>
-        <div
-          className="mb-50 mb-lg-0 col-lg-3 tc"
-          data-aos-duration="600"
-          data-aos="fade-down"
-          data-aos-delay="0"
-        >
+        <div className="mb-50 mb-lg-0 col-lg-3 tc">
           <a href="#" className="mb-35 logo link color-white">
             <HelmLogo color="white" /> Helm
           </a>
           <div className="text-adaptive">
             Helping small teams understand their objectives.
           </div>
+          <small className="o-50">Version 0.0.2</small>
           {/* <div className="mt-35 socials">
             <a href="#" className="f-18 link color-white mr-15">
               <i className="fab fa-twitter"></i>
@@ -138,10 +133,22 @@ const App = () => {
       .firestore()
       .collection('projects')
       .where('team', 'array-contains', user && user.email)
-      .onSnapshot(collection => {
-        const _projects = collection.docs.map(doc => doc.data());
-        setProjects(_projects);
-      });
+      .onSnapshot(
+        collection => {
+          const _projects = collection.docs.map(doc => doc.data());
+          setProjects(_projects);
+        },
+        error => {
+          const message = error.message || error;
+
+          console.log({ message });
+
+          toast$.next({
+            type: 'ERROR',
+            message,
+          });
+        }
+      );
 
     return () => unsubscribe();
   }, [user]);

@@ -1,4 +1,3 @@
-import { FormClose } from 'grommet-icons';
 import React from 'react';
 import { Subject } from 'rxjs';
 import { delay, tap } from 'rxjs/operators';
@@ -6,14 +5,14 @@ import { delay, tap } from 'rxjs/operators';
 export const toast$ = new Subject();
 
 const useNotification = notificationStream$ => {
-  const [message, setMessage] = React.useState('');
-  const [type, setType] = React.useState('');
+  const [_message, setMessage] = React.useState('');
+  const [_type, setType] = React.useState('');
   React.useEffect(() => {
     const messages = notificationStream$
       .pipe(
-        tap(({ _type, _message }) => {
-          setMessage(_message);
-          setType(_type);
+        tap(({ type, message }) => {
+          setMessage(message);
+          setType(type);
         }),
         delay(10000),
         tap(() => {
@@ -26,18 +25,23 @@ const useNotification = notificationStream$ => {
     return () => messages.unsubscribe();
   }, [notificationStream$]);
   const clear = () => setMessage('');
-  return [message, clear, type];
+  return [_message, clear, _type];
 };
 
 const Banner = () => {
   const [message, clear, type] = useNotification(toast$);
 
   // type === 'SUCCESS' && type === 'ERROR'
+  console.log({ message });
 
   return (
     <>
       {message && (
-        <section className="call_to_action_13 bg-dark pt-100 pb-100 color-white text-center text-lg-left">
+        <section
+          className={`call_to_action_13  pt-100 pb-100 color-white text-center text-lg-left ${
+            type === 'ERROR' ? 'bg-light-red' : 'bg-dark'
+          }`}
+        >
           <div className="container px-xl-0">
             <div className="row align-items-center justify-content-center">
               <div

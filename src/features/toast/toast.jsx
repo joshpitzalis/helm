@@ -35,43 +35,45 @@ const Banner = () => {
   // type === 'SUCCESS' && type === 'ERROR'
 
   return (
-    message && (
-      <section className="call_to_action_13 bg-dark pt-100 pb-100 color-white text-center text-lg-left">
-        <div className="container px-xl-0">
-          <div className="row align-items-center justify-content-center">
-            <div
-              className="col-xl-5 col-lg-6 col-md-8 col-sm-10"
-              data-aos-duration="600"
-              data-aos="fade-down"
-              data-aos-delay="0"
-            >
-              <h6 className="f-22 regular text-adaptive white">{message}</h6>
-            </div>
-            <div
-              className="col-xl-5 col-lg-6 text-lg-right buttons"
-              data-aos-duration="600"
-              data-aos="fade-down"
-              data-aos-delay="300"
-            >
-              <button
-                type="button"
-                onClick={() => clear()}
-                className="mt-30 mt-lg-0 btn lg border-transparent-white mr-30"
+    <>
+      {message && (
+        <section className="call_to_action_13 bg-dark pt-100 pb-100 color-white text-center text-lg-left">
+          <div className="container px-xl-0">
+            <div className="row align-items-center justify-content-center">
+              <div
+                className="col-xl-5 col-lg-6 col-md-8 col-sm-10"
+                data-aos-duration="600"
+                data-aos="fade-down"
+                data-aos-delay="0"
               >
-                Learn More
-              </button>
-              <button
-                type="button"
-                onClick={() => clear()}
-                className="mt-30 mt-lg-0  btn lg action-3"
+                <h6 className="f-22 regular text-adaptive white">{message}</h6>
+              </div>
+              <div
+                className="col-xl-5 col-lg-6 text-lg-right buttons"
+                data-aos-duration="600"
+                data-aos="fade-down"
+                data-aos-delay="300"
               >
-                Close
-              </button>
+                <button
+                  type="button"
+                  onClick={() => clear()}
+                  className="mt-30 mt-lg-0 btn lg border-transparent-white mr-30"
+                >
+                  Learn More
+                </button>
+                <button
+                  type="button"
+                  onClick={() => clear()}
+                  className="mt-30 mt-lg-0  btn lg action-3"
+                >
+                  Close
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
-    )
+        </section>
+      )}
+    </>
   );
 };
 

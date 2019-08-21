@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch, Redirect, Link } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
@@ -132,6 +132,19 @@ const NoMatch = () => (
 
 const App = () => {
   const user = useAuth();
+  const [projects, setProjects] = useState([]);
+  useEffect(() => {
+    const unsubscribe = firebase
+      .firestore()
+      .collection('projects')
+      .where('team', 'array-contains', user && user.email)
+      .onSnapshot(collection => {
+        const _projects = collection.docs.map(doc => doc.data());
+        setProjects(_projects);
+      });
+
+    return () => unsubscribe();
+  }, [user]);
 
   return (
     <BrowserRouter>
@@ -146,7 +159,9 @@ const App = () => {
           />
           <PrivateRoute
             path="/dashboard/:userId"
-            component={props => <Dashboard user={user} {...props} />}
+            component={props => (
+              <Dashboard user={user} {...props} projects={projects} />
+            )}
           />
           <PrivateRoute path="/project" component={Dashboard} />
           <PrivateRoute path="/decision" component={Dashboard} />

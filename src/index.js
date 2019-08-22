@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { Avatar } from 'antd';
 import { useAuth } from './features/auth/helpers';
 import Dashboard from './pages/Dashboard';
+import Project from './pages/Project';
 import * as serviceWorker from './serviceWorker';
 import './styles/index.css';
 import HelmLogo from './styles/svg/helmLogo';
@@ -79,7 +80,7 @@ const Footer = () => (
           <div className="text-adaptive">
             Helping small teams understand their objectives.
           </div>
-          <small className="o-50">Version 0.0.2</small>
+          <small className="o-50">Version 0.0.3</small>
           {/* <div className="mt-35 socials">
             <a href="#" className="f-18 link color-white mr-15">
               <i className="fab fa-twitter"></i>
@@ -128,6 +129,7 @@ const NoMatch = () => (
 const App = () => {
   const user = useAuth();
   const [projects, setProjects] = useState([]);
+
   useEffect(() => {
     const unsubscribe = firebase
       .firestore()
@@ -140,8 +142,6 @@ const App = () => {
         },
         error => {
           const message = error.message || error;
-
-          console.log({ message });
 
           toast$.next({
             type: 'ERROR',
@@ -170,8 +170,13 @@ const App = () => {
               <Dashboard user={user} {...props} projects={projects} />
             )}
           />
-          <PrivateRoute path="/project" component={Dashboard} />
-          <PrivateRoute path="/decision" component={Dashboard} />
+          <PrivateRoute
+            path="/project/:projectId"
+            component={props => (
+              <Project user={user} {...props} projects={projects} />
+            )}
+          />
+
           <Route component={NoMatch} />
         </Switch>
 

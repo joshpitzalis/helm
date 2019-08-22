@@ -1,22 +1,15 @@
-import { lorem } from 'faker';
+import { lorem, internet } from 'faker';
 
-
-
-
-describe('projects', () => {
-
+describe('dashboard', () => {
+  const fakeProjectName = lorem.words();
 
   it('create, edit and delete a project', () => {
-    const fakeProjectName = lorem.words();
- 
-
     cy.visit('/')
       .getByTestId('authPage')
       .getByText(/signup or login/i)
       .login()
-
       .getByTestId('dashboardPage')
-      .wait(3000)
+      .wait(1000)
       .getByText(/create a new project/i)
       .click()
       .queryByTestId('addProjectModal')
@@ -48,6 +41,36 @@ describe('projects', () => {
       .should('not.exist');
   });
 
+  it('add and remove people from projects', () => {
+    const fakeEmail1 = internet.email();
+    const fakeEmail2 = internet.email();
+    cy.visit('/')
+      .getByTestId('dashboardPage')
+      .wait(1000)
+      .getByText(/create a new project/i)
+      .click()
+      .queryByTestId('addProjectModal')
+      .getByPlaceholderText(/project name/i)
+      .type(fakeProjectName)
+      .getByPlaceholderText(/add email address/i)
+      .type(fakeEmail1)
+      .getByText(/add person/i)
+      .click()
+      .getByText(fakeEmail1)
+      .getByText(/save/i)
+      .click()
+      .getByTestId(`${fakeProjectName}-edit`)
+      .click()
+      .getByPlaceholderText(/add email address/i)
+      .type(fakeEmail2)
+      .getByText(/add person/i)
+      .click()
+      .getByText(/save/i)
+      .getByTestId(`${fakeProjectName}-edit`)
+      .click()
+      .getByText(fakeEmail1)
+      .getByText(fakeEmail2);
+  });
 });
 
 // it.skip('update image when you login', () => {})

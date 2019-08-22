@@ -14,8 +14,6 @@ const Dashboard = ({ user, projects }) => {
   const [projectId, setProjectId] = useState('')
 
 
-
-
   if (!user) {
     return <Redirect to="/" />;
   }
@@ -31,7 +29,7 @@ const Dashboard = ({ user, projects }) => {
             <div className="row">
               {projects.map(project => (
                 <Project {...project} 
-               
+               key={project.id}
                 setProjectId={setProjectId} />
               ))}
 
@@ -64,12 +62,12 @@ const Dashboard = ({ user, projects }) => {
 export default Dashboard;
 
 
-const Project = ({ id, name, objectives, createdOn, avatars, setProjectId}) => {
+const Project = ({ id, name, objectives, createdOn, avatars, setProjectId, }) => {
  
   
   return (
     <div className='flex items-start'>
-    <Link to="/decision" className="dark-blue pb3 mb-30 mx-auto col-md-12 d-flex flex-wrap align-items-stretch justify-content-between product pointer ">
+    <Link to={`/project/${id}`} className="dark-blue pb3 mb-30 mx-auto col-md-12 d-flex flex-wrap align-items-stretch justify-content-between product pointer ">
 
       <PieChart
         // data={[
@@ -88,7 +86,7 @@ const Project = ({ id, name, objectives, createdOn, avatars, setProjectId}) => {
           <div className="col-lg-7">
             {avatars && avatars.map(({photo, email}) => 
            
-            <img src={photo} className="br-100 h3 w3 dib ba bw2 b--white" alt={email} />
+            <img key={email} src={photo} className="br-100 h3 w3 dib ba bw2 b--white" alt={email} />
           )}
             </div>
         </div>
@@ -123,29 +121,29 @@ const Edit = ({ projectId, setProjectId, user, projects }) => {
 
   const project = projects && projects.find( item => item.id === projectId)
 
-  const [name, setName] = useState( '' )
-  const [email, setEmail] = useState('')
-  const [people, setPeople] = useState( [ user.email])
+  const [name, setName] = useState('')
+
+    
+  const [people, setPeople] = useState([user.email])
+  useEffect(() => project && project.team && setPeople(Array.from(new Set( [user.email,  ...project.team]))), [project && project.team]);
 
   const [confirm, setConfirm] = useState(false )
 
-  const addEmail = email => {setPeople([email, ...people])
-    setEmail('')}
-
-  const removeEmail = (_email) => setPeople(people.filter(email => email !== _email))
-
+  
   const onSubmit = e => {
     e.preventDefault()
 
     const newProject =  firebase.firestore().collection('projects').doc()
 
     const docId = project ? project.id : newProject.id
+console.log({ people , project: project && project.team, docId });
+
 
   firebase.firestore().collection('projects').doc(docId).set({ 
-    name,
+    name: name || project.name  ,
     id: docId, 
-    createdOn: new Date(),
-    team: people ,
+    createdOn: project && project.createdOn || new Date(),
+    team: people || project.team ,
     objectives: [{
       value: 100,
       color: '#E38627'
@@ -166,7 +164,10 @@ const Edit = ({ projectId, setProjectId, user, projects }) => {
 
   }
 
-  const onDelete = (_docId) => firebase.firestore().collection('projects').doc(_docId).delete()
+  const onDelete = (_docId) => firebase.firestore()
+  .collection('projects')
+  .doc(_docId)
+  .delete()
 .then(() => setProjectId(''))
 .catch(error => {
   setProjectId('')
@@ -181,7 +182,7 @@ const Edit = ({ projectId, setProjectId, user, projects }) => {
   return (
     <Modal
       title={name || "Edit Project"}
-      visible={projectId}
+      visible={!!projectId}
       onCancel={() => {
         setProjectId('')
         setConfirm(false)}}
@@ -246,55 +247,53 @@ const Edit = ({ projectId, setProjectId, user, projects }) => {
             className="input border-gray focus-action-1 color-heading placeholder-heading w-full"
           />
         </div>
-
-
-        <h2
-          className="mt-40 mb-20 small text-center"
-
-        >
-          Add People
-            </h2>
-        <div
-          className="mb-20 input_holder"
-
-        >
-          <input
-            type="email"
-            name="email"
-            placeholder="add invitee email address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="input border-gray focus-action-1 color-heading placeholder-heading w-full"
-          />
-        </div>
-
-        <button
-          type="button"
-          className="link action-1 "
-          onClick={() => addEmail(email)}>
-          Add
-          </button>
-      
-
-        {people.map(person =>
-          <div
-            className="mt-25 f-18 medium color-heading text-center"
-
-          >
-            {person}
-              <button
-              type='button'
-              className="link action-3"
-              onClick={() => removeEmail(person)}>
-                Remove
-              </button>
-          </div>
-        )
-        }
+<AddPeople   
+userEmail={user.email}
+people={people} 
+setPeople={setPeople}   />
       </form>
     </Modal>
   );
 }
 
 Edit.propTypes = propTypes;
-Edit.defaultProps = defaultProps;
+
+export const  AddPeople = ({ userEmail,  people, setPeople}) => {
+
+      const [email, setEmail] = useState('')
+
+      const addEmail = _email => {
+        setPeople([_email, ...people])
+        setEmail('')
+      }
+      const removeEmail = (_email) => {
+      
+        const fileteredTeam = people.filter(email => email !== _email)
+        setPeople(fileteredTeam)
+    
+
+      }
+    
+      return (<>
+
+        <h2 className="mt-40 mb-20 small text-center">
+          Add People
+            </h2>
+        <div className="mb-20 input_holder">
+          <input type="email" name="email" placeholder="add email address" value={email} onChange={e => setEmail(e.target.value)} className="input border-gray focus-action-1 color-heading placeholder-heading w-full" />
+        </div>
+
+        <button type="button" className="link action-1 " onClick={() => addEmail(email)}>
+          Add Person
+          </button>
+      
+
+        {people.map(person => <div className="mt-25 f-18 medium color-heading text-center" key={person}>
+            {person}
+            {person !== userEmail &&
+              <button type='button' className="link action-3" onClick={() => removeEmail(person)}>
+                Remove
+              </button>}
+          </div>)}</>);
+    }
+  Edit.defaultProps = defaultProps;

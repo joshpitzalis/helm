@@ -1,3 +1,9 @@
+import { Avatar } from 'antd';
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import HelmLogo from '../../styles/svg/helmLogo';
+import firebase from '../../utils/firebase';
+
 export const Nav = ({ avatar }) => (
   <nav className="header_menu_15 pt-35 pb-30">
     <div className="container px-xl-0">
@@ -43,9 +49,11 @@ export const Nav = ({ avatar }) => (
     </div>
   </nav>
 );
+
 Nav.propTypes = {
   avatar: PropTypes.string,
 };
+
 Nav.defaultProps = {
   avatar: '',
 };

@@ -5,149 +5,72 @@ import { Redirect } from 'react-router-dom';
 import PieChart from 'react-minimal-pie-chart';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
 import firebase from '../utils/firebase'
 import { toast$ } from '../features/toast/toast.jsx';
-import { Timeline, Icon } from 'antd';
+import { Timeline, Icon, Popover, Button  } from 'antd';
+import { Sparklines, SparklinesLine } from 'react-sparklines';
+import { Avatar } from 'antd';
 
+const Project = ({ user, projects, match }) => {
 
-const Project = ({ user, project }) => {
+  const {params: {projectId}} = match
+  const [project , setProject] = useState({})
+  
 
-  const [projectId, setProjectId] = useState('')
-
-
-
+  useEffect(() => setProject(projects.find(item => item.id === projectId)), [projects])
 
   // if (!user) {
   //   return <Redirect to="/" />;
   // }
 
+  const content = (
+	<div>
+	  <p>Content</p>
+	  <p>Content</p>
+	</div>
+  );
+
+  
+
   return (
     
-< div className='flex'>
-
-  < div className='flex-grow-1'>
+<div className='flex flex-column items-center'>
+<TopTimeline     />
+<div className='flex-grow-1'>
 <section className="pricing_table_5 bg-light pt-105 pb-100 text-center ma3">
 	<div className="container px-xl-0">
-		<div className="row justify-content-center">
+		<div className="row justify-content-center  ">
 			<div className="col-xl-6 col-lg-8 col-md-10">
-				<h2 className="small" data-aos-duration="600" data-aos="fade-down" data-aos-delay="0">Simple &amp; flexible pricing built for everyone</h2>
+				<h2 className="small" data-aos-duration="600" data-aos="fade-down" data-aos-delay="0">{project && project.name}</h2>
 				<div className="mt-20 mb-65 color-heading text-adaptive" data-aos-duration="600" data-aos="fade-down" data-aos-delay="300">
-					Start with 14-day free trial. No credit card needed. Cancel at anytime.
+				{project && project.avatars && project.avatars.map(({photo, email}) => 
+           
+            <img key={email} src={photo} className="br-100 h3 w3 dib ba bw2 b--white" alt={email} />
+          )}
 				</div>
+				<div className="col-lg-7">
+            
+            </div>
 			</div>
 		</div>
-		<div className="flex wrap">
-      < div className='flex flex-column col-lg-4 '>
-			<div className=" d-flex align-items-stretch order-0 order-lg-0" data-aos-duration="600" data-aos="fade-down" data-aos-delay="0">
-				<div className="mw-370 w-full mx-auto radius10 pt-35 pb-40 block">
-					<div className="mb-35 f-14 semibold text-uppercase sp-20 title">Start</div>
-					<div className="d-flex justify-content-center align-items-center">
-						<div className="f-58 relative flex-shrink-0 price">
-							<span className="absolute f-16">$</span>
-							<b>19</b>
-						</div>
-						<div className="ml-15 text-left">per user<br />per month</div>
-					</div>
-					<div className="mt-25 mx-auto mw-260 color-heading text-adaptive">
-						All the features you need to 
-						keep your personal files safe, 
-						accessible, and easy to share.
-					</div>
-				</div>
-			</div>
-			
-      <div className="mt-35 mb-70 mb-lg-0  order-1 order-lg-0" data-aos-duration="600" data-aos="fade-down" data-aos-delay="0">
-				<div className="row justify-content-center">
-					<div className="col-auto text-left color-heading">
-						<ul className="px-0">
-							<li className="mb-10">2 GB of hosting space</li>
-							<li className="mb-10">14 days of free backups</li>
-							<li className="mb-10 color-gray disabled">Social integrations</li>
-							<li className="mb-10 color-gray disabled">Advanced client billing</li>
-						</ul>
-					</div>
-					<div className="col-12">
-						<a href="#" className="mt-15 btn border-gray color-main">Start Free Trial</a>
-					</div>
-				</div>
-			</div>
-			</div>
-    
+		<div className="flex wrap justify-around items-start">
+      
 
-      < div className='flex flex-column col-lg-4 '>
-			<div className=" d-flex align-items-stretch order-0 order-lg-0" data-aos-duration="600" data-aos="fade-down" data-aos-delay="0">
-				<div className="mw-370 w-full mx-auto radius10 pt-35 pb-40 block">
-					<div className="mb-35 f-14 semibold text-uppercase sp-20 title">Start</div>
-					<div className="d-flex justify-content-center align-items-center">
-						<div className="f-58 relative flex-shrink-0 price">
-							<span className="absolute f-16">$</span>
-							<b>19</b>
-						</div>
-						<div className="ml-15 text-left">per user<br />per month</div>
-					</div>
-					<div className="mt-25 mx-auto mw-260 color-heading text-adaptive">
-						All the features you need to 
-						keep your personal files safe, 
-						accessible, and easy to share.
-					</div>
-				</div>
-			</div>
-			
-      <div className="mt-35 mb-70 mb-lg-0  order-1 order-lg-0" data-aos-duration="600" data-aos="fade-down" data-aos-delay="0">
-				<div className="row justify-content-center">
-					<div className="col-auto text-left color-heading">
-						<ul className="px-0">
-							<li className="mb-10">2 GB of hosting space</li>
-							<li className="mb-10">14 days of free backups</li>
-							<li className="mb-10 color-gray disabled">Social integrations</li>
-							<li className="mb-10 color-gray disabled">Advanced client billing</li>
-						</ul>
-					</div>
-					<div className="col-12">
-						<a href="#" className="mt-15 btn border-gray color-main">Start Free Trial</a>
-					</div>
-				</div>
-			</div>
-			</div>
+     <PrimaryObjective user={user} />
 
+	 <button className="link mb-40 col-md-6 col-lg-4 d-flex align-items-baseline mt6 pt4  pointer" data-aos-duration="600" data-aos="fade-down" data-aos-delay="300">
+				<div className="ml-15 w-30 mr-15 flex-shrink-0 text-lg-center icon">
+					<i className="fas fa-plus color-heading f-18"></i>				
+				</div>
+				<div className="inner">
+					<div className="mb-20 f-14 semibold text-uppercase sp-20 title">Add a primary Objective</div>
+					
+				</div>
+	</button>
 
-      < div className='flex flex-column col-lg-4 '>
-			<div className=" d-flex align-items-stretch order-0 order-lg-0" data-aos-duration="600" data-aos="fade-down" data-aos-delay="0">
-				<div className="mw-370 w-full mx-auto radius10 pt-35 pb-40 block">
-					<div className="mb-35 f-14 semibold text-uppercase sp-20 title">Start</div>
-					<div className="d-flex justify-content-center align-items-center">
-						<div className="f-58 relative flex-shrink-0 price">
-							<span className="absolute f-16">$</span>
-							<b>19</b>
-						</div>
-						<div className="ml-15 text-left">per user<br />per month</div>
-					</div>
-					<div className="mt-25 mx-auto mw-260 color-heading text-adaptive">
-						All the features you need to 
-						keep your personal files safe, 
-						accessible, and easy to share.
-					</div>
-				</div>
 			</div>
-			
-      <div className="mt-35 mb-70 mb-lg-0  order-1 order-lg-0" data-aos-duration="600" data-aos="fade-down" data-aos-delay="0">
-				<div className="row justify-content-center">
-					<div className="col-auto text-left color-heading">
-						<ul className="px-0">
-							<li className="mb-10">2 GB of hosting space</li>
-							<li className="mb-10">14 days of free backups</li>
-							<li className="mb-10 color-gray disabled">Social integrations</li>
-							<li className="mb-10 color-gray disabled">Advanced client billing</li>
-						</ul>
-					</div>
-					<div className="col-12">
-						<a href="#" className="mt-15 btn border-gray color-main">Start Free Trial</a>
-					</div>
-				</div>
-			</div>
-			</div>
-    </div>
+     
+	
 	</div>
 </section>
 
@@ -155,99 +78,224 @@ const Project = ({ user, project }) => {
 
 <section className="feature_8 bg-light pt-105 pb-30">
 	<div className="container px-xl-0">
-		<h2 className="mb-50 small text-lg-center" data-aos-duration="600" data-aos="fade-down" data-aos-delay="0">A Lot of Features</h2>
+		<h2 className="mb-50 small text-lg-center" data-aos-duration="600" data-aos="fade-down" data-aos-delay="0">Product Objectives</h2>
 		<div className="row">
 			<div className="mb-40 col-md-6 col-lg-4 d-flex align-items-baseline" data-aos-duration="600" data-aos="fade-down" data-aos-delay="300">
 				<div className="ml-15 w-30 mr-15 flex-shrink-0 text-lg-center icon">
-					<i className="fas fa-code color-heading f-18"></i>				</div>
+				<Avatar src={user.photoURL} size="large" />			</div>
 				<div className="inner">
-					<div className="mb-20 f-14 semibold text-uppercase sp-20 title">Based on Bootstrap 3</div>
+					<div className="mb-20 f-14 semibold text-uppercase sp-20 title">Some objective</div>
 					<div className="color-heading op-7 text-adaptive">
-						HTML layout is based on one of the 
-						most common and reliable <br />
-						framework - Bootstrap.					</div>
+					Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500					
+						</div>
+						<ul className="px-0 color-heading mt4">
+							<li className="mb4">
+								<div>
+								<p className="dib strike mb0"> mini achivement </p>
+									<div className='mt0 pt0'>
+											<Avatar src={user.photoURL} size="small" className=' dib mb0' /> <time className="f7 fw4 mb4 ml2 o-30">2 days ago</time>
+									</div>
+									
+								</div>
+							</li>
+							</ul>
 				</div>
 			</div>
 			<div className="mb-40 col-md-6 col-lg-4 d-flex align-items-baseline" data-aos-duration="600" data-aos="fade-down" data-aos-delay="600">
 				<div className="ml-15 w-30 mr-15 flex-shrink-0 text-lg-center icon">
-					<i className="fab fa-html5 color-heading f-18"></i>				</div>
+				<Avatar src={user.photoURL} size="large" />				</div>
 				<div className="inner">
-					<div className="mb-20 f-14 semibold text-uppercase sp-20 title">HTML5, CSS3, LESS</div>
-					<div className="color-heading op-7 text-adaptive">
-						We used only time-tested <br />
-						technologies for the best results.					</div>
+					<div className="mb-20 f-14 semibold text-uppercase sp-20 title">some objective</div>
+				
+
+					<div className="  op-7 text-adaptive flex mt4 pt3 ">
+				
+
+		<p className="f2 f-subheadline-l fw6">56</p>
+		<div className='ml3'><Sparklines data={[1, 2, 3]}>
+		  <SparklinesLine style={{
+                  fill: 'none'
+                }} />
+		</Sparklines>
+<p>things</p>
+		</div>
+		</div>
+		
+		
+	 			
 				</div>
 			</div>
 			<div className="mb-40 col-md-6 col-lg-4 d-flex align-items-baseline" data-aos-duration="600" data-aos="fade-down" data-aos-delay="900">
 				<div className="ml-15 w-30 mr-15 flex-shrink-0 text-lg-center icon">
-					<i className="fas fa-cogs color-heading f-18"></i>				</div>
+				<Avatar src={user.photoURL} size="large" />					</div>
 				<div className="inner">
-					<div className="mb-20 f-14 semibold text-uppercase sp-20 title">Many Components</div>
+					<div className="mb-20 f-14 semibold text-uppercase sp-20 title">some objective</div>
 					<div className="color-heading op-7 text-adaptive">
-						There are a lot of different <br />
-						components that will help you <br />
-						create the perfect look and feel for 
-						your startup.					</div>
+					Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.					</div>
 				</div>
 			</div>
 			<div className="mb-40 col-md-6 col-lg-4 d-flex align-items-baseline" data-aos-duration="600" data-aos="fade-down" data-aos-delay="300">
 				<div className="ml-15 w-30 mr-15 flex-shrink-0 text-lg-center icon">
-					<i className="fas fa-building color-heading f-18"></i>				</div>
+				<Avatar src={user.photoURL} size="large" />				</div>
 				<div className="inner">
-					<div className="mb-20 f-14 semibold text-uppercase sp-20 title">Block Model</div>
+					<div className="mb-20 f-14 semibold text-uppercase sp-20 title">Some objective</div>
 					<div className="color-heading op-7 text-adaptive">
-						You can easily combine components 
-						in a variety ways for different design 
-						projects. It's easy!					</div>
+					Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.					</div>
 				</div>
 			</div>
 			<div className="mb-40 col-md-6 col-lg-4 d-flex align-items-baseline" data-aos-duration="600" data-aos="fade-down" data-aos-delay="600">
 				<div className="ml-15 w-30 mr-15 flex-shrink-0 text-lg-center icon">
-					<i className="far fa-calendar-check color-heading f-18"></i>				</div>
+				<Avatar src={user.photoURL} size="large" />					</div>
 				<div className="inner">
-					<div className="mb-20 f-14 semibold text-uppercase sp-20 title">Save Time</div>
+					<div className="mb-20 f-14 semibold text-uppercase sp-20 title">Some Objective</div>
 					<div className="color-heading op-7 text-adaptive">
-						Take a break from the routine and 
-						spend your time brainstorming <br />
-						ideas for your business, not your 
-						website.					</div>
+					Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.					</div>
 				</div>
 			</div>
-			<div className="mb-40 col-md-6 col-lg-4 d-flex align-items-baseline" data-aos-duration="600" data-aos="fade-down" data-aos-delay="900">
+			<button className="link mb-40 col-md-6 col-lg-4 d-flex align-items-start   pointer" data-aos-duration="600" data-aos="fade-down" data-aos-delay="300">
 				<div className="ml-15 w-30 mr-15 flex-shrink-0 text-lg-center icon">
-					<i className="fas fa-dollar-sign color-heading f-18"></i>				</div>
-				<div className="inner">
-					<div className="mb-20 f-14 semibold text-uppercase sp-20 title">Save Money</div>
-					<div className="color-heading op-7 text-adaptive">
-						Startups can save money on design 
-						and code and use those savings to 
-						develop the business.					</div>
+					<i className="fas fa-plus color-heading f-18"></i>				
 				</div>
-			</div>
+				<div className="inner">
+					<div className="mb-20 f-14 semibold text-uppercase sp-20 title">Add an Objective</div>
+					
+				</div>
+	</button>
 		</div>
 	</div>
 </section>
+
+<button className="link mb-40 col-md-6 col-lg-4 d-flex align-items-start  mt5  pointer" data-aos-duration="600" data-aos="fade-down" data-aos-delay="300">
+				<div className="ml-15 w-30 mr-15 flex-shrink-0 text-lg-center icon">
+					<i className="fas fa-plus color-heading f-18"></i>				
+				</div>
+				<div className="inner">
+					<div className="mb-20 f-14 semibold text-uppercase sp-20 title">Create a new group</div>
+					
+				</div>
+	</button>
+
 </div>
 
-<div className='w5 ma3 pt-105'>
-  <Timeline mode="alternate" >
-    <Timeline.Item>Create a services site 2015-09-01</Timeline.Item>
-    <Timeline.Item color="green">Solve initial network problems 2015-09-01</Timeline.Item>
-    <Timeline.Item dot={<Icon type="clock-circle-o" style={{ fontSize: '16px' }} />}>
-      Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-      laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto
-      beatae vitae dicta sunt explicabo.
-    </Timeline.Item>
-    <Timeline.Item color="red">Network problems being solved 2015-09-01</Timeline.Item>
-    <Timeline.Item>Create a services site 2015-09-01</Timeline.Item>
-    <Timeline.Item dot={<Icon type="clock-circle-o" style={{ fontSize: '16px' }} />}>
-      Technical testing 2015-09-01
-    </Timeline.Item>
-  </Timeline>
-  </div>
 </div>
 
   )
 }
 
-export default Project;
+
+    const  TopTimeline = ({}) => {
+      return (
+	  <div className='h5 '>
+  <div className=' pa3 rotate90 relative overflow-scroll' style={{
+    bottom: '22rem',
+    right: '30rem',
+    height: '150vh'
+  }}>
+  <Timeline mode="alternate" style={{
+      fontSize: '16px'
+    }}>
+    <Timeline.Item className='w5 ' color='gray' position='right'> 
+	<Popover content={'content'} title="lll">
+    <span>thingy</span>	
+  </Popover>
+  </Timeline.Item>
+    
+         <Timeline.Item color="gray" className=''>Solve  </Timeline.Item> 
+       
+    <Timeline.Item className='w5 ' color='green' position='left' dot={<Icon type="check-circle" />}>
+	Solve 
+    </Timeline.Item>
+
+	<Timeline.Item className='w5 ' color='gray' position='right'> 
+	<Popover content={'content'} title="lll">
+    <span>thingy</span>	
+  </Popover>
+  </Timeline.Item>
+    
+         <Timeline.Item color="gray" className=''>Solve  </Timeline.Item> 
+      
+    <Timeline.Item className='w5 ' color='green' position='left' dot={<Icon type="check-circle" />}>
+	Solve 
+    </Timeline.Item>
+ 
+
+	<Timeline.Item className='w5 ' color='gray' position='right'> 
+	<Popover content={'content'} title="lll">
+    <span>thingy</span>	
+  </Popover>
+  </Timeline.Item>
+    
+         <Timeline.Item color="gray" className=''>Solve  </Timeline.Item> 
+      
+    <Timeline.Item className='w5 ' color='green' position='left' dot={<Icon type="check-circle" />}>
+	Solve 
+    </Timeline.Item>
+  
+ 
+  </Timeline>
+  </div>
+  </div>);
+    }
+  export default Project;
+
+
+
+    function PrimaryObjective({user}) {
+      return (<div className='flex flex-column col-lg-4 '>
+			<div className=" d-flex align-items-between order-0 order-lg-0" data-aos-duration="600" data-aos="fade-down" data-aos-delay="0">
+				<div className="mw-370 w-full mx-auto radius10 pt-35 pb-40 block">
+					<div className=" f-14 semibold text-uppercase sp-20 title">
+					<Avatar src={user.photoURL} size="large" />
+					</div>
+					
+					<div className="d-flex justify-content-center align-items-center">
+					
+		
+		<div className="f-58 relative flex-shrink-0 price">
+		
+	<section className="w-100 tc center" data-name="slab-stat-small">
+	  <div className="db dib-l w-auto-l mr6-l mt3">
+	  <Sparklines data={[1, 2, 3]}>
+		  <SparklinesLine style={{
+                  fill: 'none'
+                }} />
+		</Sparklines>
+		<p className="f2 f-subheadline-l fw6 ml0">56</p>
+		
+	  </div>
+	</section>
+						</div>
+						
+						<div className="ml-15 text-left w4">this is teh name of teh task at hand</div>
+					</div>
+					
+					<div className=" f-14 semibold text-uppercase sp-20 title"> 6 days left </div>
+					<time className="f7 fw4 mb4 o-30">26th August 2019</time>
+					
+				</div>
+			</div>
+			
+      <div className="mt-35 mb-70 mb-lg-0  order-1 order-lg-0" data-aos-duration="600" data-aos="fade-down" data-aos-delay="0">
+				<div className="row justify-content-center">
+					<div className="col-auto text-left color-heading">
+						<ul className="px-0">
+							<li className="mb4">
+								<div>
+								<p className="dib strike mb0">2 GB of hosting space </p>
+									<div className='mt0 pt0'>
+											<Avatar src={user.photoURL} size="small" className='mr3 dib mb0' /> <time className="f7 fw4 mb4 o-30">2 days ago</time>
+									</div>
+									
+								</div>
+							</li>
+							
+						</ul>
+					</div>
+					{/* <div className="col-12">
+						<a href="#" className="mt-15 btn border-gray color-main">Add an update</a>
+					</div> */}
+				</div>
+			</div>
+			</div>);
+    }
+  

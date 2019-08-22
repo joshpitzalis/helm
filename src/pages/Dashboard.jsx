@@ -1,5 +1,5 @@
 /* eslint-disable */
-import {  format } from 'date-fns'
+import { format } from 'date-fns'
 import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import PieChart from 'react-minimal-pie-chart';
@@ -12,7 +12,6 @@ import { toast$ } from '../features/toast/toast.jsx';
 const Dashboard = ({ user, projects }) => {
 
   const [projectId, setProjectId] = useState('')
-
 
   if (!user) {
     return <Redirect to="/" />;
@@ -28,29 +27,21 @@ const Dashboard = ({ user, projects }) => {
           <div className="mt-20 col-xl-8 col-lg-9 products">
             <div className="row">
               {projects.map(project => (
-                <Project {...project} 
-               key={project.id}
+                <Project 
+                {...project} 
+                key={project.id}
                 setProjectId={setProjectId} />
               ))}
-
-
-
               {/* <p className="color-heading f-14 semibold text-uppercase sp-20 total center w-100 tc measure">
                 See Archived Projects 
               </p> */}
-
-
             </div>
           </div>
         </div>
       </div>
-
-
       <div className="flex justify-center mv6">
         <a className="self-center mt-15 btn action-1 lg border-transparent-white " style={{ color: 'white' }}
-          onClick={() => setProjectId('temp')}
-
-        >
+          onClick={() => setProjectId('temp')}>
           <span className='o-90'> + Create A New Project </span>
         </a>
       </div>
@@ -63,8 +54,6 @@ export default Dashboard;
 
 
 const Project = ({ id, name, objectives, createdOn, avatars, setProjectId, }) => {
- 
-  
   return (
     <div className='flex items-start'>
     <Link to={`/project/${id}`} className="dark-blue pb3 mb-30 mx-auto col-md-12 d-flex flex-wrap align-items-stretch justify-content-between product pointer ">
@@ -267,27 +256,21 @@ export const  AddPeople = ({ userEmail,  people, setPeople}) => {
         setEmail('')
       }
       const removeEmail = (_email) => {
-      
         const fileteredTeam = people.filter(email => email !== _email)
         setPeople(fileteredTeam)
-    
-
       }
     
-      return (<>
-
+      return (
+      <>
         <h2 className="mt-40 mb-20 small text-center">
           Add People
             </h2>
         <div className="mb-20 input_holder">
           <input type="email" name="email" placeholder="add email address" value={email} onChange={e => setEmail(e.target.value)} className="input border-gray focus-action-1 color-heading placeholder-heading w-full" />
         </div>
-
         <button type="button" className="link action-1 " onClick={() => addEmail(email)}>
           Add Person
-          </button>
-      
-
+        </button>
         {people.map(person => <div className="mt-25 f-18 medium color-heading text-center" key={person}>
             {person}
             {person !== userEmail &&

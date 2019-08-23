@@ -32,7 +32,6 @@ const Banner = () => {
   const [message, clear, type] = useNotification(toast$);
 
   // type === 'SUCCESS' && type === 'ERROR'
-  console.log({ message });
 
   return (
     <>

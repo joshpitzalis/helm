@@ -13,7 +13,7 @@ export const Footer = () => (
           <div className="text-adaptive">
             Helping small teams understand their objectives.
           </div>
-          <small className="o-50">Version 0.0.3</small>
+          <small className="o-50">Version 0.0.4</small>
           {/* <div className="mt-35 socials">
            <a href="#" className="f-18 link color-white mr-15">
              <i className="fab fa-twitter"></i>

@@ -170,7 +170,7 @@ console.log({ people , project: project && project.team, docId });
  
   return (
     <Modal
-      title={name || "Edit Project"}
+      title={name || "Create Project"}
       visible={!!projectId}
       onCancel={() => {
         setProjectId('')

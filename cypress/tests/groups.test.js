@@ -8,6 +8,12 @@ describe('metric objectives', () => {
   const fakeObjectiveName3 = lorem.words();
   const fakeObjectiveDescription = lorem.sentence();
 
+  it.only('lets me create a group', () => {
+    cy.visit('/')
+    .login()
+    .getByTestId('dashboardPage')
+  })
+
   it('Create a primary metric objective', () => {
     cy.visit('/')
       .login()

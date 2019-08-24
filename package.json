@@ -29,12 +29,14 @@
     "grommet-icons": "^4.3.0",
     "html-webpack-plugin": "4.0.0-beta.5",
     "identity-obj-proxy": "3.0.0",
+    "immer": "^3.2.0",
     "is-wsl": "^1.1.0",
     "jest": "24.8.0",
     "jest-environment-jsdom-fourteen": "0.1.0",
     "jest-resolve": "24.8.0",
     "jest-watch-typeahead": "0.3.1",
     "mini-css-extract-plugin": "0.5.0",
+    "moment": "^2.24.0",
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "pnp-webpack-plugin": "1.5.0",
     "postcss-flexbugs-fixes": "4.1.0",
@@ -80,7 +82,13 @@
   "eslintConfig": {
     "extends": [
       "wesbos"
-    ]
+    ],
+    "plugins": [
+      "eslint-plugin-cypress"
+    ],
+    "env": {
+      "cypress/globals": true
+    }
   },
   "browserslist": {
     "production": [
@@ -105,6 +113,7 @@
     "eslint-config-airbnb": "^17.1.1",
     "eslint-config-prettier": "^4.3.0",
     "eslint-config-wesbos": "0.0.19",
+    "eslint-plugin-cypress": "^2.6.1",
     "eslint-plugin-html": "^5.0.5",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",

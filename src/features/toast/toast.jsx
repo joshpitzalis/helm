@@ -32,7 +32,6 @@ const Banner = () => {
   const [message, clear, type] = useNotification(toast$);
 
   // type === 'SUCCESS' && type === 'ERROR'
-  console.log({ message });
 
   return (
     <>
@@ -63,15 +62,15 @@ const Banner = () => {
                   onClick={() => clear()}
                   className="mt-30 mt-lg-0 btn lg border-transparent-white mr-30"
                 >
-                  Learn More
+                  Close
                 </button>
-                <button
+                {/* <button
                   type="button"
                   onClick={() => clear()}
                   className="mt-30 mt-lg-0  btn lg action-3"
                 >
                   Close
-                </button>
+                </button> */}
               </div>
             </div>
           </div>

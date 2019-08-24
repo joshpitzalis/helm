@@ -137,6 +137,7 @@ console.log({ people , project: project && project.team, docId });
       value: 100,
       color: '#E38627'
     }],
+    groups: [],
     avatars:[{
       email: user.email,  photo: user.photoURL
     }]

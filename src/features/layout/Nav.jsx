@@ -1,18 +1,19 @@
 import { Avatar } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import HelmLogo from '../../styles/svg/helmLogo';
 import firebase from '../../utils/firebase';
 
-export const Nav = ({ avatar }) => (
+export const Nav = ({ avatar, uid }) => (
   <nav className="header_menu_15 pt-35 pb-30">
     <div className="container px-xl-0">
       <div className="row justify-content-center">
         <div className="col-xl-10">
           <div className="row justify-content-between align-items-baseline">
-            <div className="col-xl-3 logo">
+            <Link to={`/dashboard/${uid}`} className="col-xl-3 logo">
               <HelmLogo /> Helm
-            </div>
+            </Link>
             {/* {avatar && (
              <div className="col-xl-6 d-flex justify-content-center align-items-baseline medium">
                <Link to="/" className="mx-15 link color-heading underline ">
@@ -51,12 +52,11 @@ export const Nav = ({ avatar }) => (
 );
 
 Nav.propTypes = {
-  avatar: PropTypes.string,
+  avatar: PropTypes.string.isRequired,
+  uid: PropTypes.string.isRequired,
 };
 
-Nav.defaultProps = {
-  avatar: '',
-};
+Nav.defaultProps = {};
 
 // mobile navigation
 

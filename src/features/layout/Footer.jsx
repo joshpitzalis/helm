@@ -11,9 +11,10 @@ export const Footer = () => (
             <HelmLogo color="white" /> Helm
           </a>
           <div className="text-adaptive">
-            Helping small teams understand their objectives.
+            {/* Helping small teams understand their objectives. */}
+            Everyone on the team <br /> on the same page.
           </div>
-          <small className="o-50">Version 0.0.4</small>
+          <small className="o-50">Version 0.0.6</small>
           {/* <div className="mt-35 socials">
            <a href="#" className="f-18 link color-white mr-15">
              <i className="fab fa-twitter"></i>

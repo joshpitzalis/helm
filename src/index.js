@@ -20,32 +20,33 @@ const App = () => {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    const unsubscribe = firebase
-      .firestore()
-      .collection('projects')
-      .where('team', 'array-contains', user && user.email)
-      .onSnapshot(
-        collection => {
-          const _projects = collection.docs.map(doc => doc.data());
-          setProjects(_projects);
-        },
-        error => {
-          const message = error.message || error;
+    if (user && user.email) {
+      const unsubscribe = firebase
+        .firestore()
+        .collection('projects')
+        .where('team', 'array-contains', user && user.email)
+        .onSnapshot(
+          collection => {
+            const _projects = collection.docs.map(doc => doc.data());
+            setProjects(_projects);
+          },
+          error => {
+            const message = error.message || error;
+            toast$.next({
+              type: 'ERROR',
+              message,
+            });
+          }
+        );
 
-          toast$.next({
-            type: 'ERROR',
-            message,
-          });
-        }
-      );
-
-    return () => unsubscribe();
+      return () => unsubscribe();
+    }
   }, [user]);
 
   return (
     <BrowserRouter>
       <div>
-        <Nav avatar={user && user.photoURL} />
+        <Nav avatar={user && user.photoURL} uid={user && user.uid} />
         <Banner />
         <Switch>
           <Route

@@ -78,7 +78,13 @@ const Groups = ({ user, id, name, projectId, objectives }) => {
 
         <div className="row flex justify-around">
           {objectives &&
-            objectives.map(_objective => <SubObjectives {..._objective} />)}
+            objectives.map(_objective => (
+              <SubObjectives
+                objective={_objective}
+                setObjective={setObjective}
+                setVisibility={setVisibility}
+              />
+            ))}
 
           <button
             type="button"
@@ -103,11 +109,24 @@ export default Groups;
 Groups.propTypes = propTypes;
 Groups.defaultProps = defaultProps;
 
-const SubObjectives = ({ type, lead, title, count, description, updates }) => {
+const SubObjectives = ({ objective, setObjective, setVisibility }) => {
+  const { type, lead, title, count, description, updates, id } = objective;
   if (type === 'metric') {
     return (
       <div
-        className="mb-40 col-md-6 col-lg-4 d-flex align-items-baseline"
+        data-testid={title}
+        key={id}
+        onClick={() => {
+          setObjective(objective);
+          setVisibility(true);
+        }}
+        onKeyDown={() => {
+          setObjective(objective);
+          setVisibility(true);
+        }}
+        tabIndex={-1}
+        role="button"
+        className="pointer grow mb-40 col-md-6 col-lg-4 d-flex align-items-baseline"
         data-aos-duration="600"
         data-aos="fade-down"
         data-aos-delay="600"
@@ -132,30 +151,30 @@ const SubObjectives = ({ type, lead, title, count, description, updates }) => {
               </Sparklines>
               <p>{description}</p>
             </div>
-            <ul className="px-0 color-heading mt4">
-              <li className="mb4">
-                <div>
-                  <p className="dib strike mb0">{updates[0].update} </p>
-                  <div className="mt0 pt0">
-                    <Avatar
-                      src={updates[0].photo}
-                      size="small"
-                      className="mr3 dib mb0"
-                    />{' '}
-                    <time className="f7 fw4 mb4 o-30">
-                      {updates[0].date &&
-                        formatDistanceToNow(
-                          fromUnixTime(updates[0].date.seconds),
-                          {
-                            addSuffix: true,
-                          }
-                        )}
-                    </time>
-                  </div>
-                </div>
-              </li>
-            </ul>
           </div>
+          <ul className="px-0 color-heading mt4">
+            <li className="mb4">
+              <div>
+                <p className="dib strike mb0">{updates[0].update} </p>
+                <div className="mt0 pt0">
+                  <Avatar
+                    src={updates[0].photo}
+                    size="small"
+                    className="mr3 dib mb0"
+                  />{' '}
+                  <time className="f7 fw4 mb4 o-30">
+                    {updates[0].date &&
+                      formatDistanceToNow(
+                        fromUnixTime(updates[0].date.seconds),
+                        {
+                          addSuffix: true,
+                        }
+                      )}
+                  </time>
+                </div>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     );
@@ -164,6 +183,18 @@ const SubObjectives = ({ type, lead, title, count, description, updates }) => {
   if (type === 'milestone') {
     return (
       <div
+        data-testid={title}
+        key={id}
+        onClick={() => {
+          setObjective(objective);
+          setVisibility(true);
+        }}
+        onKeyDown={() => {
+          setObjective(objective);
+          setVisibility(true);
+        }}
+        tabIndex={-1}
+        role="button"
         className="mb-40 col-md-6 col-lg-4 d-flex align-items-baseline"
         data-aos-duration="600"
         data-aos="fade-down"
@@ -177,6 +208,7 @@ const SubObjectives = ({ type, lead, title, count, description, updates }) => {
             {title}
           </div>
           <div className="color-heading op-7 text-adaptive">{description}</div>
+
           <ul className="px-0 color-heading mt4">
             <li className="mb4">
               <div>

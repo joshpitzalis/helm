@@ -150,14 +150,17 @@ export const ObjectiveModal = ({ projectId, setVisibility, visible, user, object
   
 
   useEffect(() => {
-    if (group){
-      dispatch({ type: 'GROUPED', payload: group })
-      return
-    }
+    
     if (Object.keys(objective).length){
     dispatch({ type: 'HYDRATED', payload: objective })
     return
-  }}, [objective])
+  }
+  
+  if (group){
+    dispatch({ type: 'GROUPED', payload: group })
+    return
+  }
+}, [objective])
 
   const [state, dispatch] = useReducer(curriedReducer, initialState);
 

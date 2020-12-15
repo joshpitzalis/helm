@@ -10,9 +10,9 @@ describe('metric objectives', () => {
 
   it.only('lets me create a group', () => {
     cy.visit('/')
-    .login()
-    .getByTestId('dashboardPage')
-  })
+      .login()
+      .getByTestId('dashboardPage');
+  });
 
   it('Create a primary metric objective', () => {
     cy.visit('/')

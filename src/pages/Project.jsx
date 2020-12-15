@@ -1,15 +1,29 @@
 /* eslint-disable */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import firebase from '../utils/firebase'
 import { toast$ } from '../features/toast/toast.jsx';
 import ObjectiveModal from '../features/objectives/ObjectiveModal';
-import Timeline from "../features/objectives/Timeline";
 import Groups from '../features/objectives/Groups';
-import { Tooltip, Icon, Input } from 'antd';
+import { Input } from 'antd';
 import PrimaryObjective from '../features/objectives/Objective'
+import { AddNewMetric } from './AddNewMetric';
+// import SvelteModal from 'svelteModal'
+
 
 const Project = ({ user, projects, match }) => {
+
+	// const svelteModalRef = useRef()
+
+	// useEffect(() => {
+	// 	const svelteModal = new SvelteModal({
+	// 		target: svelteModalRef.current
+	// 	})
+
+	// 	return () => {
+	// 		svelteModal.$destroy()
+	// 	}
+	// }, [])
 
 	const { params: { projectId } } = match
 
@@ -50,12 +64,8 @@ const Project = ({ user, projects, match }) => {
 	return (
 
 		<div className='flex flex-column items-stretch' data-testid='projectPage'>
-			{objectives && objectives.length > 2 &&
-				<section className='call_to_action_13 pt-100 pb-100 color-white flex justify-center text-center text-lg-left bg-dark'>
-					<Timeline objectives={objectives} />
-				</section>
-			}
-
+			
+{/* <div ref={svelteModalRef}></div> */}
 			<ObjectiveModal
 				projectId={projectId}
 				user={user}
@@ -83,7 +93,9 @@ const Project = ({ user, projects, match }) => {
 								</div>
 							</div>
 						</header>
-						<div className="flex wrap justify-around items-start" data-testid='primaryObjectives'>
+				
+						<div className="flex flex-wrap justify-around items-start" data-testid='primaryObjectives'>
+
 							{objectives && objectives
 								.filter(item => item.group === 'primary' && item.complete === false )
 								.sort((a, b) => {
@@ -103,42 +115,15 @@ const Project = ({ user, projects, match }) => {
 									/>
 								)}
 
-							{objectives && objectives.filter(item => item.group === 'primary' && item.complete === false ).length < 3 &&
-								<div className="link mb-40 col-md-6 col-lg-4 d-flex align-items-baseline mt6 pt4  pointer" data-aos-duration="600" data-aos="fade-down" data-aos-delay="300">
-									<div className="ml-15 w-30 mr-15 flex-shrink-0 text-lg-center icon ">
-										<i className="fas fa-plus color-heading f-18 dn"></i>
-									</div>
-									<div className="inner flex items-start">
-										<button className="link mb-20 f-14 semibold text-uppercase sp-20 title underline" type='button' onClick={() => setVisibility(true)}>+ Add a primary Objective</button>
-										{objectives && objectives.length === 0 &&
+			
+								<AddNewMetric   setVisibility={setVisibility} objectives={objectives}  />
 
-
-											<Tooltip className='o-50 mt1 ml3'
-												title={() => <p>It's time to go have that conversation. We've drafted an email that you can send to everyone that needs to make this decision, you can use it as a starting point and tweak it as necessary.
-														  <a href='#'> {' '}Check it out here.</a>
-												</p>}>
-												<Icon type="info-circle" />
-											</Tooltip>
-
-										}
-									</div>
-								</div>}
+								</div>
 
 
 						</div>
-					</div>
+		
 				</section>
-
-				{objectives && objectives.filter(item => item.group === 'primary').length &&
-					<>
-					{project && project.groups && project.groups.map(group => <Groups user={user} {...group} projectId={project && project.id}
-					objectives={objectives && objectives
-						.filter(item => item.group === group.id && item.complete === false )}/>)
-					}
-
-						<CreateGroup 
-						projectId={project && project.id}   />
-					</>}
 			</div>
 
 		</div>
@@ -152,60 +137,3 @@ export default Project;
 
 // firestore.FieldValue.arrayRemove('east_coast')
 
-    function CreateGroup({projectId}) {
-		const [groupName, setGroupName] = useState('')
-		const [group, setGroup] = useState(false)
-
-		const onSubmit = groupName =>
-			firebase
-      .firestore()
-      .collection(`projects`)
-      .doc(projectId)
-      .set({
-        groups: firebase.firestore.FieldValue.arrayUnion({
-			id: +new Date(),
-			name: groupName,
-		})
-
-      },{merge: true})
-      .then(() =>
-
-	  setGroup(false)
-      )
-      .catch(error => {
-
-        const message = error.message || error;
-        toast$.next({
-          type: 'ERROR',
-          message,
-        });
-		setGroup(false)
-      });
-		
-      return (<>
-	  {group ? 
-	  <div className='flex flex-column items-center justify-center ma4'>
-		  			
-		  <Input.Search
-			  className='center'
-			  enterButton="Create New Group"
-      size="large"
-			placeholder="Name your group"
-			onSearch={value => onSubmit(value)}
-			style={{ width: 500 }}/>
-			<button className='link action-3 ma3' onClick={() => setGroup(false)}>Nevermind</button>
-
-	  </div>	
-	   : 
-	  <button className="link mb-40 col-md-6 col-lg-4 d-flex align-items-start justify-center  mt5  pointer center " onClick={() => setGroup(true)}>
-							<div className="ml-15 w-30 mr-15 flex-shrink-0 text-lg-center icon">
-								<i className="fas fa-plus color-heading f-18"></i>
-							</div>
-							<div className="inner">
-								<div className="link mb-20 f-14 semibold text-uppercase sp-20 title">Create a new group of Objectives</div>
-
-							</div>
-						</button>}
-						</>);
-    }
-  

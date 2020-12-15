@@ -52,7 +52,8 @@ const ObjectiveBox = ({ setVisibility, objective, setObjective }) => {
       >
         <div className="mw-370 w-full mx-auto radius10 pt-35 pb-40 block">
           <div className=" f-14 semibold text-uppercase sp-20 title">
-            <Avatar src={lead.photo} size="large" />
+            {/* <Avatar src={lead.photo} size="large" /> */}
+            {title}
           </div>
 
           {type === 'milestone' ? (

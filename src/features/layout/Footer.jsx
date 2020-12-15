@@ -12,7 +12,7 @@ export const Footer = () => (
           </a>
           <div className="text-adaptive">
             {/* Helping small teams understand their objectives. */}
-            Everyone on the team <br /> on the same page.
+            All your numbers in one place.
           </div>
           <small className="o-50">Version 0.0.7</small>
           {/* <div className="mt-35 socials">

@@ -14,6 +14,7 @@ import firebase from './utils/firebase';
 import { Nav } from './features/layout/Nav';
 import { Footer } from './features/layout/Footer';
 import { NoMatch } from './features/layout/NoMatch';
+// import 'svelteModal/public/build/bundle.css';
 
 const App = () => {
   const user = useAuth();
